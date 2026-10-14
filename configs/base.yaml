@@ -1,0 +1,38 @@
+# The settings every benchmark config extends: the paper's generator, splits and harness.
+dataset:
+  # AppWorld: a task whose only failing test is the answer check against a null gold answer
+  # succeeds (lenient TGC); official TGC stays in the summary beside it.
+  appworld_lenient_answer: true
+  test_size: 100
+  train_size: 50
+  train_order: reverse
+
+models:
+  default:
+    provider: openrouter
+    model: deepseek/deepseek-v4-flash
+    temperature: 0
+    max_tokens: 8192
+    reasoning_effort: high
+
+experiment:
+  output_root: outputs
+  seed: 0
+
+llm:
+  max_retries: 5
+  request_timeout: 600
+  base_url: https://openrouter.ai/api/v1
+  # The only provider the generator is routed to; every call records the one that served it.
+  openrouter_providers: [alibaba]
+
+traverse:
+  # Sentinel-repair attempts per phase.
+  max_retries: 5
+  # Pi `turn_start` events, one per provider request.
+  max_turns: 70
+  max_seconds: 1500.0
+  # Per-command limit: Pi kills the command and the session continues.
+  cmd_timeout: 90.0
+  idle_timeout: 120.0
+  max_cmd_kills: 5

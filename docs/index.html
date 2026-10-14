@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>WikiTrace</title>
+<meta name="description" content="WikiTrace: an evidence-linked memory that lets LLM agents check each lesson against the trajectory it came from.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+@font-face { font-family: "MC"; src: url("assets/mc/minecraft_font.ttf"); }
+:root {
+  color-scheme: only light;
+  --bg: #E9EEF0; --gray: #F6F6F8; --frame: #FFFFFF; --band: #F1F5F6; --fg: #20262E; --muted: #65717A; --line: #D9E0E5;
+  --wt: #0A5F68; --ki: #8FD7D7; --awm: #F5C796; --expel: #D9700F; --rb: #E6D29A; --nm: #20262E; --floor: rgba(101,113,122,.18);
+  --ins: #38683B; --ins-bg: #EFF6E9; --com: #8B6500; --com-bg: #FBF1D3; --raw: #A33E38; --raw-bg: #FAE4E0;
+  --ok: #2E7D4F; --no: #B23A32; --note-bg: #F7F9FA; --link: #2563EB; --link-bg: #EAF0FE;
+  --display: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--frame); color: var(--fg); font: 17px/1.55 var(--body); }
+.wrap { display: grid; grid-template-columns: minmax(0, 1fr); }
+.wrap > section { scroll-margin-top: calc(40px - var(--gap-sec)); }
+#citation > .frame { padding-bottom: 64px; }
+/* one subsection per screen: with its top at the top of the viewport, a subsection of at least 320px leaves the next one below the fold */
+:root { --gap-sub: max(96px, calc(100vh - 320px)); --gap-sec: calc(var(--gap-sub) / 2 + 64px); }
+.frame { background: var(--frame); padding: var(--gap-sec) max(16px, min(5vw, 64px)); position: relative; }
+/* inner --band surfaces turn white so they stay visible on the gray section */
+.frame--band { background: var(--gray); --band: var(--frame); }
+.col { max-width: 760px; margin: 0 auto; min-width: 0; }
+.col.wide { max-width: 912px; }
+.screen + .screen { margin-top: var(--gap-sub); }
+h2.sec { font: 600 clamp(34px, 5.5vw, 56px)/1.1 var(--display); text-align: center; margin: 0 0 20px; letter-spacing: -.01em; }
+h3.sub { font: 600 clamp(23px, 2.6vw, 28px)/1.3 var(--display); margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.lead { font-size: 18.5px; margin: 0 0 10px; }
+.lead strong { font: 800 clamp(24px, 3vw, 29px)/1.3 var(--display); display: block; margin-bottom: 4px; }
+.mid { font-weight: 700; font-style: italic; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ch { visibility: hidden; position: relative; }
+.ch.on { visibility: visible; }
+.ch.cur::after { content: ""; position: absolute; right: -3px; top: .08em; bottom: .02em; width: 2px; background: var(--fg); }
+.ch.end::after { animation: caret .55s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.leadbody { display: block; }
+p.leadbody { margin: 0; font-size: 17px; }
+.deg { display: grid; justify-items: center; margin: 4px 0 10px; }
+.deg-task { display: grid; justify-items: center; gap: 3px; position: relative; z-index: 1; }
+.deg-task span { background: var(--link); color: #FFF; font: 600 14px/1 var(--display); padding: 4px 16px; border-radius: 99px; }
+.deg-task img { height: 42px; width: auto; display: block; }
+.deg-runs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 560px); margin-top: -21px; }
+.deg-run { position: relative; display: grid; justify-items: center; align-content: end; gap: 3px; padding-top: 34px; }
+.deg-run b { font: 600 15.5px/1.2 var(--display); }
+/* lines run from the task to each agent's head */
+.deg-run::before { content: ""; position: absolute; top: 0; height: 32px; border: 0 solid var(--muted); border-top-width: 2px; }
+.deg-run.l::before { left: 50%; right: 0; border-left-width: 2px; border-top-left-radius: 10px; }
+.deg-run.r::before { left: 0; right: 50%; border-right-width: 2px; border-top-right-radius: 10px; }
+/* reaches the head of the agent that has no bubble above it */
+.deg-run.l::before { height: 78px; }
+.deg-who { display: grid; justify-items: center; gap: 8px; }
+.deg-who > img { height: 58px; width: auto; display: block; grid-row: 2; }
+.deg-mem { position: relative; grid-row: 1; display: flex; gap: 4px; padding: 4px 7px; background: var(--ins-bg); border: 2px solid #141B26; border-radius: 10px; }
+.deg-mem::before { content: ""; position: absolute; left: 50%; bottom: -7px; width: 10px; height: 10px; translate: -50% 0; rotate: 45deg; background: var(--ins-bg); border-right: 2px solid #141B26; border-bottom: 2px solid #141B26; }
+.deg-mem img { height: 26px; width: auto; display: block; }
+.deg-v { width: 26px; height: 26px; }
+.deg-v, .deg-mem { transition: scale .35s cubic-bezier(.34, 1.56, .64, 1), opacity .25s; transition-delay: var(--b); }
+.deg:not(.play) .deg-v, .deg:not(.play) .deg-mem { scale: .3; opacity: 0; }
+.degrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: 28px; margin-top: 12px; }
+.degleft { grid-column: 1; grid-row: 1 / span 3; align-self: center; }
+.degrow .deg { margin: 0; }
+.degrow .causes-lead, .degrow .causes { grid-column: 2; }
+.degrow .causes-lead { margin: 0; }
+.btn.seeex { display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; padding: 5px 10px; font-size: 13px; white-space: nowrap; background: #FFF; }
+.seeex .ico { width: 13px; height: 13px; transition: rotate .2s; }
+.seeex[aria-expanded="true"] .ico { rotate: 180deg; }
+/* drawn at 500 units so its text stays near body size at full width */
+.pathfig { display: block; width: min(100%, 500px); height: auto; margin: 18px auto 20px; overflow: visible; }
+.pathfig text { font-family: var(--body); }
+.pathfig .pf-pill { font: 600 13px var(--display); fill: #FFF; }
+.pathfig .pf-t { font-size: 15px; fill: var(--fg); }
+.pathfig .pf-h { font: 600 14.5px var(--display); fill: var(--link); }
+.pathfig .pf-l { font-size: 14px; fill: var(--muted); }
+.pf-s, .pf-pop { transition: opacity .35s, scale .35s cubic-bezier(.34, 1.56, .64, 1); transition-delay: var(--b); }
+.pf-pop { transform-box: fill-box; transform-origin: center; }
+.pathfig:not(.play) .pf-s, .pathfig:not(.play) .pf-pop { opacity: 0; }
+.pathfig:not(.play) .pf-pop { scale: .3; }
+.degbox { margin: 12px 0 0; padding: 7px 12px; text-align: center; font: 600 18px/1.3 var(--display); color: #B23A32; background: var(--raw-bg); border: 1.5px solid #B23A32; border-radius: 10px; }
+.reveal { transition: opacity .45s; }
+.hold { opacity: 0; }
+mark.wait { background: none; }
+mark.play { background: linear-gradient(color-mix(in srgb, var(--wt) 18%, transparent) 0 0) no-repeat left / 0 100%; animation: marker linear forwards; }
+@keyframes marker { to { background-size: 100% 100%; } }
+::selection { background: color-mix(in srgb, var(--wt) 26%, transparent); }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+p { margin: 0 0 10px; min-width: 0; }
+.cap { font-size: 14.5px; color: var(--muted); margin: 10px 0 0; }
+.figt { font: 600 15px var(--display); margin: 0 0 10px; }
+code { font: 13.5px var(--mono); background: var(--band); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
+code.i { color: var(--ins); background: var(--ins-bg); } code.c { color: var(--com); background: var(--com-bg); } code.r { color: var(--raw); background: var(--raw-bg); }
+sub { font-size: .75em; line-height: 0; }
+mark { background: color-mix(in srgb, var(--wt) 18%, transparent); color: inherit; padding: 0 2px; }
+mark.bad { background: color-mix(in srgb, var(--no) 20%, transparent); }
+.no { color: var(--no); font-weight: 600; }
+.pill { font: 600 11.5px/1 var(--display); padding: 3px 7px; border-radius: 99px; color: #FFF; white-space: nowrap; }
+.pill.bad { background: #B23A32; } .pill.good { background: #2E7D4F; }
+.tool { font: 600 13px var(--display); border: 1px solid var(--line); padding: 4px 10px; border-radius: 99px; background: var(--frame); color: var(--fg); cursor: pointer; }
+.tool:hover { border-color: var(--muted); }
+.tool.ic { width: 32px; height: 32px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+.ico { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.ico.solid { fill: currentColor; stroke-width: 1; }
+.head-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.head-row .figt { margin: 0; }
+
+/* hero */
+.toc { position: fixed; left: max(28px, calc(50% - 606px)); top: 50%; transform: translateY(-50%); z-index: 5; list-style: none; margin: 0; padding: 0; font: 13px var(--display); border-left: 1px solid var(--line); }
+.toc a { display: block; padding: 6px 0 6px 12px; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--fg); }
+.toc a.on { color: var(--fg); font-weight: 600; box-shadow: -2px 0 0 var(--fg); }
+.hero.frame { padding-block: 0; }
+.hero { text-align: center; box-sizing: border-box; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+.wm { font: 400 clamp(52px, 10vw, 92px)/1.05 var(--display); letter-spacing: -.03em; color: var(--wt); }
+.wm b { font-weight: 800; color: var(--fg); }
+.subtitle { font-style: italic; font-size: clamp(19px, 2.6vw, 25px); line-height: 1.3; margin: 12px auto 18px; max-width: 700px; text-wrap: balance; }
+.subtitle b { font-weight: 600; }
+.authors { margin: 0; } .authors span { white-space: nowrap; } .affil { font-size: 14.5px; color: var(--muted); margin: 2px 0 16px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.hf { align-self: center; margin-top: 14px; padding: 4px 12px; border-radius: 99px; background: #FFD21E; color: #1F2328; font: 600 13.5px var(--display); text-decoration: none; }
+.btn { font: 600 14px var(--display); border: 1px solid var(--fg); border-radius: 5px; padding: 8px 18px; color: var(--fg); background: transparent; }
+a.btn { text-decoration: none; } button.btn { cursor: pointer; }
+.btn[aria-disabled] { border-color: var(--line); color: var(--muted); }
+
+/* lamp example */
+.lamp { margin: 12px 0 24px; border: 1px solid var(--line); background: var(--frame); }
+.lamp-body { padding: 12px 14px; }
+.rule { display: flex; gap: 12px; align-items: center; background: var(--ins-bg); padding: 10px 14px; }
+.rule img { width: 34px; height: auto; flex: none; }
+.rule .k { display: flex; align-items: center; gap: 8px; font: 600 13px var(--display); color: var(--ins); margin-bottom: 1px; }
+.rule .why { display: block; font-size: 14.5px; color: var(--no); margin-top: 1px; }
+.task { font-size: 15.5px; margin: 8px 0; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; } .task .tool { margin-left: auto; } .task b { font: 600 12px var(--display); letter-spacing: .06em; color: var(--muted); margin-right: 8px; }
+.panes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.pane { border: 1px solid var(--line); display: grid; grid-template-rows: auto 1fr auto; min-width: 0; }
+.pane > header { padding: 7px 12px; border-bottom: 1px solid var(--line); }
+.pane > header b { font: 600 15px var(--display); display: block; }
+.st { font: 12.5px var(--mono); color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.st i { font-style: normal; color: var(--fg); font-weight: 600; transition: color .3s; }
+.st i.chg { color: var(--link); }
+.pane ol { list-style: none; margin: 0; padding: 10px 12px; display: grid; gap: 11px; align-content: start; }
+.turn { display: grid; gap: 4px; }
+.turn + .turn { border-top: 1px solid var(--line); padding-top: 11px; }
+.tr { display: grid; grid-template-columns: 2.8em minmax(0, 1fr); column-gap: 6px; font-size: 14.5px; line-height: 1.4; align-items: baseline; }
+.tr > span:first-child { font: 600 11px/1.4 var(--mono); color: var(--muted); }
+.tr.t > span:last-child { font-style: italic; }
+.tr.a > span:last-child { font: 600 13px/1.4 var(--mono); }
+.tr.o > span:last-child { background: var(--band); color: var(--muted); padding: 1px 6px; border-radius: 3px; font-size: 13.5px; }
+.beat { opacity: 0; transform: translateY(8px); transition: opacity .35s, transform .35s; }
+.beat.on { opacity: 1; transform: none; }
+.verdict { padding: 7px 12px; font: 600 14px var(--display); display: flex; align-items: center; gap: 7px; }
+.verdict img { width: 18px; height: 18px; }
+.verdict.good { background: color-mix(in srgb, var(--ok) 14%, transparent); }
+.verdict.bad { background: color-mix(in srgb, var(--no) 14%, transparent); }
+
+/* stats */
+.stats { width: 100%; border-collapse: collapse; margin: 10px 0 6px; font-variant-numeric: tabular-nums; }
+.stats th, .stats td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: center; vertical-align: middle; }
+.stats thead th { font: 600 14px/1.2 var(--display); }
+.stats thead small { display: block; font: 400 12px/1.2 var(--body); color: var(--muted); margin-top: 2px; }
+.stats tbody th { font: 600 14px/1.2 var(--display); text-align: left; white-space: nowrap; padding-left: 0; }
+.stats td { font: 800 clamp(23px, 4vw, 32px)/1.1 var(--display); }
+.stats .us { color: var(--wt); background: color-mix(in srgb, var(--wt) 8%, transparent); }
+
+/* minecraft gui */
+.gui { position: relative; width: 100%; max-width: 352px; aspect-ratio: 704 / 664; background: url("assets/mc/table.png") 0 0 / 100% 100% no-repeat; container-type: inline-size; flex: none; }
+.it { position: absolute; width: 9.0909%; aspect-ratio: 1; }
+.it img { display: block; width: 100%; height: 100%; }
+.it b { position: absolute; right: -3%; bottom: -5%; font: 400 4.6cqw/1 "MC", var(--mono); color: #FCFCFC; text-shadow: .45cqw .45cqw 0 #3E3E3E; }
+.sm { position: absolute; aspect-ratio: 1; border: max(.8cqw, 2px) solid #2563EB; z-index: 2; pointer-events: none; }
+.sm.bad { border-color: #D1342B; } .sm.good { border-color: #1E9E58; }
+.fly { z-index: 3; transition: left .46s ease-in-out, top .46s ease-in-out; }
+.recipe { position: relative; width: 100%; max-width: 240px; aspect-ratio: 480 / 226; overflow: hidden; }
+.recipe .gui { position: absolute; width: 146.67%; max-width: none; left: -22.5%; top: -25.66%; }
+
+/* overview */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; }
+.tg { display: flex; align-items: center; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--frame); }
+.tgn { font: 600 12.5px var(--display); color: var(--muted); padding: 0 2px 0 8px; display: inline-flex; align-items: center; }
+.ti { width: 15px; height: 15px; margin-right: 5px; vertical-align: -3px; }
+.sep { color: var(--muted); font: 14px var(--mono); }
+.chip { white-space: nowrap; font: 600 13px var(--display); border: 0; padding: 4px 9px; border-radius: 99px; background: transparent; color: var(--fg); cursor: pointer; }
+.chip:hover { background: var(--band); }
+.pips { display: inline-flex; gap: 2px; margin-left: 4px; vertical-align: middle; }
+.pips i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .4; }
+.pips i.on { opacity: 1; }
+.chip.on, .chip.on:hover { background: var(--fg); color: var(--frame); }
+.chip.io, .chip.io:hover { color: var(--ki); }
+.chip.io.on, .chip.io.on:hover { background: var(--ki); color: #20262E; }
+.chip.wt.on, .chip.wt.on:hover { background: var(--wt); color: var(--frame); }
+.ctl { margin-left: auto; display: flex; gap: 4px; }
+.stage { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 16px; height: 560px; }
+.side { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px; min-width: 0; min-height: 0; }
+.brief, .map { border: 1px solid var(--line); border-radius: 10px; }
+.brief { padding: 10px 12px; font-size: 15px; background: var(--gray); border-color: transparent; }
+.brief .k { display: block; font: 600 11.5px var(--display); letter-spacing: .06em; color: var(--muted); margin-bottom: 2px; }
+.brief p { margin: 0 0 8px; line-height: 1.3; }
+.map { width: 100%; height: 100%; display: block; min-height: 0; }
+.map text { font: 10.5px var(--mono); fill: var(--fg); }
+.map .id { text-anchor: middle; paint-order: stroke; stroke-width: 3px; stroke-linejoin: round; }
+.map .bl { font: 600 12.5px var(--display); text-anchor: middle; }
+.map .base { fill: none; stroke: var(--muted); stroke-width: 1; opacity: .55; }
+.map .lk { fill: none; stroke: var(--link); stroke-width: 2.6; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.map .lk.seen { stroke-dashoffset: 0; opacity: .35; }
+.map .lk.cur { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .9s ease-in-out; }
+.map .nd { fill: none; stroke: transparent; stroke-width: 2.2; }
+.map .nd.seen { stroke: var(--link); stroke-width: 1; opacity: .5; }
+.map .nd.cur { stroke: var(--link); stroke-width: 2.2; opacity: 1; fill: color-mix(in srgb, var(--link) 12%, transparent); }
+.map .nolinks { display: none; font: 600 15px var(--display); text-anchor: middle; }
+.stage[data-mode="only"] .lower, .stage[data-mode="only"] .links { opacity: .2; }
+.stage[data-mode="only"] .nolinks { display: block; }
+.step { position: relative; background: var(--frame); border-radius: 12px; box-shadow: 0 10px 30px -14px rgba(32, 38, 46, .34); padding: 16px 18px; min-width: 0; min-height: 0; overflow: hidden auto; display: flex; flex-direction: column; }
+.prog { position: absolute; left: 0; top: 0; width: 100%; height: 3px; background: var(--wt); transform-origin: left; animation: prog linear both; }
+@keyframes prog { from { transform: scaleX(0); } }
+.step h5 { font: 600 20px/1.25 var(--display); margin: 0 0 10px; text-wrap: balance; }
+.pages { display: flex; gap: 6px; margin: 0 0 10px; }
+.pg { flex: 1 1 0; min-width: 0; text-align: left; border: 0; border-top: 3px solid var(--line); background: none; padding: 5px 2px 2px; font: 600 13px/1.25 var(--display); color: var(--muted); cursor: pointer; }
+.pg:hover { color: var(--fg); }
+.pg.done { border-top-color: color-mix(in srgb, var(--wt) 40%, transparent); }
+.pg.on { border-top-color: var(--wt); color: var(--fg); }
+.scene { animation: in .35s ease-out; flex: 1 0 auto; display: flex; flex-direction: column; }
+@keyframes in { from { opacity: 0; transform: translateY(8px); } }
+.doc { padding: 10px 12px; margin: 0 0 10px; font-size: 15px; line-height: 1.4; min-width: 0; }
+.doc header { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font: 600 13.5px var(--display); margin-bottom: 4px; }
+.doc header img { width: 24px; height: auto; flex: none; }
+.doc header span.src { margin-left: auto; font-weight: 400; font-size: 12.5px; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.doc header span.src img { width: 14px; }
+.doc header .pill { margin-left: auto; }
+.doc .srcl { display: flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+.doc .srcl img { width: 14px; height: 14px; }
+.doc h6 { font: 600 15px/1.3 var(--display); margin: 0 0 3px; }
+.doc p { margin: 0 0 5px; }
+.doc .k { font: 600 12.5px var(--display); }
+.doc.i { background: var(--ins-bg); } .doc.i header, .doc.i .k { color: var(--ins); }
+.doc.c { background: var(--com-bg); } .doc.c header, .doc.c .k { color: var(--com); }
+.doc.r { background: var(--raw-bg); } .doc.r header { color: var(--raw); }
+del { text-decoration-color: var(--no); text-decoration-thickness: 2px; }
+.think { display: flex; gap: 10px; align-items: flex-start; font-style: italic; margin: 0 0 10px; font-size: 15.5px; line-height: 1.35; }
+.think img { width: 26px; height: auto; flex: none; }
+.tl { font: 400 15.5px var(--body); font-variant: small-caps; letter-spacing: .04em; color: var(--muted); margin-right: 6px; }
+.vs { display: grid; grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); gap: 6px; align-items: center; margin-bottom: 8px; }
+.vs .doc { margin: 0; align-self: stretch; }
+.clash { width: 28px; height: 28px; border-radius: 50%; background: var(--link); display: flex; align-items: center; justify-content: center; flex: none; }
+.clash svg { width: 18px; height: 18px; }
+.clash path { fill: none; stroke: #FFF; stroke-width: 2.4; stroke-linecap: round; }
+.fn { font-size: 13.5px; color: var(--muted); margin: auto 0 0; line-height: 1.35; }
+.fn::before { content: ""; display: block; width: 72px; border-top: 1px solid var(--muted); margin: 10px 0 6px; }
+.scene img.mci { width: 1.15em; height: 1.15em; margin-left: 2px; vertical-align: -.2em; }
+.scnote { font-size: 14.5px; line-height: 1.35; margin: 8px 0 0; }
+.descent { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 0 8px; font: 600 15px var(--display); color: var(--link); }
+.descent b { font: inherit; font-size: 13px; color: #FFF; background: var(--link); padding: 2px 8px; }
+.row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 14px; align-items: center; }
+.row2 .doc { margin: 0; }
+.guibox { position: relative; width: 100%; max-width: 352px; margin: 0 auto; flex: none; container-type: inline-size; }
+.veil { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: rgba(255, 255, 255, .92); color: var(--no); font: 600 clamp(20px, 8cqw, 30px)/1.2 var(--display); }
+[data-end] { opacity: 0; transition: opacity .4s; }
+[data-end].on { opacity: 1; }
+.scene .gui { margin: 0 auto; }
+.trap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* matches the gold recipe in the left column of the runs below */
+.trap .brief .recipe { max-width: 238px; }
+.trap .brief code { font-size: 13.5px; overflow-wrap: anywhere; }
+.trapnote p { margin: 0 0 10px; font-size: 15px; line-height: 1.4; }
+.trapnote { align-self: center; }
+.outcome { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 7px; align-content: start; justify-items: start; font-size: 14.5px; line-height: 1.35; min-width: 0; }
+.outcome h6 { font: 600 15px var(--display); margin: 0; display: flex; align-items: center; gap: 7px; width: 100%; }
+.outcome h6 img { width: 18px; height: 18px; }
+.outcome { align-content: space-between; }
+.mbox { border: 1px solid; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; min-width: 0; }
+.mbox.bad { background: var(--raw-bg); border-color: color-mix(in srgb, var(--raw) 28%, transparent); grid-column: span 2; }
+.mbox.ok { background: var(--ins-bg); border-color: color-mix(in srgb, var(--ins) 30%, transparent); }
+.mbox header b { display: block; font: 600 16px/1.3 var(--display); }
+.mbox.bad header b { color: var(--raw); } .mbox.ok header b { color: var(--ins); }
+.mbox header span { display: block; font-size: 14.5px; line-height: 1.35; }
+/* this gap leaves each inner card the width of a card in a box of its own, so all simulators share one slot size */
+.mgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 38px; }
+.mbox .outcome { border: 0; padding: 0; background: none; }
+.outcome h6 { flex-wrap: wrap; }
+.outcome h6 .pill { margin-left: auto; }
+.outcome h6 .ot + .tool { margin-left: auto; }
+.ot { display: inline-flex; align-items: center; gap: 7px; }
+/* shows the grid, the output and the one inventory row the moves use */
+.ocrop { position: relative; width: 100%; max-width: 300px; aspect-ratio: 672 / 354; overflow: hidden; justify-self: center; }
+.ocrop .gui { position: absolute; left: -2.38%; top: -15.82%; width: 104.76%; max-width: none; }
+.outcome .fly { transition-duration: .28s; }
+
+/* bars and markers */
+.plots { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr); gap: 20px; }
+.rows { position: relative; display: grid; gap: 2px; }
+.p1 { --labw: 158px; } .p2 { --labw: 0px; }
+.row { display: grid; grid-template-columns: var(--labw) minmax(0, 1fr); align-items: stretch; min-height: 36px; }
+.p2 .lab { visibility: hidden; height: 0; overflow: hidden; }
+.lab { font-size: 15px; line-height: 1.15; display: flex; flex-direction: column; justify-content: center; }
+.lab small { font-size: 12px; color: var(--muted); }
+.lab.strong { font-weight: 600; color: var(--wt); }
+.track { position: relative; border-left: 1px solid var(--muted); min-width: 0; }
+.bar { position: absolute; left: 0; top: 7px; bottom: 7px; width: 0; transition: width linear; }
+.play .bar { width: var(--w); }
+.val { position: absolute; top: 50%; transform: translateY(-50%); left: 0; padding-left: 5px; font: 600 13px var(--mono); white-space: nowrap; transition: left linear; }
+.play .val { left: var(--w); }
+.p2 .track { border-left-color: transparent; }
+.mk { position: absolute; top: 50%; left: 0; width: 17px; height: 17px; border-radius: 50%; transform: translate(-50%, -50%); border: 1px solid var(--muted); z-index: 2; transition: left linear; }
+.mk.us { width: 19px; height: 19px; border: 2px solid var(--fg); }
+.play .mk { left: var(--x); }
+.ci { position: absolute; top: 50%; height: 1px; margin-top: -.5px; background: color-mix(in srgb, var(--muted) 60%, transparent); transform: scaleX(0); transition: transform .4s ease-out; }
+.play .ci { transform: scaleX(1); }
+.mv { position: absolute; top: 50%; transform: translateY(-50%); padding-left: 7px; font: 600 13px var(--mono); opacity: 0; transition: opacity .3s; }
+.play .mv { opacity: 1; }
+.floor { position: absolute; top: 0; bottom: 24px; left: var(--labw); right: 0; pointer-events: none; }
+.fl { position: absolute; top: 0; bottom: 0; background: var(--floor); transform: scaleX(0); transform-origin: center; transition: transform .7s ease-out; }
+.flm { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--muted); opacity: 0; transition: opacity .5s; }
+.play .fl { transform: scaleX(1); } .play .flm { opacity: 1; }
+.axis { min-height: 22px; height: 22px; } .axis .track { border-left-color: transparent; border-top: 1px solid var(--muted); }
+.tick { position: absolute; top: 2px; transform: translateX(-50%); font: 12px var(--mono); color: var(--muted); }
+.nt * { transition: none !important; }
+
+/* method */
+.flow { display: flex; align-items: center; gap: 12px; justify-content: center; padding: 8px 0 12px; }
+.flow svg { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.fl-a { width: 60px; } .fl-f { width: 60px; height: 120px; }
+.outs { display: grid; gap: 8px; }
+.flow > * { opacity: 0; transition: opacity .45s; }
+.flow.play > * { opacity: 1; transition-delay: calc(var(--i) * 280ms); }
+.node { display: grid; justify-items: center; gap: 3px; font-size: 14px; text-align: center; }
+.node > img { height: 48px; width: auto; }
+.node > img.who { height: 76px; }
+.set { display: flex; align-items: center; gap: 3px; height: 48px; }
+.set img { height: 48px; width: auto; }
+.set i { font: 400 46px/48px var(--display); color: var(--muted); font-style: normal; margin-top: -8px; }
+.arrow { font: 400 22px var(--mono); color: var(--muted); }
+.tower { display: grid; grid-template-columns: 280px minmax(0, 1fr); margin: 8px 0 10px; }
+.tower svg { display: block; width: 100%; height: auto; }
+.defs { display: grid; grid-template-rows: repeat(3, 72px); row-gap: 2px; }
+.defs > div { padding: 4px 14px; font-size: 15.5px; line-height: 1.3; display: flex; flex-direction: column; justify-content: center; }
+.defs b { font: 600 14.5px var(--display); display: block; }
+.defs .i { background: var(--ins-bg); } .defs .c { background: var(--com-bg); } .defs .r { background: var(--raw-bg); }
+.defs .i b { color: var(--ins); } .defs .c b { color: var(--com); } .defs .r b { color: var(--raw); }
+.tower .lnk { fill: none; stroke: var(--muted); stroke-width: 1.3; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .7s ease-out; }
+.tower.play .lnk { stroke-dashoffset: 0; transition-delay: calc(var(--i) * 90ms); }
+.tower svg text { font: 14px var(--mono); }
+.tower svg .brace { font: 400 36px var(--display); fill: var(--muted); }
+.loop { display: block; width: 100%; max-width: 640px; margin: 10px auto 16px; height: auto; }
+.loop text { font: 14.5px var(--mono); fill: var(--fg); }
+.loop .nm { font: 600 15px var(--display); text-anchor: middle; }
+.loop .lg { font: 13px var(--body); fill: var(--muted); }
+.loop .call { stroke: var(--fg); stroke-width: 1.8; fill: none; }
+.loop .res { stroke: var(--muted); stroke-width: 1.8; fill: none; stroke-dasharray: 6 5; }
+
+.trig { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 8px 0 0; }
+.trig article { border-radius: 12px; overflow: hidden; background: var(--frame); box-shadow: 0 8px 24px -12px rgba(10, 95, 104, .42); opacity: 0; transform: translateY(12px); transition: opacity .45s, transform .45s; }
+.trig.play article { opacity: 1; transform: none; transition-delay: calc(var(--i) * 180ms); }
+.art { height: 90px; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; }
+.art > img { height: 60px; width: auto; }
+.art .bdg { position: absolute; width: 24px; height: 24px; border-radius: 50%; background: var(--link); color: #FFF; font: 800 15px/24px var(--display); text-align: center; top: 10px; left: calc(50% + 14px); }
+.art .ln { width: 26px; border-top: 2px dashed var(--raw); flex: none; }
+.art .ra { position: relative; display: inline-flex; }
+.art .ra img:first-child { height: 52px; }
+.art .ra img + img { position: absolute; right: -6px; bottom: -4px; width: 22px; height: 22px; }
+.trig p { margin: 0; padding: 9px 12px; font: 600 15.5px/1.3 var(--display); text-align: center; }
+.causes-lead { margin: 14px 0 0; font: 600 15.5px/1.3 var(--display); }
+.causes { margin: 6px 0 0; grid-template-columns: minmax(0, 1fr); gap: 7px; }
+.causes article { display: grid; grid-template-columns: 128px minmax(0, 1fr) auto; align-items: center; }
+.causes p b { display: block; }
+.causes p span { display: block; font: 400 14.5px/1.3 var(--body); color: var(--muted); margin-top: 2px; }
+/* one scale for all three drawings, each centred in the same box */
+.causes .art { display: block; height: auto; aspect-ratio: 131 / 74; margin: 11px 16px; }
+.causes p { padding: 6px 12px 6px 0; text-align: left; }
+.causes svg { display: block; width: 100%; height: 100%; }
+.causes svg text { font-family: var(--display); font-weight: 800; }
+.merge { display: block; width: 100%; height: 30px; }
+.merge path { fill: none; stroke: var(--link); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.chain { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; justify-content: center; border: 1.5px solid var(--link); background: var(--link-bg); border-radius: 12px; padding: 10px 16px; }
+.chain .ic { display: flex; align-items: center; gap: 6px; }
+.chain .ic img { height: 38px; width: auto; }
+.chain .ar { width: 28px; fill: none; stroke: var(--link); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chain p { margin: 0; font: 600 18px var(--display); color: var(--link); }
+
+/* results */
+svg text { fill: var(--fg); font-family: var(--body); }
+svg .mut { fill: var(--muted); }
+#optA circle { transition: transform 1.3s cubic-bezier(.3, 0, .3, 1), fill .4s; }
+#optA.play circle.drop { transform: translate(var(--dx), var(--dy)); fill: var(--raw); }
+#optA .ds { font: 800 22px var(--display); opacity: 0; transition: opacity .5s 3s; }
+#optA.play .ds { opacity: 1; }
+.qgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.qgrid > * { min-width: 0; }
+.qmem { display: grid; gap: 10px; align-content: start; }
+.qmem .doc { margin: 0; font-size: 14.5px; }
+.qnote { font-size: 14px; line-height: 1.35; margin-top: 4px; }
+.qe[hidden] { display: none; }
+.qe .pane ol { padding: 8px 10px; gap: 9px; }
+.qe .turn + .turn { padding-top: 9px; }
+.qe .tr.a > span:last-child { font-size: 12.5px; }
+.logos { display: flex; flex-wrap: wrap; gap: 14px 48px; justify-content: center; align-items: center; margin-top: 30px; }
+.logos a { display: flex; align-items: center; height: 56px; text-decoration: none; }
+.logos img { height: 42px; width: auto; display: block; mix-blend-mode: multiply; }
+.da { display: flex; align-items: center; gap: 9px; font: 600 21px var(--display); letter-spacing: -.02em; color: #0F172A; }
+.da svg { width: 34px; height: 34px; }
+.da strong { font-weight: 600; } .da strong span { color: #94A3B8; }
+pre.bib { font: 13px/1.5 var(--mono); background: var(--band); padding: 14px; overflow-x: auto; margin: 0 0 10px; }
+
+@media (max-width: 1200px) { .toc { display: none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (pointer: coarse) {
+  .chip, .pg, .seeex { min-height: 36px; }
+  .toc a { padding-block: 9px; }
+  .tool.ic { width: 40px; height: 40px; }
+}
+@media (max-width: 960px) {
+  /* the panel is too narrow for the button beside the text */
+  .causes article:has(.seeex) .art { grid-row: 1 / span 2; }
+  .causes .btn.seeex { grid-column: 2; justify-self: start; margin: 0 0 10px; }
+  .causes article:has(.seeex) p { padding-bottom: 4px; }
+  .outcome h6 .pill { order: 3; margin-left: 0; } .outcome h6 .tool { margin-left: auto; }
+  .stage { height: auto; min-height: 560px; }
+  .side { grid-template-rows: auto auto; align-self: start; position: sticky; top: 12px; }
+  .map { height: auto; }
+  .step { overflow: visible; }
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+  .qgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qmem { grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+@media (max-width: 720px) {
+  .plots, .stage, .trig, .panes, .qgrid, .qmem, .tower, .vs { grid-template-columns: minmax(0, 1fr); }
+  .stage { min-height: 0; } .side { position: static; } .map { max-width: 264px; justify-self: center; }
+  .trap, .mgrid { grid-template-columns: minmax(0, 1fr); } .mbox.bad { grid-column: auto; } .mgrid { gap: 12px; }
+  .trap .brief { display: grid; grid-template-columns: minmax(0, 1fr) 150px; column-gap: 10px; align-items: center; }
+  .trap .brief code { font-size: 12px; }
+  .trap .brief p { grid-row: 1 / 3; margin: 0; }
+  .trap .brief > .k, .trap .brief .recipe { grid-column: 2; width: auto; }
+  .outcome { grid-template-columns: minmax(0, 1fr) 96px; column-gap: 10px; align-items: center; }
+  .outcome .ocrop { grid-row: 1; grid-column: 1; }
+  .outcome h6 { grid-row: 1; grid-column: 2; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .outcome h6 .pill { margin-left: 0; }
+  .pg span { display: none; }
+  .flow { gap: 5px; } .fl-a { width: 24px; } .fl-f { width: 30px; height: 96px; } .node { font-size: 12.5px; } .node > img { height: 40px; } .node > img.who { height: 54px; } .set { height: 30px; } .set img { height: 30px; } .set i { font-size: 28px; line-height: 30px; margin-top: -4px; }
+  .causes p { padding-right: 4px; }
+  .degrow { grid-template-columns: minmax(0, 1fr); row-gap: 8px; } .degleft, .degrow .causes-lead, .degrow .causes { grid-column: auto; grid-row: auto; }
+  .head-row { flex-wrap: nowrap; align-items: flex-start; } .head-row .tool { flex: none; }
+  pre.bib { white-space: pre-wrap; overflow-wrap: anywhere; }
+  #optA { max-width: 460px; margin-inline: auto; } #optA .ds { font-size: 18px; }
+  .loop text { font-size: 19px; } .loop .nm { font-size: 20px; } .loop .lg { font-size: 19px; }
+
+  .p1, .p2 { --labw: 124px; }
+  .p2 .lab { visibility: visible; height: auto; }
+  .lab small { font-size: 11px; }
+  .stats th, .stats td { padding: 8px 4px; } .stats tbody th { white-space: normal; font-size: 13px; } .stats thead th { font-size: 13px; } .stats td { font-size: 21px; }
+  .defs { grid-template-rows: none; }
+  .defs > div { padding-block: 8px; }
+  .merge { display: none; } .chain { margin-top: 12px; }
+  .brief { display: grid; grid-template-columns: minmax(0, 1fr) 150px; column-gap: 10px; align-items: start; }
+  .brief p { grid-row: 1 / 3; margin: 0; }
+  .brief > .k { grid-column: 2; }
+  .brief .recipe { grid-column: 2; }
+  .map { max-width: 240px; }
+  .vs .clash { justify-self: center; }
+  .ctl { margin-left: 0; }
+  .tg { max-width: 100%; overflow-x: auto; } .tg .chip { padding: 4px 3px; font-size: 12.5px; } .tgn { padding: 0 2px 0 6px; font-size: 12px; } .ti { margin-right: 3px; }
+}
+@media (max-width: 360px) {
+  .tg .chip { padding-inline: 5px; }
+  .pips { display: none; }
+  .tg .chip { padding-inline: 2px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .scene { animation: none; } .prog { display: none; } * { transition-duration: 0s !important; transition-delay: 0s !important; } }
+</style>
+</head>
+<body>
+<nav aria-label="Sections"><ul class="toc" id="toc"><li><a href="#introduction" class="on">Introduction</a></li><li><a href="#overview">Worked Example</a></li><li><a href="#method">Method</a></li><li><a href="#results">Results</a></li><li><a href="#citation">Citation</a></li></ul></nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section>
+  <div class="frame hero">
+    <div class="wm"><b>Wiki</b>Trace</div>
+    <p class="subtitle"><b>Don't Just Trust Your Memory:</b> Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents</p>
+    <p class="authors"><span>Yukyeong Lee<sup>1*</sup></span> &nbsp; <span>Yumin Choi<sup>1*</sup></span> &nbsp; <span>Jinheon Baek<sup>1†</sup></span> &nbsp; <span>Sung Ju Hwang<sup>1,2†</sup></span></p>
+    <p class="affil"><sup>1</sup>KAIST &nbsp; <sup>2</sup>DeepAuto.ai<br><sup>*</sup>Equal contribution &nbsp; <sup>†</sup>Co-advisors</p>
+    <div class="btns"><a class="btn" href="https://arxiv.org/abs/2611.14320">Paper</a><a class="btn" href="https://github.com/yukyeongleee/wikitrace">Code</a></div>
+    <a class="hf" href="https://huggingface.co/papers/2611.14320"><span aria-hidden="true">🤗</span> #3 Paper of the day</a>
+  </div>
+</section>
+
+<!-- INTRODUCTION -->
+<section id="introduction">
+  <div class="frame frame--band">
+    <div class="screen">
+    <h2 class="sec">Introduction</h2>
+    <div class="col wide">
+      <p class="lead"><strong>Memory can break what an agent already solves.</strong></p>
+      <p class="leadbody">A lesson is only an interpretation of a past trajectory, so it can mislead the agent. The agent then fails a task it would solve without memory, a failure we call <mark class="mid">memory-induced degradation</mark>.</p>
+      <div class="degrow">
+      <div class="degleft">
+      <div class="deg" id="deg" role="img" aria-label="On the same task, an agent without memory succeeds and an agent with memory fails">
+        <div class="deg-task"><span>Task</span><img src="assets/icons/task.png" alt=""></div>
+        <div class="deg-runs">
+          <div class="deg-run l"><div class="deg-who"><img src="assets/icons/agent.png" alt=""></div><b>Without memory</b><img class="deg-v" style="--b:700ms" src="assets/icons/ok.png" alt=""></div>
+          <div class="deg-run r"><div class="deg-who"><img src="assets/icons/agent.png" alt=""><span class="deg-mem" style="--b:0ms"><img src="assets/icons/insight.png" alt=""><img src="assets/icons/insight.png" alt=""><img src="assets/icons/insight.png" alt=""></span></div><b>With memory</b><img class="deg-v" style="--b:700ms" src="assets/icons/no.png" alt=""></div>
+        </div>
+      </div>
+      <p class="degbox">Memory-induced degradation</p>
+      </div>
+      <p class="causes-lead">Main causes of memory-induced degradation</p>
+      <div class="trig causes" id="causes">
+        <article style="--i:0"><div class="art"><svg viewBox="63.5 11 131 74" role="img" aria-label="An insight marked with a warning sign">
+          <image href="assets/icons/insight.png" x="99" y="24" width="47" height="60"/>
+          <image href="assets/icons/warn.png" x="134" y="12" width="25" height="25"/>
+        </svg></div><p><b>Wrong item</b><span>False about the environment</span></p><button class="btn seeex" id="lampBtn" aria-expanded="false" aria-controls="lamp"><span id="lampBtnText">See example</span><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></article>
+        <article style="--i:1"><div class="art"><svg viewBox="58 21 131 74" role="img" aria-label="A correct insight is a puzzle piece with a round tab that does not fit the triangular socket of the current task piece"><g transform="translate(-6 0)">
+          <path d="M143 32H187a6 6 0 0 1 6 6V78a6 6 0 0 1-6 6H143a6 6 0 0 1-6-6V68.500L151 58L137 47.500V38a6 6 0 0 1 6-6Z" fill="#DCEAFB" stroke="#141B26" stroke-width="2.600" stroke-linejoin="round"/>
+          <image href="assets/icons/task.png" x="156" y="41" width="28" height="34"/>
+          <g>
+            <path d="M72 32H112a6 6 0 0 1 6 6V51.500a8 8 0 1 1 0 13V78a6 6 0 0 1-6 6H72a6 6 0 0 1-6-6V38a6 6 0 0 1 6-6Z" fill="#EAF4E0" stroke="#141B26" stroke-width="2.600" stroke-linejoin="round"/>
+            <image href="assets/icons/insight.png" x="74" y="40" width="28" height="36"/>
+          </g>
+        </g></svg></div><p><b>Out-of-scope use</b><span>A sound item, outside its scope</span></p></article>
+        <article style="--i:2"><div class="art"><svg viewBox="57 11 131 74" role="img" aria-label="The agent reads a correct insight and is confused, with three question marks in its thought bubble">
+          <image href="assets/icons/agent-confused.png" x="61" y="12" width="58" height="72"/>
+          <g>
+            <circle cx="112.600" cy="35.500" r="2.400" fill="#FFF" stroke="#141B26" stroke-width="1.800"/>
+            <circle cx="117.500" cy="31" r="3.100" fill="#FFF" stroke="#141B26" stroke-width="1.800"/>
+            <rect x="122" y="12" width="62" height="25" rx="12.500" fill="#FFF" stroke="#141B26" stroke-width="2.200"/>
+          </g>
+          <text x="138" y="30.500" text-anchor="middle" font-size="18" style="fill:var(--no)">?</text>
+          <text x="153" y="30.500" text-anchor="middle" font-size="18" style="fill:var(--no)">?</text>
+          <text x="168" y="30.500" text-anchor="middle" font-size="18" style="fill:var(--no)">?</text>
+        </svg></div><p><b>Misused</b><span>A sound item, misread or stretched</span></p></article>
+      </div>
+      </div>
+      <div class="lamp" id="lamp" hidden>
+        <div class="lamp-body">
+          <div class="rule"><img src="assets/icons/insight.png" alt=""><div>
+            <span class="k">Rule from memory <span class="pill bad">Wrong item</span></span>
+            Lamp tasks finish when the object is next to the lit lamp.
+            <span class="why">An ALFWorld lamp task is complete only when the agent holds the object with the lamp on.</span>
+          </div></div>
+          <p class="task"><b>NEW TASK</b>look at vase under the desklamp.<button class="tool ic" id="lampReplay" aria-label="Replay" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button></p>
+          <div class="panes">
+            <section class="pane" data-pane>
+              <header><b>Without memory</b><span class="st"><span>Holding: <i data-h>nothing</i></span><span>Lamp: <i data-l>off</i></span></span></header>
+              <ol>
+                <li class="turn beat" data-b="1">
+                  <div class="tr t"><span>Think</span><span>I need to find a vase, find a desklamp, and then use the desklamp to examine the vase.</span></div>
+                  <div class="tr a"><span>Act</span><span>go to shelf 3</span></div>
+                  <div class="tr o"><span>Obs</span><span>On the shelf 3, you see a vase 1.</span></div>
+                </li>
+                <li class="turn beat" data-b="2" data-h="vase 1">
+                  <div class="tr t"><span>Think</span><span>Found a vase on shelf 3. Let me take it and then find a desklamp.</span></div>
+                  <div class="tr a"><span>Act</span><span>take vase 1 from shelf 3</span></div>
+                  <div class="tr o"><span>Obs</span><span>You pick up the vase 1 from the shelf 3.</span></div>
+                </li>
+                <li class="turn beat" data-b="3">
+                  <div class="tr a"><span>Act</span><span>go to desk 1</span></div>
+                  <div class="tr o"><span>Obs</span><span>On the desk 1, you see a desklamp 1, a laptop 1, a mug 3, a pencil 2, and a vase 4.</span></div>
+                </li>
+                <li class="turn beat" data-b="4" data-l="on">
+                  <div class="tr t"><span>Think</span><span>Found a desklamp on the desk. Let me use it, then look at the vase under it.</span></div>
+                  <div class="tr a"><span>Act</span><span>use desklamp 1</span></div>
+                  <div class="tr o"><span>Obs</span><span>You turn on the desklamp 1. <b>Episode over</b></span></div>
+                </li>
+              </ol>
+              <div class="verdict good beat" data-b="4"><img src="assets/icons/ok.png" alt="">Task solved</div>
+            </section>
+            <section class="pane" data-pane>
+              <header><b>With memory</b><span class="st"><span>Holding: <i data-h>nothing</i></span><span>Lamp: <i data-l>off</i></span></span></header>
+              <ol>
+                <li class="turn beat" data-b="1">
+                  <div class="tr t"><span>Think</span><span>Based on the experience notes, this means I need to bring a vase to the location of a desklamp, and turn on the desklamp.</span></div>
+                  <div class="tr a"><span>Act</span><span>go to desk 1</span></div>
+                  <div class="tr o"><span>Obs</span><span>On the desk 1, you see a desklamp 1, a laptop 1, a mug 3, a pencil 2, and a vase 4.</span></div>
+                </li>
+                <li class="turn beat" data-b="2" data-l="on">
+                  <div class="tr t"><span>Think</span><span><mark class="bad">So I have both the vase and the desklamp at the same location. I just need to turn on the desklamp.</mark></span></div>
+                  <div class="tr a"><span>Act</span><span>use desklamp 1</span></div>
+                  <div class="tr o"><span>Obs</span><span>You turn on the desklamp 1.</span></div>
+                </li>
+                <li class="turn beat" data-b="3">
+                  <div class="tr t"><span>Think</span><span>According to the experience notes: "the task completes when the object is at the lamp's location (either on the surface or in your hand) and the lamp is on." So the task should be complete now.</span></div>
+                  <div class="tr a"><span>Act</span><span>done</span></div>
+                  <div class="tr o"><span>Obs</span><span>Episode over</span></div>
+                </li>
+              </ol>
+              <div class="verdict bad beat" data-b="5"><img src="assets/icons/no.png" alt="">Task failed: the vase was never picked up</div>
+            </section>
+          </div>
+          <p class="cap">Turns are from real episodes, shortened.</p>
+        </div>
+            </div>
+
+
+    </div>
+    </div>
+    <div class="screen">
+    <div class="col">
+      <p class="lead"><strong>WikiTrace keeps the path back.</strong>
+      <span class="leadbody">It links each lesson to the past trajectory it came from, and the agent follows that link back to the evidence when it needs to.</span></p>
+      <svg class="pathfig" id="pathfig" data-pace="2" viewBox="0 0 500 156" role="img" aria-label="On a new task, the agent doubts an insight that seems wrong, follows its links down to its compilation and failed source run, revises the insight, and solves the task">
+        <defs><marker id="pfg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="var(--muted)"/></marker><marker id="pfb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="var(--link)"/></marker></defs>
+        <g class="pf-s" style="--b:0ms"><rect x="22" y="44" width="60" height="19" rx="9.5" fill="var(--link)"/><text x="52" y="58" text-anchor="middle" class="pf-pill">Task</text><image href="assets/icons/task.png" x="37" y="64" width="24.500" height="30"/></g>
+        <path class="pf-s" style="--b:350ms" d="M66 79H88" stroke="var(--muted)" stroke-width="1.600" marker-end="url(#pfg)"/>
+        <image class="pf-s" style="--b:600ms" href="assets/icons/agent.png" x="90" y="59" width="36" height="40"/>
+        <g class="pf-pop" style="--b:600ms"><path d="M140 61H206a6 6 0 0 1 6 6V91a6 6 0 0 1-6 6H140a6 6 0 0 1-6-6V84L128 79L134 74V67a6 6 0 0 1 6-6Z" fill="var(--ins-bg)" stroke="#141B26" stroke-width="1.600" stroke-linejoin="round"/><image href="assets/icons/insight.png" x="140" y="67" width="18" height="23"/><image href="assets/icons/insight.png" x="163" y="67" width="18" height="23"/><image href="assets/icons/insight.png" x="186" y="67" width="18" height="23"/><image href="assets/icons/warn.png" x="197" y="62" width="11" height="11"/></g>
+        <g class="pf-s" style="--b:1450ms"><circle cx="108" cy="51" r="2.400" fill="#FFF" stroke="#141B26" stroke-width="1.200"/><circle cx="111" cy="43" r="3" fill="#FFF" stroke="#141B26" stroke-width="1.200"/></g>
+        <g class="pf-pop" style="--b:1650ms"><rect x="63" y="6" width="122" height="30" rx="7" fill="#FFF" stroke="#141B26" stroke-width="1.400"/><image href="assets/icons/insight.png" x="70" y="11" width="16" height="20"/><image href="assets/icons/warn.png" x="80" y="7" width="10" height="10"/><text x="94" y="26" class="pf-t">seems wrong</text></g>
+        <path class="pf-s" style="--b:2300ms" d="M216 79H237" stroke="var(--link)" stroke-width="1.600" stroke-dasharray="4 3" marker-end="url(#pfb)"/>
+        <g class="pf-s" style="--b:2550ms"><rect x="241" y="40" width="168" height="112" rx="8" fill="var(--link-bg)" stroke="var(--link)" stroke-width="1.600"/><text x="251" y="58" class="pf-h">Check its source</text></g>
+        <g class="pf-s" style="--b:2950ms"><image href="assets/icons/insight.png" x="252" y="64" width="18" height="23"/><image href="assets/icons/warn.png" x="263" y="60" width="10" height="10"/><text x="281" y="81" class="pf-l">insight</text></g>
+        <g class="pf-s" style="--b:3450ms"><path d="M260 90V103H273" fill="none" stroke="var(--link)" stroke-width="1.600" marker-end="url(#pfb)"/><image href="assets/icons/compilation.png" x="276" y="92" width="18" height="22.400"/><image href="assets/icons/no.png" x="288" y="107" width="10" height="10"/><text x="304" y="108" class="pf-l">compilation</text></g>
+        <g class="pf-s" style="--b:3950ms"><path d="M285 118V131H297" fill="none" stroke="var(--link)" stroke-width="1.600" marker-end="url(#pfb)"/><image href="assets/icons/raw.png" x="300" y="120" width="26" height="21.700"/><image href="assets/icons/no.png" x="320" y="135" width="10" height="10"/><text x="337" y="136" class="pf-l">source run</text></g>
+        <path class="pf-s" style="--b:4550ms" d="M413 79H436" stroke="var(--link)" stroke-width="1.600" stroke-dasharray="4 3" marker-end="url(#pfb)"/>
+        <image class="pf-s" style="--b:4800ms" href="assets/icons/agent.png" x="440" y="59" width="36" height="40"/>
+        <g class="pf-s" style="--b:5050ms"><circle cx="455" cy="51" r="2.400" fill="#FFF" stroke="#141B26" stroke-width="1.200"/><circle cx="458" cy="43" r="3" fill="#FFF" stroke="#141B26" stroke-width="1.200"/></g>
+        <g class="pf-pop" style="--b:5250ms"><rect x="414" y="6" width="80" height="30" rx="7" fill="#FFF" stroke="#141B26" stroke-width="1.400"/><image href="assets/icons/insight.png" x="421" y="11" width="16" height="20"/><text x="443" y="26" class="pf-t">revised</text></g>
+        <image class="pf-pop" style="--b:5800ms" href="assets/icons/ok.png" x="464" y="85" width="16" height="16"/>
+      </svg>
+      <p class="leadbody"><mark>WikiTrace scores highest on all eight suites from five benchmarks, with the lowest average Regression.</mark></p>
+      <table class="stats" id="stats">
+        <thead><tr><td style="border-bottom:1px solid var(--line)"></td><th scope="col">No Memory</th><th scope="col">Insights Only<small>same lessons, no links</small></th><th scope="col" class="us">WikiTrace</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Score ↑</th><td data-count="79.5">79.5</td><td data-count="87.0">87.0</td><td class="us" data-count="90.2">90.2</td></tr>
+          <tr><th scope="row">Regression ↓</th><td data-count="9.7" data-suffix="%">9.7%</td><td data-count="6.5" data-suffix="%">6.5%</td><td class="us" data-count="4.5" data-suffix="%">4.5%</td></tr>
+        </tbody>
+      </table>
+      <p class="cap">Averaged over eight suites. Regression is the rate at which memory turns successes into failures; for No Memory it comes from rerunning the agent without memory.</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="frame" id="overviewFrame">
+    <div class="screen">
+    <h2 class="sec">Worked Example</h2>
+    <div class="col wide">
+      <h3 class="sub">A common agent mistake in Minecraft</h3>
+      <div class="trap" id="auto"></div>
+    </div>
+    </div>
+    <div class="screen">
+    <div class="col wide">
+      <h3 class="sub">Avoiding the trap by checking evidence</h3>
+      <p style="text-align:center;max-width:800px;margin:0 auto 16px">This example shows how WikiTrace works on a PlanCraft task:<br>the agent doubts a lesson from memory, opens the runs behind it, and corrects the lesson before acting.</p>
+      <div class="tabs" id="tabs">
+        <div class="tg"><button class="chip" data-chip="wrong">1 Wrong insight</button></div>
+        <span class="sep" aria-hidden="true">›</span>
+        <div class="tg"><span class="tgn">2 Results</span><button class="chip io" data-chip="io"><img class="ti" src="assets/icons/no.png" alt="fails">Insights Only</button><button class="chip wt" data-chip="wt"><img class="ti" src="assets/icons/ok.png" alt="succeeds">WikiTrace</button></div>
+        <span class="sep" aria-hidden="true">›</span>
+        <div class="tg"><span class="tgn">3 Recovery</span><button class="chip wt" data-chip="doubt">Doubt</button><button class="chip wt" data-chip="read" aria-label="Evidence, 2 pages">Evidence<span class="pips" aria-hidden="true"><i></i><i></i></span></button><button class="chip wt" data-chip="correct">Correct</button></div>
+        <span class="ctl"><button class="tool ic" id="ovPrev" aria-label="Previous scene" title="Previous scene"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button><button class="tool ic" id="ovNext" aria-label="Next scene" title="Next scene"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button><button class="tool ic" id="ovPause" aria-label="Pause" title="Pause"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg></button><button class="tool ic" id="ovReplay" aria-label="Replay" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button></span>
+      </div>
+      <div class="stage" id="stage" data-mode="wt">
+        <aside class="side">
+          <div class="brief">
+            <p><span class="k">TASK</span>Craft an item of type: <code>acacia_slab</code></p>
+            <span class="k">GOLD</span>
+            <div class="recipe" id="gold" role="img" aria-label="Three acacia planks in a row of the crafting grid make six acacia slabs"><div class="gui"></div></div>
+          </div>
+          <svg class="map" id="map" viewBox="0 0 264 356" role="img" aria-label="Memory links with the agent's descent path highlighted"></svg>
+        </aside>
+        <div class="step" id="step"></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section id="method">
+  <div class="frame frame--band">
+    <div class="screen" data-pace="1.8">
+    <h2 class="sec">Method</h2>
+    <div class="col">
+      <h3 class="sub">Building the memory</h3>
+      <p>Each past run has a task <code>x<sub>i</sub></code>, a record of actions and observations <code class="r">r<sub>i</sub></code>, and a binary outcome <code>s<sub>i</sub></code>. A compiler reads one run at a time and writes a compilation <code class="c">c<sub>i</sub></code> and at most three insights <code class="i">I<sub>i</sub></code>.</p>
+      <div class="flow" id="flow">
+        <span class="node" style="--i:0"><img src="assets/icons/raw.png" alt=""><span>Past trajectory <code class="r">r<sub>i</sub></code></span></span>
+        <svg class="fl-a" style="--i:1" viewBox="0 0 60 14" aria-hidden="true"><path d="M0 7H56M50 1l7 6-7 6"/></svg>
+        <span class="node" style="--i:2"><img class="who" src="assets/icons/compiler.png" alt=""><span>Compiler</span></span>
+        <svg class="fl-f" style="--i:3" viewBox="0 0 60 120" aria-hidden="true"><path d="M0 60H10C30 60 18 22 38 22H56M50 16l7 6-7 6M10 60C30 60 18 98 38 98H56M50 92l7 6-7 6"/></svg>
+        <span class="outs" style="--i:4">
+          <span class="node"><img src="assets/icons/compilation.png" alt=""><span>Compilation <code class="c">c<sub>i</sub></code></span></span>
+          <span class="node"><span class="set"><i>{</i><img src="assets/icons/insight.png" alt=""><img src="assets/icons/insight.png" alt=""><img src="assets/icons/insight.png" alt=""><i>}</i></span><span>Insights <code class="i">I<sub>i</sub></code></span></span>
+        </span>
+      </div>
+      <p>The memory is <code>M = (<span style="color:var(--raw)">R</span>, <span style="color:var(--com)">C</span>, <span style="color:var(--ins)">I</span>, E)</code>, where <code>E</code> links each insight down to its compilation and raw trajectory. Insights from one run share the same evidence.</p>
+      <div class="tower" id="tower">
+        <svg id="towerSvg" viewBox="0 0 280 220" role="img" aria-label="The set of insights of run i links to compilation c i and raw trajectory r i; the set of insights of run j links to c j and r j"></svg>
+        <div class="defs">
+          <div class="i"><b>Insight</b>One concise guideline: what to do, when it applies, and which run it came from.</div>
+          <div class="c"><b>Compilation</b>The compiler's diagnosis of the run: its interpretation of why the run succeeded or failed.</div>
+          <div class="r"><b>Raw trajectory</b>The run itself, unchanged: task, actions, observations and outcome.</div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="screen">
+    <div class="col">
+      <h3 class="sub">Using it on a new task</h3>
+      <p>The first message holds every insight in <code class="i">I</code> and the three most similar past runs. The memory <code>M</code> is mounted read-only, and reading it costs no environment steps.</p>
+      <svg class="loop" id="loop" viewBox="0 0 640 196" role="img" aria-label="The agent sends bash tool calls to the memory and receives evidence as tool results; it sends action tool calls to the environment and receives observations as tool results"></svg>
+      <p style="margin:6px 0 0">The agent descends through the links when an insight</p>
+      <div class="trig" id="trig">
+        <article style="--i:0"><div class="art"><img src="assets/icons/insight.png" alt=""><span class="bdg">?</span></div><p>lacks details needed to act</p></article>
+        <article style="--i:1"><div class="art"><img src="assets/icons/insight.png" alt=""><span class="clash" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span><img src="assets/icons/insight.png" alt=""></div><p>conflicts with another insight</p></article>
+        <article style="--i:2"><div class="art"><img src="assets/icons/insight.png" alt=""><span class="ln"></span><span class="ra"><img src="assets/icons/raw.png" alt=""><img src="assets/icons/no.png" alt=""></span></div><p>comes from a failed run</p></article>
+      </div>
+      <svg class="merge" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M50 0C50 20 150 10 150 30M150 0V30M250 0C250 20 150 10 150 30"/></svg>
+      <div class="chain">
+        <span class="ic"><img src="assets/icons/insight.png" alt=""><svg class="ar" viewBox="0 0 28 12" aria-hidden="true"><path d="M0 6H24M18 1l6 5-6 5"/></svg><img src="assets/icons/compilation.png" alt=""><svg class="ar" viewBox="0 0 28 12" aria-hidden="true"><path d="M0 6H24M18 1l6 5-6 5"/></svg><img src="assets/icons/raw.png" alt=""></span>
+        <p>Read down the links!</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="frame">
+    <div class="screen">
+    <h2 class="sec">Results</h2>
+    <div class="col wide">
+      <h3 class="sub">Main Results</h3>
+      <div class="head-row"><p style="margin:0">WikiTrace scores highest on all eight suites and has the lowest average Regression.</p><button class="tool ic" id="plotReplay" aria-label="Replay" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button></div>
+      <div class="plots" id="plots">
+        <div class="p1"><p class="figt" style="padding-left:var(--labw)">Score ↑</p><div class="rows" id="score"></div></div>
+        <div class="p2"><p class="figt" style="padding-left:var(--labw)">Regression (%) ↓</p><div class="rows" id="reg"></div></div>
+      </div>
+      <p class="cap">Score is the mean over three trials, averaged over eight suites from five benchmarks. Regression is the rate at which memory turns successes into failures, with 95% intervals; the band is rerunning the agent without memory.</p>
+    </div>
+
+    </div>
+    <div class="screen">
+    <div class="col wide">
+      <h3 class="sub">Descent by Task Difficulty</h3>
+      <div class="head-row"><p style="margin:0">The agent descends more on harder tasks, where its advantage over Insights Only is largest.</p><button class="tool ic" id="dotReplay" aria-label="Replay" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button></div>
+      <svg id="optA" viewBox="0 0 760 204" style="width:100%;display:block" role="img" aria-label="Share of episodes that descend and the advantage over Insights Only by difficulty"></svg>
+      <p class="cap">Hard, Medium and Easy tasks are solved by none, some or all three No Memory trials. Δ is WikiTrace minus Insights Only on the same task and trial. Even without descent, WikiTrace outperforms Insights Only because it tends to apply memory more selectively. Text-world benchmarks.</p>
+    </div>
+
+    </div>
+    <div class="screen">
+    <div class="col wide">
+      <h3 class="sub">Qualitative Examples</h3>
+      <div class="tabs" id="qTabs"><div class="tg"><button class="chip on" data-q="1">ALFWorld: cloth</button><button class="chip" data-q="0">ScienceWorld: light bulb</button></div></div>
+      <div class="qe" id="q0" hidden>
+        <p class="task"><b>TASK</b>Determine if unknown substance U is electrically conductive. Blue box if it is, orange box if not.</p>
+        <div class="qgrid">
+          <div class="qmem">
+            <article class="doc i"><header><img src="assets/icons/insight.png" alt="">insight-0138<span class="pill bad">Misleading</span></header><div class="srcl"><img src="assets/icons/no.png" alt="">from step-0048, failed</div><h6>Verify circuit function with a known conductor</h6><p>Before testing an unknown substance, first test the circuit with a known conductor … to ensure the battery, wires, and indicator (bulb/buzzer) work correctly.</p><p class="qnote no" style="font-weight:400">Taken as a rule, it keeps the agent checking the circuit instead of reaching a verdict.</p></article>
+            <article class="doc r"><header><img src="assets/icons/raw.png" alt="">Raw trajectory of step-0048</header><div class="srcl"><img src="assets/icons/no.png" alt="">failed run, this insight's source</div><p>Testing another substance, the run keeps rewiring its circuit. The bulbs and the buzzer never turn on, even with the substance bypassed, and the step budget runs out.</p></article>
+            <article class="doc r"><header><img src="assets/icons/raw.png" alt="">Raw trajectory of step-0007</header><div class="srcl"><img src="assets/icons/ok.png" alt="">successful run</div><p>Testing aluminum foil, the run wires the foil straight into a loop with the battery and bulb, with no separate circuit check. The bulb lights, and the foil goes in the blue box.</p></article>
+          </div>
+              <section class="pane"><header><b>WikiTrace</b></header><ol>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>Let me read some past runs to understand the exact wiring commands.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>In step-0048, even with a direct circuit (bypassing the unknown substance), the light bulb didn't light up … <mark>Looking at step-0007 (success), they didn't use a switch at all - they just connected the battery, wires, light bulb, and the test object.</mark></span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>connect unknown substance U terminal 2 to anode in blue light bulb</span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>look</span></div><div class="tr o"><span>Obs</span><span>… a blue light bulb, which is on …</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>The blue light bulb is ON!</span></div><div class="tr a"><span>Act</span><span>move unknown substance U to blue box</span></div><div class="tr o"><span>Obs</span><span>Episode over</span></div></li>
+              </ol><div class="verdict good"><img src="assets/icons/ok.png" alt="">Task solved in 19 steps</div></section>
+              <section class="pane"><header><b>Insights Only</b></header><ol>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>insight-0138: Verify circuit function with a known conductor first.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span><mark class="bad">The blue light bulb is off. … But before I conclude, I should verify that the circuit works by testing with a known conductor.</mark></span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>The bulb is still off even with a direct connection (bypassing the unknown substance U). … Let me try using a different light bulb.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>Still off. Let me try the yellow wire instead. Maybe the blue and orange wires are bad?</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>Still off. … Maybe the battery requires some activation?</span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>connect battery anode to blue wire terminal 1</span></div><div class="tr o"><span>Obs</span><span>… Episode over</span></div></li>
+              </ol><div class="verdict bad"><img src="assets/icons/no.png" alt="">Task failed: turns ran out after 108 steps</div></section>
+        </div>
+      </div>
+      <div class="qe" id="q1">
+        <p class="task"><b>TASK</b>clean some cloth and put it in cabinet.</p>
+        <div class="qgrid">
+          <div class="qmem">
+            <article class="doc i"><header><img src="assets/icons/insight.png" alt="">insight-0117<span class="pill bad">Incomplete</span></header><div class="srcl"><img src="assets/icons/ok.png" alt="">from step-0042, succeeded</div><h6>Check dedicated holders first</h6><p>When searching for an object like a handtowel, first check its designated holder (e.g., handtowelholder).</p><p class="qnote no" style="font-weight:400">It does not say that cloth is a separate object in this game.</p></article>
+            <article class="doc r"><header><img src="assets/icons/raw.png" alt="">Raw trajectory of step-0042</header><div class="srcl"><img src="assets/icons/ok.png" alt="">successful run</div><p>Asked to put a handtowel on a cabinet, the run opens nine cabinets. Cabinet 7 holds a cloth 1, which it passes over, and the handtowel turns up on the handtowelholder.</p><p class="qnote">Only the raw trajectory names cloth; its compilation does not.</p></article>
+          </div>
+              <section class="pane"><header><b>WikiTrace</b></header><ol>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>clean handtowel 1 with sinkbasin 1</span></div><div class="tr o"><span>Obs</span><span>Nothing happens.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>Maybe "cloth" is a specific object type, not a handtowel. Let me search for "cloth" in the raw data.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span><mark>So "cloth" is a specific object type in this environment, not a handtowel or towel.</mark></span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>open cabinet 2</span></div><div class="tr o"><span>Obs</span><span>In it, you see a cloth 1.</span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>clean cloth 1 with sinkbasin 1</span></div><div class="tr o"><span>Obs</span><span>You clean the cloth 1 using the sinkbasin 1.</span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>move cloth 1 to cabinet 2</span></div><div class="tr o"><span>Obs</span><span>Episode over</span></div></li>
+              </ol><div class="verdict good"><img src="assets/icons/ok.png" alt="">Task solved</div></section>
+              <section class="pane"><header><b>Insights Only</b></header><ol>
+                  <li class="turn"><div class="tr t"><span>Think</span><span>I found a handtowel 1 on handtowelholder 1. A handtowel is a cloth.</span></div><div class="tr a"><span>Act</span><span>take handtowel 1 from handtowelholder 1</span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>clean handtowel 1 with sinkbasin 1</span></div><div class="tr o"><span>Obs</span><span>Nothing happens.</span></div></li>
+                  <li class="turn"><div class="tr t"><span>Think</span><span><mark class="bad">… maybe the handtowel is already clean and the task just considers it clean.</mark></span></div></li>
+                  <li class="turn"><div class="tr a"><span>Act</span><span>move handtowel 1 to cabinet 1</span></div><div class="tr a"><span>Act</span><span>done</span></div><div class="tr o"><span>Obs</span><span>Episode over</span></div></li>
+              </ol><div class="verdict bad"><img src="assets/icons/no.png" alt="">Task failed: the handtowel is not the cloth</div></section>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITATION -->
+<section id="citation">
+  <div class="frame frame--band">
+    <h2 class="sec">Citation</h2>
+    <div class="col">
+      <pre class="bib" id="bib">@misc{lee2026wikitrace,
+  title  = {Don't Just Trust Your Memory: Evidence-Linked Memory Reduces
+            Memory-Induced Degradation in LLM Agents},
+  author = {Lee, Yukyeong and Choi, Yumin and Baek, Jinheon and Hwang, Sung Ju},
+  year   = {2026},
+  eprint = {2611.14320},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url    = {https://arxiv.org/abs/2611.14320}
+}</pre>
+      <button class="btn" id="copyBib">Copy</button>
+      <div class="logos">
+        <a href="https://www.kaist.ac.kr/en/" aria-label="KAIST"><img src="assets/logos/kaist.png" alt="KAIST"></a>
+        <a href="https://deepauto.ai/" aria-label="DeepAuto.ai"><span class="da"><svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><mask id="da-core"><rect width="100" height="100" fill="white"></rect><path d="M50 25L72 37.5V62.5L50 75L28 62.5V37.5Z" fill="black"></path></mask><g mask="url(#da-core)"><path d="M50 5L90 27.5V72.5L50 95L10 72.5V27.5Z" fill="#1e293b"></path><path d="M10 27.5L50 5L50 50L10 72.5Z" fill="#334155"></path><path d="M50 5L90 27.5L90 72.5L50 50Z" fill="#475569"></path><path d="M10 72.5L50 50L90 72.5L50 95Z" fill="#0f172a"></path></g></svg><strong>DeepAuto<span>.ai</span></strong></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function () {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* every section but the worked example plays at PACE, or at its data-pace; CSS motion is sped here, script timers divide by the pace */
+  const PACE = 1.5, paced = (el) => !el.closest('#overview'), paceOf = (el) => +(el.closest('[data-pace]')?.dataset.pace ?? PACE);
+  const speedUp = (e) => { if (paced(e.target)) { const r = paceOf(e.target); e.target.getAnimations().forEach((a) => { if (a.playbackRate === 1) a.playbackRate = r; }); } };
+  ['transitionrun', 'animationstart'].forEach((t) => document.addEventListener(t, speedUp));
+  const $ = (id) => document.getElementById(id);
+  const onceInView = (el, fn, threshold = 0.3) => {
+    new IntersectionObserver((es, o) => { if (es.some((e) => e.isIntersecting)) { o.disconnect(); fn(); } }, { threshold }).observe(el);
+  };
+  const restart = (el) => { el.classList.add('nt'); el.classList.remove('play'); void el.getBoundingClientRect(); el.classList.remove('nt'); el.classList.add('play'); };
+
+  /* lamp panels play when the example is opened */
+  const lamp = $('lamp');
+  let lampTimers = [];
+  function playLamp() {
+    lampTimers.forEach(clearTimeout); lampTimers = [];
+    lamp.querySelectorAll('.beat').forEach((b) => b.classList.remove('on'));
+    lamp.querySelectorAll('[data-pane]').forEach((p) => { p.querySelector('i[data-h]').textContent = 'nothing'; p.querySelector('i[data-l]').textContent = 'off'; });
+    [1, 2, 3, 4, 5].forEach((n) => lampTimers.push(setTimeout(() => {
+      lamp.querySelectorAll(`.beat[data-b="${n}"]`).forEach((b) => {
+        b.classList.add('on');
+        const pane = b.closest('[data-pane]');
+        ['h', 'l'].forEach((k) => {
+          if (pane && b.dataset[k]) { const t = pane.querySelector(`i[data-${k}]`); t.textContent = b.dataset[k]; t.classList.add('chg'); setTimeout(() => t.classList.remove('chg'), 900 / PACE); }
+        });
+      });
+    }, reduced ? 0 : (200 + (n - 1) * 1800) / PACE)));
+  }
+  $('lampBtn').onclick = () => {
+    const open = lamp.hidden;
+    lamp.hidden = !open;
+    $('lampBtn').setAttribute('aria-expanded', open);
+    $('lampBtnText').textContent = open ? 'Hide example' : 'See example';
+    if (open) { playLamp(); lamp.scrollIntoView({ block: 'nearest' }); } else { lampTimers.forEach(clearTimeout); lampTimers = []; }
+  };
+  $('lampReplay').onclick = playLamp;
+
+  /* counters */
+  function countUp(td) {
+    const end = +td.dataset.count, suf = td.dataset.suffix || '', t0 = performance.now();
+    const tick = (t) => { const p = Math.min(1, (t - t0) / (900 / PACE)); td.textContent = (end * (1 - (1 - p) ** 3)).toFixed(1) + suf; if (p < 1) requestAnimationFrame(tick); };
+    if (reduced) td.textContent = end.toFixed(1) + suf; else requestAnimationFrame(tick);
+  }
+
+  /* score bars and regression markers */
+  const METHODS = [
+    { name: 'WikiTrace', strong: true, us: true, c: 'var(--wt)', score: 90.2, reg: 4.4572, lo: 3.3911, hi: 5.6028 },
+    { name: 'Insights Only', sub: 'same insights, no links', c: 'var(--ki)', score: 87.0, reg: 6.5461, lo: 5.1561, hi: 8.0039 },
+    { name: 'ReasoningBank', c: 'var(--rb)', score: 81.7, reg: 8.7226, lo: 7.1578, hi: 10.3089 },
+    { name: 'AWM', c: 'var(--awm)', score: 81.6, reg: 9.1455, lo: 7.4099, hi: 10.8894 },
+    { name: 'ExpeL', c: 'var(--expel)', score: 80.3, reg: 11.0428, lo: 9.2565, hi: 12.8772 },
+    { name: 'No Memory', last: true, c: 'var(--nm)', score: 79.5, reg: 9.6695, lo: 7.8447, hi: 11.5372 },
+  ];
+  const pct = (v, a, b) => ((v - a) / (b - a)) * 100;
+  const SPEED = 15;
+  const label = (m) => `<div class="lab${m.strong ? ' strong' : ''}">${m.name}${m.sub ? `<small>${m.sub}</small>` : ''}</div>`;
+  const axis = (ticks, a, b) => `<div class="row axis"><div></div><div class="track">${ticks.map((t) => `<span class="tick" style="left:${pct(t, a, b)}%">${t}</span>`).join('')}</div></div>`;
+  const rows = (cell) => METHODS.map((m) => `<div class="row">${label(m)}<div class="track">${cell(m)}</div></div>`).join('');
+
+  const SA = 78, SB = 93;
+  $('score').innerHTML = rows((m) => {
+    const w = pct(m.score, SA, SB), d = w * SPEED;
+    return `<span class="bar" style="--w:${w}%;background:${m.c};transition-duration:${d}ms"></span><span class="val" style="--w:${w}%;transition-duration:${d}ms">${m.score.toFixed(1)}</span>`;
+  }) + axis([78, 80, 85, 90], SA, SB);
+
+  const RA = 2, RB = 15;
+  const travel = (m) => pct(m.reg, RA, RB) * SPEED;
+  const nm = METHODS.find((m) => m.last), bandAt = travel(nm) + 150;
+  $('reg').innerHTML = `<div class="floor"><span class="fl" style="left:${pct(nm.lo, RA, RB)}%;width:${pct(nm.hi, RA, RB) - pct(nm.lo, RA, RB)}%;transition-delay:${bandAt}ms"></span><span class="flm" style="left:${pct(nm.reg, RA, RB)}%;transition-delay:${bandAt + 300}ms"></span></div>` + rows((m) => {
+    const x = pct(m.reg, RA, RB), lo = pct(m.lo, RA, RB), hi = pct(m.hi, RA, RB), d = travel(m);
+    const origin = m.last ? 50 : ((x - lo) / (hi - lo)) * 100;
+    return `<span class="ci" style="left:${lo}%;width:${hi - lo}%;transform-origin:${origin}% 50%;transition-delay:${d}ms"></span>`
+      + `<span class="mk${m.us ? ' us' : ''}" style="--x:${x}%;background:${m.c};transition-duration:${d}ms"></span>`
+      + `<span class="mv" style="left:${hi}%;transition-delay:${d + 350}ms">${m.reg.toFixed(1)}</span>`;
+  }) + axis([4, 8, 12], RA, RB);
+  $('plotReplay').onclick = () => restart($('plots'));
+
+  /* minecraft gui */
+  const slotXY = (s) => {
+    if (s === '0') return [496, 140];
+    const g = /^([ABC])([123])$/.exec(s);
+    if (g) return [120 + (g[2] - 1) * 72, 68 + 'ABC'.indexOf(g[1]) * 72];
+    const n = +s.slice(1) - 1;
+    return n < 27 ? [32 + (n % 9) * 72, 336 + Math.floor(n / 9) * 72] : [32 + (n - 27) * 72, 568];
+  };
+  const place = (s) => { const [x, y] = slotXY(s); return `left:${x / 7.04}%;top:${y / 6.64}%`; };
+  const sprite = (item) => `<img src="assets/mc/${item}.png" alt="${item}">`;
+  const itemHtml = ([s, [item, q]]) => `<span class="it" style="${place(s)}">${sprite(item)}${q > 1 ? `<b>${q}</b>` : ''}</span>`;
+  /* a slot's cell extends past its item: 4px in a normal slot, 20px in the larger output slot */
+  const cellBox = (s) => { const [x, y] = slotXY(s), pad = s === '0' ? 20 : 4; return `left:${(x - pad) / 7.04}%;top:${(y - pad) / 6.64}%;width:${(64 + 2 * pad) / 7.04}%`; };
+  const drawGui = (el, state, hot = {}) => { el.innerHTML = Object.entries(state).map(itemHtml).join('') + Object.entries(hot).map(([s, c]) => `<span class="sm ${c}" style="${cellBox(s)}"></span>`).join(''); };
+  function applyMove(state, m) {
+    const s = JSON.parse(JSON.stringify(state)), [item, q] = s[m.from];
+    if (m.from === '0') { delete s['0']; (m.use || []).forEach((k) => delete s[k]); s[m.to] = [item, q]; return s; }
+    if (q > 1) s[m.from][1] = q - 1; else delete s[m.from];
+    s[m.to] = [item, (s[m.to] ? s[m.to][1] : 0) + 1];
+    if (m.out) s['0'] = m.out; else delete s['0'];
+    return s;
+  }
+  drawGui($('gold').querySelector('.gui'), { C1: ['acacia_planks', 1], C2: ['acacia_planks', 1], C3: ['acacia_planks', 1], 0: ['acacia_slab', 6] });
+
+  const INV = {
+    wt: { I1: ['granite_slab', 48], I7: ['golden_sword', 1], I20: ['brown_banner', 3], I21: ['acacia_planks', 3], I22: ['azure_bluet', 46], I25: ['soul_torch', 36], I30: ['crimson_trapdoor', 61], I32: ['cocoa_beans', 52], I33: ['oak_door', 39] },
+    r28: { I1: ['jigsaw', 17], I2: ['acacia_planks', 4], I12: ['popped_chorus_fruit', 40], I34: ['nautilus_shell', 21], I35: ['jungle_leaves', 4] },
+    r44: { I1: ['crimson_planks', 4], I3: ['gilded_blackstone', 50], I5: ['damaged_anvil', 19], I20: ['globe_banner_pattern', 1], I22: ['netherite_chestplate', 1], I23: ['spruce_wood', 17], I28: ['red_nether_brick_slab', 22], I29: ['warped_slab', 12], I33: ['chiseled_red_sandstone', 13] },
+  };
+
+  /* overview scenes */
+  const recipeSlot = (id) => `<div class="recipe" data-r="${id}"><div class="gui"></div></div>`;
+  const NUGGET = ['gold_nugget', 1];
+  const CONCEPT_FULL = { A1: NUGGET, A2: NUGGET, A3: NUGGET, B1: NUGGET, B2: ['melon_slice', 1], B3: NUGGET, C1: NUGGET, C2: NUGGET, C3: NUGGET, 0: ['glistering_melon_slice', 1] };
+  const CONCEPT = {
+    goal: { state: CONCEPT_FULL },
+  };
+  /* outputs follow PlanCraft's simulator: the preview shows for the slice alone, then nothing until the recipe is complete */
+  const OUTCOME_START = { I1: ['gold_nugget', 8], I2: ['melon_slice', 1] };
+  const PUT_SLICE = { from: 'I2', to: 'B2', out: ['melon_seeds', 1], hot: { B2: 'blue', 0: 'blue' } }, BACK_SLICE = { from: 'B2', to: 'I2', hot: { B2: 'bad' } };
+  const OUTCOME = {
+    first: { gap: 1100, moves: [PUT_SLICE] },
+    take: { gap: 1100, moves: [PUT_SLICE, { from: '0', to: 'I3', use: ['B2'], hot: { B2: 'bad', I3: 'bad' } }] },
+    clear: { gap: 1100, moves: [PUT_SLICE, BACK_SLICE, PUT_SLICE, BACK_SLICE] },
+    keep: { gap: 520, moves: [PUT_SLICE, ...['A1', 'A2', 'A3', 'B1', 'B3', 'C1', 'C2'].map((to) => ({ from: 'I1', to })), { from: 'I1', to: 'C3', out: ['glistering_melon_slice', 1], hot: { 0: 'good' } }] },
+  };
+  function playOutcome(card, lead = 400) {
+    const o = OUTCOME[card.dataset.o], run = card.run = (card.run || 0) + 1;
+    runMoves(card.querySelector('.gui'), OUTCOME_START, o.moves, () => run === card.run, { gap: o.gap, move: 300, lead });
+  }
+  const icon = (n) => `assets/icons/${n}.png`;
+  const docHead = (kind, title, src, ok) => `<header><img src="${icon(kind)}" alt="">${title}${src ? `<span class="src"><img src="${icon(ok ? 'ok' : 'no')}" alt="">${src}</span>` : ''}</header>`;
+  const think = (t) => `<p class="think"><img src="${icon('agent')}" alt=""><span><b class="tl">Think</b>${t}</span></p>`;
+  const mc = (item) => `<code>${item}</code><img class="mci" src="assets/mc/${item}.png" alt="">`;
+  const insightCard = (id, text, src, tag) => `<article class="doc i"><header><img src="${icon('insight')}" alt="">${id}${tag ? `<span class="pill bad">${tag}</span>` : ''}</header><div class="srcl">${src}</div><p>${text}</p></article>`;
+  const WRONG_IF = 'If placing a single item already crafts something,', WRONG_THEN = 'a recipe that needs several of it may be impossible. Consider giving up.';
+  const ALL_LINKS = ['i83-c28', 'c28-r28', 'i130-r44'];
+  const AUTO_HTML = `<aside class="brief"><p><span class="k">TASK</span>Craft an item of type: <code>glistering_melon_slice</code></p><span class="k">GOLD</span>${recipeSlot('goal')}</aside>
+      <section class="outcome" data-o="first"><h6><span class="ot">After moving one item</span>${reduced ? '' : `<button class="tool ic" data-replay aria-label="Replay the first move" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button>`}</h6><div class="ocrop"><div class="gui"></div></div></section>
+      <div class="trapnote"><p>The output shows melon seeds. <mark>Not the goal, <strong>only a preview</strong> of what the grid matches so far.</mark></p></div>
+      <section class="mbox bad" id="mistakes"><header><b>Common agent mistake</b><span>Agents think the preview blocks the recipe and try to remove it.</span></header><div class="mgrid"><section class="outcome" data-o="take"><h6><span class="ot"><img src="${icon('no')}" alt="">Take it</span><span class="pill bad">Impossible</span>${reduced ? '' : `<button class="tool ic" data-replay aria-label="Replay Take it" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button>`}</h6><div class="ocrop"><div class="gui"></div></div></section><section class="outcome" data-o="clear"><h6><span class="ot"><img src="${icon('no')}" alt="">Clear the grid</span><span class="pill bad">No progress</span>${reduced ? '' : `<button class="tool ic" data-replay aria-label="Replay Clear the grid" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button>`}</h6><div class="ocrop"><div class="gui"></div></div></section></div></section>
+      <section class="mbox ok" id="strategy"><header><b>Correct strategy</b><span>Ignore the preview and finish the recipe.</span></header><section class="outcome" data-o="keep"><h6><span class="ot"><img src="${icon('ok')}" alt="">Keep placing</span><span class="pill good">Solved</span>${reduced ? '' : `<button class="tool ic" data-replay aria-label="Replay Keep placing" title="Replay"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 1.8v3h-3"/></svg></button>`}</h6><div class="ocrop"><div class="gui"></div></div></section></section>`;
+  const SCENES = [
+    { chip: 'wrong', mode: 'wt', cur: ['i83'], links: [], title: 'A wrong insight', start: INV.wt, hold: 8000, row: true,
+      before: insightCard('insight-0083', `${WRONG_IF} ${WRONG_THEN}`, 'from step-0028, failed', 'Wrong'),
+      note: `${mc('acacia_button')} in the output is only a preview of what the grid matches so far: ${mc('acacia_planks')} stays on the grid.`,
+      fn: 'Insight cards show our short summary of the stored text.',
+      moves: [
+        { from: 'I21', to: 'C1', out: ['acacia_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+      ] },
+    { chip: 'io', mode: 'only', cur: ['i83'], links: [], title: 'What Insights Only did next', start: INV.wt, veil: 'Declares<br>impossible', verdict: ['no', `Task failed: taking ${mc('acacia_button')} uses up 1 ${mc('acacia_planks')}`],
+      moves: [
+        { from: 'I21', to: 'C1', out: ['acacia_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+        { from: '0', to: 'I6', use: ['C1'], hot: { I21: 'bad', C1: 'bad' } },
+      ] },
+    { chip: 'wt', mode: 'wt', cur: ['i83', 'i130'], links: [], title: 'What WikiTrace did next', start: INV.wt, verdict: ['ok', `Task solved: ${mc('acacia_planks')} are used up only when it takes ${mc('acacia_slab')}`],
+      moves: [
+        { from: 'I21', to: 'C1', out: ['acacia_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+        { from: 'I21', to: 'C2', out: ['acacia_pressure_plate', 1], hot: { C1: 'blue', C2: 'blue', 0: 'blue' } },
+        { from: 'I21', to: 'C3', out: ['acacia_slab', 6], hot: { C1: 'good', C2: 'good', C3: 'good', 0: 'good' } },
+        { from: '0', to: 'I2', use: ['C1', 'C2', 'C3'], hot: { I2: 'good' } },
+      ] },
+    { chip: 'doubt', mode: 'wt', cur: ['i83', 'i130'], links: [], html: `<h5>Conflicting insights</h5>
+      <div class="vs">
+        ${insightCard('insight-0083', `${WRONG_IF} ${WRONG_THEN}`, 'from step-0028, failed')}
+        <span class="clash" aria-label="conflicts with"><svg viewBox="0 0 24 24"><path d="M4 12h16M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span>
+        ${insightCard('insight-0130', 'Until the recipe is complete, the output shows only an intermediate item. Place all required items.', 'from step-0044, succeeded')}
+      </div>
+      ${think('“These two lessons conflict. Let’s check the evidence of both.”<sup>*</sup>')}
+      <p class="descent"><b>↓ Descent</b>opens the source run of each insight</p>
+      <p class="fn"><sup>*</sup>Paraphrased: the agent’s log never states the conflict.</p>` },
+    { chip: 'read', pg: 'Source of insight-0083', mode: 'wt', cur: ['i83', 'c28', 'r28'], links: ['i83-c28', 'c28-r28'], title: 'Evidence for insight-0083: a failed run', doc: `${docHead('raw', 'Raw trajectory of step-0028', 'failed run', false)}<div class="srcl"><span>Task: craft ${mc('acacia_slab')}, different inventory</span></div>`, start: INV.r28,
+      note: 'It takes the plank back, and repeats this 9 times until its moves run out.',
+      moves: [
+        { from: 'I2', to: 'C1', out: ['acacia_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+        { from: 'C1', to: 'I3', hot: { I3: 'bad' } },
+        { from: 'I2', to: 'C1', out: ['acacia_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+        { from: 'C1', to: 'I4', hot: { I4: 'bad' } },
+      ] },
+    { chip: 'read', pg: 'Source of insight-0130', mode: 'wt', cur: ['i130', 'r44'], links: ['i130-r44'], title: 'Evidence for insight-0130: a successful run', doc: `${docHead('raw', 'Raw trajectory of step-0044', 'successful run', true)}<div class="srcl"><span>Task: craft ${mc('crimson_slab')}</span></div>`, start: INV.r44,
+      note: `It keeps adding ${mc('crimson_planks')}. The output changes until ${mc('crimson_slab')} appears.`,
+      moves: [
+        { from: 'I1', to: 'C1', out: ['crimson_button', 1], hot: { C1: 'blue', 0: 'blue' } },
+        { from: 'I1', to: 'C2', out: ['crimson_pressure_plate', 1], hot: { C1: 'blue', C2: 'blue', 0: 'blue' } },
+        { from: 'I1', to: 'C3', out: ['crimson_slab', 6], hot: { C1: 'good', C2: 'good', C3: 'good', 0: 'good' } },
+      ] },
+    { chip: 'correct', mode: 'wt', cur: ['i83'], links: ALL_LINKS, html: `<h5>It is only a preview</h5>
+      ${think(`“The output slot updates as you add more items. <strong>The button/pressure plate outputs are temporary</strong> and get replaced when the full slab pattern is formed. So I can safely place my ${mc('acacia_planks')} one at a time!”`)}
+      ${insightCard('insight-0083', `${WRONG_IF} <del>${WRONG_THEN}</del>`, 'from step-0028, failed', 'Wrong')}
+      <p class="descent"><span>insight-0083 is wrong: it is OK to keep adding ${mc('acacia_planks')}.</span></p>
+      <p class="fn">The stored insight stays unchanged: the agent corrects its own reading before acting.</p>` },
+  ];
+
+  /* memory map: document icons share one height, ids sit centred below them, layer names run up the left edge */
+  const X1 = 92, X2 = 204, DX = 30, DOC_H = 36, BAND = { insight: 4, compilation: 124, raw: 244 }, W = { insight: 28, compilation: 29, raw: 43 }, HALO = { insight: 'var(--ins-bg)', compilation: 'var(--com-bg)', raw: 'var(--raw-bg)' };
+  const docY = (kind) => BAND[kind] + 24;
+  const NODES = {
+    i83: [X1 - DX, 'insight', '0083'], i84: [X1, 'insight', '0084'], i85: [X1 + DX, 'insight', '0085'],
+    i129: [X2 - DX, 'insight', '0129'], i130: [X2, 'insight', '0130'], i131: [X2 + DX, 'insight', '0131'],
+    c28: [X1, 'compilation', '0028'], c44: [X2, 'compilation', '0044'], r28: [X1, 'raw', '0028'], r44: [X2, 'raw', '0044'],
+  };
+  const toComp = (ix, cx) => `M${ix} ${docY('insight') + DOC_H + 1}C${ix} 108 ${cx} 104 ${cx} ${docY('compilation') - 2}`;
+  const toRaw = (cx) => `M${cx} ${docY('compilation') + DOC_H + 1}V${docY('raw') - 2}`;
+  const LINK = { 'i83-c28': toComp(X1 - DX, X1), 'c28-r28': toRaw(X1), 'i130-r44': `M${X2} ${docY('insight') + DOC_H + 1}C${X2 + 56} 128 ${X2 + 56} 210 ${X2 + 16} ${docY('raw') - 2}` };
+  const node = (id) => {
+    const [x, kind, label] = NODES[id], w = W[kind], y = docY(kind);
+    return `<rect class="nd" data-n="${id}" x="${x - w / 2 - 3}" y="${y - 3}" width="${w + 6}" height="${DOC_H + 6}" rx="4"/><image href="${icon(kind)}" x="${x - w / 2}" y="${y}" width="${w}" height="${DOC_H}"/><text class="id" x="${x}" y="${y + DOC_H + 13}" style="stroke:${HALO[kind]}">${label}</text>`;
+  };
+  const badge = (name, x, y, s = 15) => `<image href="${icon(name)}" x="${x}" y="${y}" width="${s}" height="${s}"/>`;
+  const band = (kind, label, color) => `<rect x="2" y="${BAND[kind]}" width="260" height="108" rx="7" fill="${HALO[kind]}"/><text class="bl" transform="rotate(-90 17 ${BAND[kind] + 54})" x="17" y="${BAND[kind] + 58}" style="fill:var(${color})">${label}</text>`;
+  $('map').innerHTML = `${band('insight', 'Insights', '--ins')}
+    <g class="lower">${band('compilation', 'Compilation', '--com')}${band('raw', 'Raw', '--raw')}</g>
+    <g class="links">${[toComp(X1 - DX, X1), toComp(X1, X1), toComp(X1 + DX, X1), toComp(X2 - DX, X2), toComp(X2, X2), toComp(X2 + DX, X2), toRaw(X1), toRaw(X2)].map((d) => `<path class="base" d="${d}"/>`).join('')}<path class="base" stroke-dasharray="3 3" d="${LINK['i130-r44']}"/>
+    ${Object.entries(LINK).map(([k, d]) => `<path class="lk" data-l="${k}" pathLength="1" d="${d}"/>`).join('')}</g>
+    ${['i83', 'i84', 'i85', 'i129', 'i130', 'i131'].map(node).join('')}${badge('warn', X1 - DX + 7, 21)}
+    <g class="lower">${['c28', 'c44', 'r28', 'r44'].map(node).join('')}${badge('no', X1 + 7, 170)}${badge('ok', X2 + 7, 170)}${badge('no', X1 + 13, 290)}${badge('ok', X2 + 13, 290)}</g>
+    <text class="nolinks" x="146" y="186">No links</text>`;
+
+  const GAP = 2670, LEAD = 750, HOLD = 3500, MOVE = 520;
+  const step = $('step'), stage = $('stage');
+  let idx = 0, token = 0, userPaused = matchMedia('(max-width: 720px)').matches, playing = !reduced && !userPaused, inView = false, finished = false;
+  const later = (t, ms, fn) => setTimeout(() => { if (t === token) fn(); }, ms);
+
+  function markMap(i) {
+    const s = SCENES[i], before = SCENES.slice(0, i).filter((p) => p.mode === 'wt');
+    const seenN = new Set(before.flatMap((p) => p.cur)), seenL = new Set(before.flatMap((p) => p.links));
+    stage.dataset.mode = s.mode;
+    $('map').querySelectorAll('[data-n]').forEach((el) => { el.classList.toggle('cur', s.cur.includes(el.dataset.n)); el.classList.toggle('seen', seenN.has(el.dataset.n)); });
+    $('map').querySelectorAll('[data-l]').forEach((el) => {
+      const k = el.dataset.l, isNew = s.links.includes(k) && !seenL.has(k);
+      el.classList.remove('cur', 'seen'); void el.getBoundingClientRect();
+      if (isNew) el.classList.add('cur'); else if (s.mode === 'wt' && (seenL.has(k) || s.links.includes(k))) el.classList.add('seen');
+    });
+    const page = SCENES.filter((p) => p.chip === s.chip).indexOf(s);
+    document.querySelectorAll('[data-chip]').forEach((c) => {
+      c.classList.toggle('on', c.dataset.chip === s.chip);
+      c.querySelectorAll('.pips i').forEach((d, k) => d.classList.toggle('on', c.dataset.chip === s.chip && k === page));
+    });
+  }
+
+  /* plays moves on one gui; paused or reduced motion jumps to the final state */
+  function runMoves(gui, start, moves, alive, { gap = GAP, move = MOVE, lead = LEAD, animate = !reduced } = {}) {
+    const after = (ms, fn) => setTimeout(() => { if (alive()) fn(); }, ms);
+    let state = start;
+    drawGui(gui, state);
+    if (!animate) {
+      moves.forEach((m) => { state = applyMove(state, m); });
+      return drawGui(gui, state, moves[moves.length - 1].hot);
+    }
+    const go = (n) => {
+      if (n === moves.length) return;
+      const m = moves[n], fly = document.createElement('span'), left = JSON.parse(JSON.stringify(state));
+      if (m.from !== '0' && left[m.from][1] > 1) left[m.from][1] -= 1; else delete left[m.from];
+      fly.className = 'it fly'; fly.innerHTML = sprite(state[m.from][0]); fly.style.cssText = place(m.from);
+      drawGui(gui, left); gui.appendChild(fly);
+      void fly.getBoundingClientRect();
+      fly.style.cssText = place(m.to);
+      after(move, () => { state = applyMove(state, m); drawGui(gui, state, m.hot); after(gap - move, () => go(n + 1)); });
+    };
+    after(lead, () => go(0));
+  }
+
+  function progress(ms) {
+    if (!playing || reduced) return;
+    const bar = document.createElement('i');
+    bar.className = 'prog'; bar.style.animationDuration = `${ms}ms`;
+    step.appendChild(bar);
+  }
+
+  /* a step with several scenes lists them all, so its first page does not read as the whole step */
+  function pager(i) {
+    const pages = SCENES.map((p, n) => [p, n]).filter(([p]) => p.chip === SCENES[i].chip);
+    if (pages.length < 2) return '';
+    return `<nav class="pages" aria-label="Pages of this step">${pages.map(([p, n]) => `<button class="pg${n === i ? ' on' : n < i ? ' done' : ''}" data-go="${n}"${n === i ? ' aria-current="page"' : ''}>${p.pg}</button>`).join('')}</nav>`;
+  }
+
+  function renderGuiScene(s, t, i) {
+    const animate = playing && !reduced;
+    const gui = `<div class="guibox"><div class="gui" data-gui></div>${s.veil ? `<div class="veil" data-end>${s.veil}</div>` : ''}</div>`;
+    const verdict = s.verdict ? `<div class="verdict ${s.verdict[0] === 'ok' ? 'good' : 'bad'}" data-end style="margin-top:10px"><img src="${icon(s.verdict[0])}" alt=""><span>${s.verdict[1]}</span></div>` : '';
+    const note = s.note ? `<p class="scnote">${s.note}</p>` : '';
+    const body = s.row ? `<div class="row2"><div>${s.before}${note}</div>${gui}</div>` : `${s.before || ''}${s.doc ? `<article class="doc r">${s.doc}${gui}</article>` : gui}${note}`;
+    step.innerHTML = `${pager(i)}<div class="scene"><h5>${s.title}</h5>${body}${verdict}${s.fn ? `<p class="fn">${s.fn}</p>` : ''}</div>`;
+    const ended = () => step.querySelectorAll('[data-end]').forEach((e) => e.classList.add('on')), played = LEAD + s.moves.length * GAP, total = played + (s.hold || HOLD);
+    progress(total);
+    runMoves(step.querySelector('[data-gui]'), s.start, s.moves, () => t === token, { animate });
+    if (animate) { later(t, played, ended); later(t, total, () => advance(i)); } else ended();
+  }
+
+  function show(i) {
+    idx = i; finished = false; token++; const t = token, s = SCENES[i];
+    markMap(i);
+    if (s.moves) return renderGuiScene(s, t, i);
+    step.innerHTML = `${pager(i)}<div class="scene">${s.html}</div>`;
+    const dur = 3000 + step.textContent.trim().split(/\s+/).length * 280;
+    progress(dur);
+    if (playing && !reduced) later(t, dur, () => advance(i));
+  }
+  const PAUSE_ICON = `<svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg>`, PLAY_ICON = `<svg class="ico solid" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.8l8 5.2-8 5.2z"/></svg>`;
+  /* the button tracks the viewer's choice; leaving the viewport only suspends playback */
+  function setLabel() { const b = $('ovPause'), on = !userPaused && !finished, label = on ? 'Pause' : 'Play'; b.innerHTML = on ? PAUSE_ICON : PLAY_ICON; b.setAttribute('aria-label', label); b.title = label; }
+  function dropProgress() { const b = step.querySelector('.prog'); if (b) b.remove(); }
+  function advance(i) { if (i + 1 < SCENES.length) show(i + 1); else { playing = false; finished = true; setLabel(); dropProgress(); } }
+  function go(i) { playing = !userPaused && !reduced; show(i); setLabel(); }
+
+  document.querySelectorAll('[data-chip]').forEach((c) => { c.onclick = () => go(SCENES.findIndex((s) => s.chip === c.dataset.chip)); });
+  step.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-go]');
+    if (b) { go(+b.dataset.go); step.querySelector('.pg.on').focus({ preventScroll: true }); }
+  });
+  $('ovPrev').onclick = () => go(Math.max(0, idx - 1));
+  $('ovNext').onclick = () => go(Math.min(SCENES.length - 1, idx + 1));
+  $('ovPause').onclick = () => {
+    if (finished) { userPaused = false; return go(0); }
+    userPaused = !userPaused;
+    if (userPaused) { playing = false; token++; dropProgress(); setLabel(); } else go(idx);
+  };
+  $('ovReplay').onclick = () => { userPaused = false; go(0); };
+  playing = false; show(0); playing = !reduced && !userPaused; setLabel();
+
+  /* an outcome card plays once in its turn, and its button replays only that card */
+  const auto = $('auto');
+  auto.innerHTML = AUTO_HTML;
+  auto.querySelectorAll('[data-r]').forEach((r) => { const c = CONCEPT[r.dataset.r]; drawGui(r.querySelector('.gui'), c.state, c.hot); });
+  auto.querySelectorAll('[data-o]').forEach((c) => {
+    if (reduced) return playOutcome(c);
+    drawGui(c.querySelector('.gui'), OUTCOME_START);
+    c.querySelector('[data-replay]').onclick = () => playOutcome(c, 150);
+  });
+  new IntersectionObserver((es) => {
+    const e = es[es.length - 1], v = e.isIntersecting && e.intersectionRect.height >= Math.min(e.boundingClientRect.height, innerHeight) * 0.35;
+    if (v === inView) return; inView = v;
+    if (reduced || userPaused || finished) return;
+    if (v) { playing = true; show(idx); } else { playing = false; token++; }
+  }, { threshold: [0, .05, .1, .15, .2, .25, .3, .35] }).observe(stage);
+
+  /* method: compact tower */
+  function tower() {
+    const I = icon('insight'), C = icon('compilation'), R = icon('raw');
+    const run = (cx, xs, sub, ok) => {
+      const yI = 18, hD = 36, wD = 28, yC = 92, yR = 166, wR = 43;
+      const b = ok ? 'ok' : 'no', x0 = xs[0] - 28, x1 = xs[xs.length - 1] + 18;
+      let s = xs.map((x) => `<path class="lnk" style="--i:${x / 40}" pathLength="1" marker-end="url(#ah)" d="M${x} ${yI + hD + 1}C${x} 74 ${cx} 72 ${cx} ${yC - 3}"/>`).join('');
+      s += `<path class="lnk" style="--i:${cx / 30}" pathLength="1" marker-end="url(#ah)" d="M${cx} ${yC + hD + 1}V${yR - 3}"/>`;
+      s += xs.map((x) => `<image href="${I}" x="${x - wD / 2}" y="${yI}" width="${wD}" height="${hD}"/>`).join('');
+      s += `<text class="brace" x="${x0}" y="${yI + 29}">{</text><text class="brace" x="${x1}" y="${yI + 29}">}</text>`;
+      s += `<image href="${C}" x="${cx - wD / 2}" y="${yC}" width="${wD}" height="${hD}"/><image href="${icon(b)}" x="${cx + 6}" y="${yC + 22}" width="14" height="14"/>`;
+      s += `<image href="${R}" x="${cx - wR / 2}" y="${yR}" width="${wR}" height="${hD}"/><image href="${icon(b)}" x="${cx + 12}" y="${yR + 22}" width="14" height="14"/>`;
+      s += `<text x="${x1 + 13}" y="${yI + 23}" style="fill:var(--ins)">I<tspan dy="4" font-size="11">${sub}</tspan></text>`;
+      s += `<text x="${cx + 24}" y="${yC + 22}" style="fill:var(--com)">c<tspan dy="4" font-size="11">${sub}</tspan></text>`;
+      s += `<text x="${cx + 30}" y="${yR + 22}" style="fill:var(--raw)">r<tspan dy="4" font-size="11">${sub}</tspan></text>`;
+      return s;
+    };
+    $('towerSvg').innerHTML = `<defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="var(--muted)"/></marker></defs>
+      <rect width="280" height="72" fill="var(--ins-bg)"/><rect y="74" width="280" height="72" fill="var(--com-bg)"/><rect y="148" width="280" height="72" fill="var(--raw-bg)"/>
+      ${run(74, [38, 74, 110], 'i', true)}${run(208, [188, 228], 'j', false)}
+      <text x="80" y="152" style="fill:var(--muted)">E</text>`;
+  }
+  tower();
+
+  /* method: agent loop */
+  (function loop() {
+    const CYCLE = 8, arrow = (d, cls, marker) => `<path class="${cls}" marker-end="url(#${marker})" d="${d}"/>`;
+    const pulse = (d, from, to, c) => {
+      const a = from / CYCLE, b = to / CYCLE;
+      return `<circle r="4.5" fill="${c}" opacity="0"><animateMotion dur="${CYCLE}s" repeatCount="indefinite" path="${d}" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;${a};${b};1"/><animate attributeName="opacity" dur="${CYCLE}s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;${a};${b}"/></circle>`;
+    };
+    const CALL_M = 'M272 62H134', RES_M = 'M134 106H272', CALL_E = 'M368 62H506', RES_E = 'M506 106H368';
+    $('loop').innerHTML = `<defs>
+        <marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="var(--fg)"/></marker>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="var(--muted)"/></marker></defs>
+      <image href="${icon('memory')}" x="28" y="20" width="96" height="106"/><text class="nm" x="76" y="146">Memory</text>
+      <image href="${icon('agent')}" x="276" y="20" width="88" height="96"/><text class="nm" x="320" y="146">Agent</text>
+      <image href="${icon('environment')}" x="516" y="24" width="96" height="98"/><text class="nm" x="564" y="146">Environment</text>
+      ${arrow(CALL_M, 'call', 'ac')}${arrow(RES_M, 'res', 'ar')}${arrow(CALL_E, 'call', 'ac')}${arrow(RES_E, 'res', 'ar')}
+      <text x="203" y="52" text-anchor="middle">bash</text><text x="203" y="126" text-anchor="middle">evidence</text>
+      <text x="437" y="52" text-anchor="middle">action</text><text x="437" y="126" text-anchor="middle">observation</text>
+      <path class="call" d="M204 176H240"/><text class="lg" x="248" y="181">tool call</text>
+      <path class="res" d="M344 176H380"/><text class="lg" x="388" y="181">tool result</text>
+      ${reduced ? '' : pulse(CALL_M, 0.3, 1.5, 'var(--fg)') + pulse(RES_M, 1.8, 3, 'var(--muted)') + pulse(CALL_E, 4.3, 5.5, 'var(--fg)') + pulse(RES_E, 5.8, 7, 'var(--muted)')}`;
+  })();
+
+  /* descent dots */
+  const D = [
+    { n: 'Easy', share: 22.5, shown: 22, withD: 2.5, without: 0.8 },
+    { n: 'Medium', share: 32.4, shown: 32, withD: 7.1, without: 3.3 },
+    { n: 'Hard', share: 44.3, shown: 44, withD: 16.4, without: 12.4 },
+  ];
+  const LW = 112, CW = (760 - LW) / 3, T0 = 42, TH = 82, B0 = 130, BH = 66;
+  const WIDE = {
+    box: '0 0 760 204', P: 12, R: 4, titleSize: 16, shareSize: 13,
+    frame: `<rect x="${LW - 6}" y="${T0}" width="${760 - LW + 6}" height="${TH}" fill="var(--ins-bg)"/><rect x="${LW - 6}" y="${B0}" width="${760 - LW + 6}" height="${BH}" fill="var(--raw-bg)"/>
+      <text x="0" y="${T0 + 46}" font-size="16" font-weight="600" style="fill:var(--ins)">Stay</text>
+      <text x="0" y="${B0 + 38}" font-size="16" font-weight="600" style="fill:var(--raw)">Descend</text>`,
+    at: (i) => { const x = LW + i * CW; return { stay: [x + 12, T0 + 17], drop: [x + 12, B0 + 15], dStay: [x + 138, T0 + 50], dDrop: [x + 138, B0 + 42], title: [x + 8, 16], share: [x + 8, 34] }; },
+  };
+  const NARROW = {
+    box: '0 0 356 322', P: 10, R: 3.4, titleSize: 16, shareSize: 14,
+    frame: `<text x="0" y="16" font-size="16" font-weight="600" style="fill:var(--ins)">Stay</text><text x="180" y="16" font-size="16" font-weight="600" style="fill:var(--raw)">Descend</text>
+      ${D.map((_, i) => `<rect y="${48 + i * 100}" width="176" height="62" fill="var(--ins-bg)"/><rect x="180" y="${48 + i * 100}" width="176" height="62" fill="var(--raw-bg)"/>`).join('')}`,
+    at: (i) => { const y = 26 + i * 100; return { stay: [10, y + 33], drop: [190, y + 33], dStay: [114, y + 59], dDrop: [294, y + 59], title: [0, y + 16], share: [66, y + 16] }; },
+  };
+  const delta = ([x, y], v) => `<text x="${x}" y="${y}" class="ds"><tspan class="mut" font-size="13" font-weight="400">Δ </tspan>+${v.toFixed(1)}</text>`;
+  function drawDescent(L) {
+    let s = L.frame;
+    D.forEach((d, i) => {
+      const k = Math.round(d.share / 2), { stay, drop, dStay, dDrop, title, share } = L.at(i);
+      s += `<text x="${title[0]}" y="${title[1]}" font-size="${L.titleSize}" font-weight="600">${d.n}</text><text x="${share[0]}" y="${share[1]}" font-size="${L.shareSize}" class="mut">${d.shown}% descend</text>`;
+      for (let n = 0; n < 50; n++) {
+        const cx = stay[0] + (n % 10) * L.P, cy = stay[1] + Math.floor(n / 10) * L.P, m = n - (50 - k);
+        s += `<circle cx="${cx}" cy="${cy}" r="${L.R - .5}" fill="none" stroke="var(--line)"/>`;
+        if (m >= 0) {
+          const tx = drop[0] + (m % 10) * L.P, ty = drop[1] + Math.floor(m / 10) * L.P;
+          s += `<circle class="drop" cx="${cx}" cy="${cy}" r="${L.R}" fill="var(--ins)" style="--dx:${tx - cx}px;--dy:${ty - cy}px;transition-delay:${m * 70}ms,${m * 70 + 800}ms"/>`;
+        } else s += `<circle cx="${cx}" cy="${cy}" r="${L.R}" fill="var(--ins)"/>`;
+      }
+      s += delta(dStay, d.without) + delta(dDrop, d.withD);
+    });
+    $('optA').setAttribute('viewBox', L.box);
+    $('optA').innerHTML = s;
+  }
+  const narrowChart = matchMedia('(max-width: 720px)');
+  const fitDescent = () => drawDescent(narrowChart.matches ? NARROW : WIDE);
+  narrowChart.addEventListener('change', fitDescent); fitDescent();
+  $('dotReplay').onclick = () => restart($('optA'));
+
+  /* table of contents follows the section under the upper third of the viewport */
+  const tocLinks = [...$('toc').querySelectorAll('a')], tocTargets = tocLinks.map((a) => $(a.hash.slice(1)));
+  const spy = () => {
+    const probe = scrollY + innerHeight * 0.28;
+    let cur = 0;
+    tocTargets.forEach((t, i) => { if (t.offsetTop <= probe) cur = i; });
+    tocLinks.forEach((a, i) => a.classList.toggle('on', i === cur));
+  };
+  addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy); spy();
+
+  $('copyBib').onclick = async () => {
+    const b = $('copyBib');
+    try { await navigator.clipboard.writeText($('bib').textContent); b.textContent = 'Copied'; } catch { b.textContent = 'Press Ctrl+C'; getSelection().selectAllChildren($('bib')); }
+    setTimeout(() => { b.textContent = 'Copy'; }, 1800);
+  };
+
+  /* qualitative example tabs */
+  document.querySelectorAll('[data-q]').forEach((b) => { b.onclick = () => {
+    document.querySelectorAll('[data-q]').forEach((o) => o.classList.toggle('on', o === b));
+    [0, 1].forEach((n) => { $(`q${n}`).hidden = n !== +b.dataset.q; });
+  }; });
+
+  /* each screen's blocks appear one at a time, top to bottom; observers report in no fixed order, so the queue sets it */
+  function makeSequence(speed = PACE) {
+    const steps = [];
+    let busy = false;
+    const next = () => {
+      if (busy) return;
+      /* a block in view makes every block above it due; one already scrolled past takes no time */
+      const lastSeen = steps.reduce((a, x, n) => (x.seen ? n : a), -1), st = steps.slice(0, lastSeen + 1).find((x) => !x.done);
+      if (!st) return;
+      st.done = busy = true;
+      const passed = st.el.getBoundingClientRect().bottom < 0;
+      st.run();
+      setTimeout(() => { busy = false; next(); }, reduced || passed ? 0 : st.ms / speed);
+    };
+    const step = (el, threshold, ms, run) => {
+      const st = { el, ms, run };
+      steps.push(st);
+      onceInView(el, () => { st.seen = true; setTimeout(next); }, threshold);
+    };
+    /* a held block keeps its space, so nothing below it moves */
+    const reveal = (el, threshold = 0.3, ms = 350, then) => {
+      if (!reduced) el.classList.add('reveal', 'hold');
+      step(el, threshold, ms, () => { el.classList.remove('hold'); if (then) then(); });
+    };
+    return { step, reveal, speed };
+  }
+  const TYPE_MS = 45;
+  function typeIn(seq, el) {
+    if (reduced) return;
+    const text = el.textContent;
+    el.innerHTML = `<span class="vh">${text}</span><span aria-hidden="true">${[...text].map((c) => (c === ' ' ? ' ' : `<span class="ch">${c}</span>`)).join('')}</span>`;
+    const gap = TYPE_MS / seq.speed, chars = [...el.querySelectorAll('.ch')], last = chars[chars.length - 1], total = chars.length * TYPE_MS;
+    seq.step(el, 0.5, total, () => {
+      chars.forEach((c, n) => setTimeout(() => { if (n) chars[n - 1].classList.remove('cur'); c.classList.add('on', 'cur'); }, n * gap));
+      setTimeout(() => last.classList.add('end'), total / seq.speed);
+      setTimeout(() => last.classList.remove('cur', 'end'), (total + 1400) / seq.speed);
+    });
+  }
+  /* the highlight runs at reading speed, so a long sentence takes longer than a term */
+  function markIn(seq, el) {
+    if (reduced) return;
+    const ms = Math.max(700, el.textContent.length * 14);
+    el.classList.add('wait');
+    el.style.animationDuration = `${ms}ms`;
+    el.addEventListener('animationend', () => el.classList.remove('wait', 'play'));
+    seq.step(el, 0.5, ms, () => el.classList.add('play'));
+  }
+  const q = (sel) => document.querySelector(sel), play = (el) => () => el.classList.add('play');
+
+  const leads = document.querySelectorAll('#introduction .lead strong'), bodies = document.querySelectorAll('#introduction .leadbody'), marks = document.querySelectorAll('#introduction .leadbody mark');
+  const intro1 = makeSequence();
+  typeIn(intro1, leads[0]);
+  intro1.reveal(bodies[0]);
+  markIn(intro1, marks[0]);
+  intro1.reveal($('deg'), 0.4, 1200, play($('deg')));
+  intro1.reveal(q('.degbox'), 0.5, 350);
+  intro1.reveal(q('.causes-lead'), 0.3, 300);
+  intro1.step($('causes'), 0.4, 800, play($('causes')));
+  const intro2 = makeSequence();
+  typeIn(intro2, leads[1]);
+  intro2.reveal(bodies[1]);
+  intro2.reveal($('pathfig'), 0.4, 6200 * PACE / paceOf($('pathfig')), play($('pathfig')));
+  intro2.reveal(bodies[2]);
+  markIn(intro2, marks[1]);
+  intro2.reveal($('stats'), 0.5, 1000, () => $('stats').querySelectorAll('[data-count]').forEach(countUp));
+  intro2.reveal($('stats').nextElementSibling, 0.5, 300);
+
+  const trap = makeSequence(1);
+  const card = (k) => q(`[data-o="${k}"]`), turnTime = (c) => 400 + OUTCOME[c.dataset.o].moves.length * OUTCOME[c.dataset.o].gap;
+  const turn = (box, cards) => trap.reveal(box, 0.3, Math.max(...cards.map(turnTime)), () => { if (!reduced) cards.forEach((c) => playOutcome(c)); });
+  trap.reveal(q('#auto .brief'));
+  turn(card('first'), [card('first')]);
+  trap.reveal(q('.trapnote'));
+  turn($('mistakes'), [card('take'), card('clear')]);
+  turn($('strategy'), [card('keep')]);
+  const runs = makeSequence(1);
+  runs.reveal($('tabs').previousElementSibling);
+  runs.reveal($('tabs'), 0.5);
+  runs.reveal($('stage'), 0.2);
+
+  const blocks = (seq, sel) => document.querySelectorAll(sel).forEach((el) => seq.reveal(el));
+  const build = makeSequence(paceOf($('flow')));
+  build.reveal(q('#method .sub + p'));
+  build.step($('flow'), 0.3, 1700, play($('flow')));
+  build.reveal(q('#flow + p'));
+  build.reveal($('tower'), 0.3, 1400, play($('tower')));
+  const use = makeSequence(), useCol = q('#loop').parentElement;
+  use.reveal(useCol.querySelector('.sub + p'));
+  use.reveal($('loop'));
+  use.reveal($('trig').previousElementSibling);
+  use.step($('trig'), 0.3, 900, play($('trig')));
+  use.reveal(useCol.querySelector('.merge'), 0.3, 200);
+  use.reveal(useCol.querySelector('.chain'));
+
+  const main = makeSequence(), plotsCol = $('plots').parentElement;
+  main.reveal(plotsCol.querySelector('.head-row'));
+  main.reveal($('plots'), 0.3, 2600, play($('plots')));
+  main.reveal(plotsCol.querySelector('.cap'));
+  const descent = makeSequence(), descentCol = $('optA').parentElement;
+  descent.reveal(descentCol.querySelector('.head-row'));
+  descent.reveal($('optA'), 0.6, 3000, play($('optA')));
+  descent.reveal(descentCol.querySelector('.cap'));
+  const examples = makeSequence();
+  examples.reveal($('qTabs'), 0.5);
+  blocks(examples, '#q1 > .task, #q1 .qmem, #q1 .pane');
+  const cite = makeSequence();
+  blocks(cite, '#bib, #copyBib, #citation .logos');
+})();
+</script>
+</body>
+</html>

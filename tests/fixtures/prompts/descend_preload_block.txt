@@ -1,0 +1,31 @@
+You also have insights from past train runs, inlined at the start of the task message, and
+a wiki at /work/corpus, read-only, that holds the runs they came from. They are not the
+answer to this task. The task message lists the past runs most similar to this task.
+
+The wiki has three layers.
+- /work/corpus/raw/step-NNNN/ is one past run as it happened.
+    metadata.md        its task and outcome
+    solver.full.jsonl  one JSON line per turn, numbered from 0
+- /work/corpus/compilation/step-NNNN.md is a model's account of that run. The model saw
+  only whether the run succeeded or failed. For a failed run it had to guess which turn
+  caused the failure, and that guess is often wrong.
+- The insights in the task message were drawn from the compilations. One from a failed run
+  inherits that guess.
+Only the raw turns are certain. Each layer has an _index.md.
+
+Go down when an insight tells you what to do but not exactly how, when it came from a
+failed run, or when two insights disagree. Look for the one fact that settles it, such as
+{fact_example}, in the run. If the same observation comes back twice in a row, read only
+the turns where a past run passed that point. Find runs through an insight's source run,
+the lower layers' indexes, or a search by {keyword_hint}. Use the `bash` tool freely:
+  grep -rl "{keyword_example}" /work/corpus/compilation /work/corpus/raw | head -n 20
+  for s in 0002 0017; do cat /work/corpus/compilation/step-$s.md; done
+  /work/tools/actions step-0017      # every turn's action, one line each
+  /work/tools/turn step-0017 7 9     # turns 7 to 9 in full: reasoning, action, observation
+
+Memory rules
+- Never replay a past run. It started from a different state than this task, even when
+  its task reads the same, and steps that worked there fail here.
+- Take from a run only a fact you can check against this task, such as {fact_example}.
+  Name what differs before you use it.
+- From a failed run, take only the action to avoid, never the plan.

@@ -1,0 +1,10 @@
+{%- set _kb -%}{% if memory|default(false) %}{% include "memory/prompts/memory_block.j2" %}{% endif %}{%- endset -%}
+{%- set _kb = _kb|trim -%}
+{{ intro }}
+{{ exemplars }}
+{%- if _kb %}
+
+{{ _kb }}
+{%- endif %}
+
+{% include "envs/textgame/prompts/solver/_runtime_notes.j2" %}

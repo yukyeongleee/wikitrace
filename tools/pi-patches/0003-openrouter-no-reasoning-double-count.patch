@@ -1,0 +1,54 @@
+Subject: [PATCH 0003] stop double-counting reasoning tokens, and keep the breakdown
+
+Pi adds `completion_tokens_details.reasoning_tokens` on top of `completion_tokens`,
+with the comment that some providers (e.g. Groq) report reasoning outside the
+completion count. OpenRouter — the only provider this vendored copy talks to —
+counts reasoning INSIDE completion_tokens, so the addition inflates `output` by up
+to 2x and every token-based analysis with it.
+
+Evidence, from the 2026-07-28 re-smoke cross-checked against OpenRouter's
+/api/v1/generation: a call reported native completion 4096 and native reasoning
+4096 with finish_reason `length`, and its assistant message was EMPTY. That is only
+possible if the 4096 completion IS the reasoning — visible output 0. Our log
+recorded 8192 for it: larger than the model's entire output budget.
+
+Second change, additive: `usage` now carries `reasoning`, so a caller can recover
+the split instead of seeing it folded away. Without it a terminal run reports
+`reasoning_tokens: 0` beside an inflated completion count, which is how "the visible
+output filled the budget" came to be believed of a call that emitted nothing.
+
+Applies to BOTH `packages/ai/src/providers/openai-completions.ts` and the shipped
+`packages/ai/dist/providers/openai-completions.js` (dist is plain JS, not minified,
+and is what actually runs — there is no rebuild step here).
+
+--- a/packages/ai/src/providers/openai-completions.ts
++++ b/packages/ai/src/providers/openai-completions.ts
+@@ -764,12 +764,25 @@
+ 		cacheWriteTokens > 0 ? Math.max(0, reportedCachedTokens - cacheWriteTokens) : reportedCachedTokens;
+ 
+ 	const input = Math.max(0, promptTokens - cacheReadTokens - cacheWriteTokens);
+-	// Compute totalTokens ourselves since we add reasoning_tokens to output
+-	// and some providers (e.g., Groq) don't include them in total_tokens
+-	const outputTokens = (rawUsage.completion_tokens || 0) + reasoningTokens;
++	// PATCHED (agent-wiki 0003): do NOT add reasoning_tokens to completion_tokens.
++	// OpenRouter already counts reasoning INSIDE completion_tokens, so adding it again
++	// inflated `output` by up to 2x. Evidence: a call reported completion 4096 with
++	// reasoning 4096 and finish_reason `length`, and its assistant message was EMPTY —
++	// which is only possible if the 4096 completion IS the reasoning. Adding them gave
++	// 8192, a number larger than the model's entire output budget.
++	// Upstream adds it for providers (e.g. Groq) that report reasoning outside
++	// completion_tokens; this vendored copy only ever talks to OpenRouter.
++	const outputTokens = rawUsage.completion_tokens || 0;
+ 	const usage: AssistantMessage["usage"] = {
+ 		input,
+ 		output: outputTokens,
++		// PATCHED (agent-wiki 0003): carry the reasoning count instead of folding it
++		// into `output`. Additive, so nothing upstream that reads `usage` changes; it
++		// simply stops being the one number a caller cannot recover. Without it a
++		// terminal run reports `reasoning_tokens: 0` beside an inflated completion
++		// count, which is how "the visible output filled the budget" was believed of a
++		// call whose visible output was empty.
++		reasoning: reasoningTokens,
+ 		cacheRead: cacheReadTokens,
+ 		cacheWrite: cacheWriteTokens,
+ 		totalTokens: input + outputTokens + cacheReadTokens + cacheWriteTokens,

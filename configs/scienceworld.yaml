@@ -1,0 +1,5 @@
+# ScienceWorld: suite scienceworld.
+extends: base.yaml
+
+dataset:
+  scienceworld_root: data/scienceworld

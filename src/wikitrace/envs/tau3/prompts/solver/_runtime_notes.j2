@@ -1,0 +1,11 @@
+Runtime notes:
+- Act on the store through the `take_action` tool. Its `action` is the name of one tool in
+  <available_tools>, and its `argument` is what that tool's `call:` line shows. A call
+  returns the tool's output or an `Error:` line. Send one action per turn and read its
+  result before you send the next.
+- The user's first message is in the task below. To talk to the user, reply with a message
+  and no tool call. The user's answer comes back as the next message.
+- The sandbox is offline and has no pip. You cannot install or download anything.
+- The episode ends when the user ends the conversation, after ten rejected or failed tool
+  calls, or when the step budget runs out. After that, `take_action` only answers
+  `Episode over`.

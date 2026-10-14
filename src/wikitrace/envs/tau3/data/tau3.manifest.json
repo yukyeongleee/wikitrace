@@ -1,0 +1,481 @@
+{
+ "source": {
+  "repo": "sierra-research/tau2-bench",
+  "tag": "v1.0.1",
+  "commit": "fc0055dc4e0a316c3f83133267fbd6faaa770992"
+ },
+ "seed": 0,
+ "pool": 114,
+ "users": 53,
+ "smoke": {
+  "seed": 0,
+  "train": 4,
+  "test": 2,
+  "nl_assertions": [
+   "16",
+   "21",
+   "103",
+   "104"
+  ]
+ },
+ "train": [
+  {
+   "task_id": "16",
+   "user_id": "fatima_johnson_7581"
+  },
+  {
+   "task_id": "21",
+   "user_id": "ethan_garcia_1261"
+  },
+  {
+   "task_id": "53",
+   "user_id": "sofia_li_9219"
+  },
+  {
+   "task_id": "103",
+   "user_id": "lucas_brown_6720"
+  },
+  {
+   "task_id": "0",
+   "user_id": "yusuf_rossi_9620"
+  },
+  {
+   "task_id": "4",
+   "user_id": "yusuf_rossi_9620"
+  },
+  {
+   "task_id": "6",
+   "user_id": "mei_kovacs_8020"
+  },
+  {
+   "task_id": "9",
+   "user_id": "mei_kovacs_8020"
+  },
+  {
+   "task_id": "10",
+   "user_id": "mia_garcia_4516"
+  },
+  {
+   "task_id": "14",
+   "user_id": "mia_garcia_4516"
+  },
+  {
+   "task_id": "19",
+   "user_id": "mei_davis_8935"
+  },
+  {
+   "task_id": "23",
+   "user_id": "sofia_hernandez_5364"
+  },
+  {
+   "task_id": "26",
+   "user_id": "isabella_johansson_2152"
+  },
+  {
+   "task_id": "29",
+   "user_id": "isabella_johansson_2152"
+  },
+  {
+   "task_id": "32",
+   "user_id": "olivia_lopez_3865"
+  },
+  {
+   "task_id": "34",
+   "user_id": "noah_patel_6952"
+  },
+  {
+   "task_id": "37",
+   "user_id": "daiki_sanchez_3253"
+  },
+  {
+   "task_id": "40",
+   "user_id": "isabella_lopez_6490"
+  },
+  {
+   "task_id": "42",
+   "user_id": "mei_patel_7272"
+  },
+  {
+   "task_id": "48",
+   "user_id": "daiki_johnson_9523"
+  },
+  {
+   "task_id": "49",
+   "user_id": "aarav_anderson_8794"
+  },
+  {
+   "task_id": "55",
+   "user_id": "amelia_silva_7726"
+  },
+  {
+   "task_id": "58",
+   "user_id": "ivan_hernandez_6923"
+  },
+  {
+   "task_id": "60",
+   "user_id": "chen_johnson_4204"
+  },
+  {
+   "task_id": "71",
+   "user_id": "ivan_khan_7475"
+  },
+  {
+   "task_id": "75",
+   "user_id": "liam_moore_4057"
+  },
+  {
+   "task_id": "78",
+   "user_id": "yara_muller_8652"
+  },
+  {
+   "task_id": "83",
+   "user_id": "chen_silva_7485"
+  },
+  {
+   "task_id": "86",
+   "user_id": "yusuf_hernandez_6785"
+  },
+  {
+   "task_id": "90",
+   "user_id": "emma_kovacs_9839"
+  },
+  {
+   "task_id": "91",
+   "user_id": "mei_ahmed_4909"
+  },
+  {
+   "task_id": "94",
+   "user_id": "lei_wilson_4541"
+  },
+  {
+   "task_id": "97",
+   "user_id": "yusuf_li_7255"
+  },
+  {
+   "task_id": "98",
+   "user_id": "sofia_li_9219"
+  },
+  {
+   "task_id": "101",
+   "user_id": "noah_ito_3850"
+  },
+  {
+   "task_id": "108",
+   "user_id": "yusuf_gonzalez_8900"
+  },
+  {
+   "task_id": "110",
+   "user_id": "sophia_martin_8570"
+  },
+  {
+   "task_id": "112",
+   "user_id": "yara_silva_7567"
+  }
+ ],
+ "test": [
+  {
+   "task_id": "51",
+   "user_id": "sofia_li_9219"
+  },
+  {
+   "task_id": "104",
+   "user_id": "lucas_brown_6720"
+  },
+  {
+   "task_id": "1",
+   "user_id": "yusuf_rossi_9620"
+  },
+  {
+   "task_id": "2",
+   "user_id": "yusuf_rossi_9620"
+  },
+  {
+   "task_id": "3",
+   "user_id": "yusuf_rossi_9620"
+  },
+  {
+   "task_id": "5",
+   "user_id": "mei_kovacs_8020"
+  },
+  {
+   "task_id": "7",
+   "user_id": "mei_kovacs_8020"
+  },
+  {
+   "task_id": "8",
+   "user_id": "mei_kovacs_8020"
+  },
+  {
+   "task_id": "11",
+   "user_id": "mia_garcia_4516"
+  },
+  {
+   "task_id": "12",
+   "user_id": "mia_garcia_4516"
+  },
+  {
+   "task_id": "13",
+   "user_id": "mia_garcia_4516"
+  },
+  {
+   "task_id": "15",
+   "user_id": "fatima_johnson_7581"
+  },
+  {
+   "task_id": "17",
+   "user_id": "fatima_johnson_7581"
+  },
+  {
+   "task_id": "18",
+   "user_id": "mei_davis_8935"
+  },
+  {
+   "task_id": "20",
+   "user_id": "ethan_garcia_1261"
+  },
+  {
+   "task_id": "22",
+   "user_id": "ethan_garcia_1261"
+  },
+  {
+   "task_id": "24",
+   "user_id": "sofia_hernandez_5364"
+  },
+  {
+   "task_id": "25",
+   "user_id": "isabella_johansson_2152"
+  },
+  {
+   "task_id": "27",
+   "user_id": "isabella_johansson_2152"
+  },
+  {
+   "task_id": "28",
+   "user_id": "isabella_johansson_2152"
+  },
+  {
+   "task_id": "30",
+   "user_id": "olivia_lopez_3865"
+  },
+  {
+   "task_id": "31",
+   "user_id": "olivia_lopez_3865"
+  },
+  {
+   "task_id": "33",
+   "user_id": "noah_patel_6952"
+  },
+  {
+   "task_id": "35",
+   "user_id": "aarav_santos_2259"
+  },
+  {
+   "task_id": "36",
+   "user_id": "daiki_sanchez_3253"
+  },
+  {
+   "task_id": "38",
+   "user_id": "daiki_sanchez_3253"
+  },
+  {
+   "task_id": "39",
+   "user_id": "fatima_taylor_3452"
+  },
+  {
+   "task_id": "41",
+   "user_id": "mei_patel_7272"
+  },
+  {
+   "task_id": "43",
+   "user_id": "lucas_santos_6600"
+  },
+  {
+   "task_id": "44",
+   "user_id": "aarav_anderson_8794"
+  },
+  {
+   "task_id": "45",
+   "user_id": "daiki_johnson_9523"
+  },
+  {
+   "task_id": "46",
+   "user_id": "daiki_johnson_9523"
+  },
+  {
+   "task_id": "47",
+   "user_id": "daiki_johnson_9523"
+  },
+  {
+   "task_id": "50",
+   "user_id": "chen_smith_8425"
+  },
+  {
+   "task_id": "52",
+   "user_id": "sofia_li_9219"
+  },
+  {
+   "task_id": "54",
+   "user_id": "amelia_silva_7726"
+  },
+  {
+   "task_id": "56",
+   "user_id": "ivan_hernandez_6923"
+  },
+  {
+   "task_id": "57",
+   "user_id": "ivan_hernandez_6923"
+  },
+  {
+   "task_id": "59",
+   "user_id": "yusuf_taylor_7149"
+  },
+  {
+   "task_id": "61",
+   "user_id": "chen_johnson_4204"
+  },
+  {
+   "task_id": "62",
+   "user_id": "chen_johnson_4204"
+  },
+  {
+   "task_id": "63",
+   "user_id": "chen_johnson_4204"
+  },
+  {
+   "task_id": "64",
+   "user_id": "james_sanchez_3954"
+  },
+  {
+   "task_id": "65",
+   "user_id": "james_kovacs_9247"
+  },
+  {
+   "task_id": "66",
+   "user_id": "aarav_lee_1982"
+  },
+  {
+   "task_id": "67",
+   "user_id": "noah_ito_3850"
+  },
+  {
+   "task_id": "68",
+   "user_id": "noah_ito_3850"
+  },
+  {
+   "task_id": "69",
+   "user_id": "emma_smith_8564"
+  },
+  {
+   "task_id": "70",
+   "user_id": "sofia_hernandez_5364"
+  },
+  {
+   "task_id": "72",
+   "user_id": "ivan_khan_7475"
+  },
+  {
+   "task_id": "73",
+   "user_id": "fatima_wilson_7472"
+  },
+  {
+   "task_id": "74",
+   "user_id": "lei_li_6575"
+  },
+  {
+   "task_id": "76",
+   "user_id": "ava_nguyen_6646"
+  },
+  {
+   "task_id": "77",
+   "user_id": "ivan_johnson_6036"
+  },
+  {
+   "task_id": "79",
+   "user_id": "emma_kovacs_9839"
+  },
+  {
+   "task_id": "80",
+   "user_id": "amelia_gonzalez_4098"
+  },
+  {
+   "task_id": "81",
+   "user_id": "james_kim_7213"
+  },
+  {
+   "task_id": "82",
+   "user_id": "chen_silva_7485"
+  },
+  {
+   "task_id": "84",
+   "user_id": "chen_silva_7485"
+  },
+  {
+   "task_id": "85",
+   "user_id": "yusuf_hernandez_6785"
+  },
+  {
+   "task_id": "87",
+   "user_id": "yusuf_hernandez_6785"
+  },
+  {
+   "task_id": "88",
+   "user_id": "daiki_silva_2903"
+  },
+  {
+   "task_id": "89",
+   "user_id": "raj_santos_9079"
+  },
+  {
+   "task_id": "92",
+   "user_id": "mei_ahmed_4909"
+  },
+  {
+   "task_id": "93",
+   "user_id": "lei_wilson_4541"
+  },
+  {
+   "task_id": "95",
+   "user_id": "lei_wilson_4541"
+  },
+  {
+   "task_id": "96",
+   "user_id": "yusuf_li_7255"
+  },
+  {
+   "task_id": "99",
+   "user_id": "sofia_li_9219"
+  },
+  {
+   "task_id": "100",
+   "user_id": "liam_thomas_7882"
+  },
+  {
+   "task_id": "102",
+   "user_id": "noah_ito_3850"
+  },
+  {
+   "task_id": "105",
+   "user_id": "aarav_anderson_8794"
+  },
+  {
+   "task_id": "106",
+   "user_id": "sofia_thomas_1518"
+  },
+  {
+   "task_id": "107",
+   "user_id": "yara_ito_8499"
+  },
+  {
+   "task_id": "109",
+   "user_id": "sophia_martin_8570"
+  },
+  {
+   "task_id": "111",
+   "user_id": "yara_silva_7567"
+  },
+  {
+   "task_id": "113",
+   "user_id": "yara_muller_8652"
+  }
+ ]
+}

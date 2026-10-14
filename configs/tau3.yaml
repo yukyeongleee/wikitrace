@@ -1,0 +1,6 @@
+# tau3-bench retail: suite retail, with the authors' default user simulator.
+extends: base.yaml
+
+dataset:
+  tau3_root: data/tau3
+  tau3_user_model: openrouter/openai/gpt-4.1

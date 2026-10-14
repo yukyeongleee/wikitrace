@@ -1,0 +1,1808 @@
+{
+ "_meta": {
+  "generator": "scripts/experiments/setup/build_plancraft_manifest.py",
+  "source": "gautierdag/plancraft@7617e9ff plancraft/data/{train,test}.json, impossible examples excluded",
+  "seed": 0,
+  "step_limit": 30,
+  "oracle_over_limit_or_unsolved": {
+   "train": 0,
+   "test": 0
+  },
+  "train_group": {
+   "size": 50,
+   "bins": {
+    "easy": 7,
+    "medium": 15,
+    "hard": 28
+   },
+   "rule": "targets with a train example within step_limit that occur in test, ranked by (-test medium/hard examples, -test easy examples, target); first size taken; one train example each, Random(target).choice over its medium/hard examples sorted by id, else over its easy ones"
+  },
+  "test": {
+   "size": 100,
+   "rule": "every medium/hard example of the pool (Random(seed).sample down to size if over), then easy examples sampled with the same rng from the pool's easy ones sorted by id",
+   "seen": {
+    "pool": {
+     "easy": 18,
+     "medium": 42,
+     "hard": 49
+    },
+    "picked": {
+     "easy": 9,
+     "medium": 42,
+     "hard": 49
+    }
+   },
+   "unseen": {
+    "pool": {
+     "easy": 60,
+     "medium": 23,
+     "hard": 77
+    },
+    "picked": {
+     "easy": 0,
+     "medium": 23,
+     "hard": 77
+    }
+   }
+  },
+  "seen": "test example whose target is a train_group target",
+  "unseen": "test example whose target is in no solvable train example",
+  "order": "each list sorted by ((position within its bin + 0.5) / bin size, bin, id), so a head slice mirrors the list's bin mix"
+ },
+ "train": [
+  {
+   "id": "TRAIN0036",
+   "target": "green_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TRAIN0098",
+   "target": "gray_carpet",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0086",
+   "target": "beetroot_soup",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 14
+  },
+  {
+   "id": "TRAIN0062",
+   "target": "green_carpet",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 3
+  },
+  {
+   "id": "TRAIN0110",
+   "target": "blue_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TRAIN0154",
+   "target": "chiseled_stone_bricks",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TRAIN0134",
+   "target": "purple_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TRAIN0161",
+   "target": "gray_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 26
+  },
+  {
+   "id": "TRAIN0257",
+   "target": "diamond_shovel",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TRAIN0236",
+   "target": "armor_stand",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TRAIN0093",
+   "target": "green_stained_glass_pane",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TRAIN0383",
+   "target": "redstone_lamp",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0269",
+   "target": "lodestone",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0435",
+   "target": "white_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TRAIN0522",
+   "target": "hay_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0442",
+   "target": "golden_chestplate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TRAIN0492",
+   "target": "respawn_anchor",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 25
+  },
+  {
+   "id": "TRAIN0100",
+   "target": "red_sandstone_slab",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 4
+  },
+  {
+   "id": "TRAIN0606",
+   "target": "lime_terracotta",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0504",
+   "target": "magenta_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TRAIN0567",
+   "target": "pink_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TRAIN0734",
+   "target": "fermented_spider_eye",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TRAIN0651",
+   "target": "lantern",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TRAIN0663",
+   "target": "yellow_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 23
+  },
+  {
+   "id": "TRAIN0425",
+   "target": "black_wool",
+   "complexity_split": "easy",
+   "optimal_path_length": 2,
+   "oracle_steps": 5
+  },
+  {
+   "id": "TRAIN0744",
+   "target": "slime_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0667",
+   "target": "golden_carrot",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  },
+  {
+   "id": "TRAIN0674",
+   "target": "dark_oak_sign",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TRAIN0809",
+   "target": "acacia_slab",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TRAIN0696",
+   "target": "lime_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TRAIN0780",
+   "target": "end_stone_brick_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TRAIN0875",
+   "target": "coal_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0604",
+   "target": "acacia_fence_gate",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TRAIN0804",
+   "target": "polished_blackstone_brick_wall",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 27
+  },
+  {
+   "id": "TRAIN0815",
+   "target": "activator_rail",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TRAIN0898",
+   "target": "iron_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0827",
+   "target": "diamond_leggings",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN1028",
+   "target": "leather_chestplate",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TRAIN0855",
+   "target": "blue_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 26
+  },
+  {
+   "id": "TRAIN1043",
+   "target": "crimson_fence",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TRAIN0900",
+   "target": "grindstone",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TRAIN1047",
+   "target": "gray_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN0926",
+   "target": "gray_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TRAIN1034",
+   "target": "acacia_trapdoor",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TRAIN1082",
+   "target": "crimson_slab",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TRAIN1092",
+   "target": "jungle_fence_gate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TRAIN1196",
+   "target": "acacia_fence",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TRAIN1105",
+   "target": "orange_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TRAIN1182",
+   "target": "purple_stained_glass",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TRAIN1198",
+   "target": "yellow_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  }
+ ],
+ "test_seen": [
+  {
+   "id": "TEST0018",
+   "target": "green_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 10,
+   "oracle_steps": 19
+  },
+  {
+   "id": "TEST0048",
+   "target": "beetroot_soup",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0019",
+   "target": "green_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  },
+  {
+   "id": "TEST0049",
+   "target": "beetroot_soup",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0032",
+   "target": "green_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 19
+  },
+  {
+   "id": "TEST0054",
+   "target": "green_stained_glass_pane",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0058",
+   "target": "gray_carpet",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0056",
+   "target": "green_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 24
+  },
+  {
+   "id": "TEST0066",
+   "target": "blue_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0059",
+   "target": "gray_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 14
+  },
+  {
+   "id": "TEST0068",
+   "target": "blue_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0062",
+   "target": "red_sandstone_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0077",
+   "target": "purple_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0067",
+   "target": "blue_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0078",
+   "target": "purple_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0089",
+   "target": "chiseled_stone_bricks",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0127",
+   "target": "diamond_shovel",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 4
+  },
+  {
+   "id": "TEST0087",
+   "target": "chiseled_stone_bricks",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0093",
+   "target": "gray_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0092",
+   "target": "gray_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0128",
+   "target": "diamond_shovel",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 5
+  },
+  {
+   "id": "TEST0113",
+   "target": "armor_stand",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TEST0137",
+   "target": "lodestone",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0114",
+   "target": "armor_stand",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0216",
+   "target": "golden_chestplate",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0136",
+   "target": "lodestone",
+   "complexity_split": "hard",
+   "optimal_path_length": 6,
+   "oracle_steps": 23
+  },
+  {
+   "id": "TEST0244",
+   "target": "hay_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0138",
+   "target": "lodestone",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0235",
+   "target": "magenta_stained_glass_pane",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0189",
+   "target": "redstone_lamp",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0245",
+   "target": "hay_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0190",
+   "target": "redstone_lamp",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0282",
+   "target": "lime_terracotta",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0207",
+   "target": "black_wool",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0298",
+   "target": "lantern",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0211",
+   "target": "white_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0300",
+   "target": "lantern",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0212",
+   "target": "white_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 24
+  },
+  {
+   "id": "TEST0279",
+   "target": "acacia_fence_gate",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0314",
+   "target": "yellow_stained_glass_pane",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0217",
+   "target": "golden_chestplate",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0317",
+   "target": "golden_carrot",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0228",
+   "target": "respawn_anchor",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 25
+  },
+  {
+   "id": "TEST0229",
+   "target": "respawn_anchor",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 25
+  },
+  {
+   "id": "TEST0319",
+   "target": "dark_oak_sign",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0236",
+   "target": "magenta_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0320",
+   "target": "dark_oak_sign",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0265",
+   "target": "pink_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0339",
+   "target": "lime_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0313",
+   "target": "yellow_stained_glass_pane",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0266",
+   "target": "pink_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0357",
+   "target": "fermented_spider_eye",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TEST0280",
+   "target": "acacia_fence_gate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0362",
+   "target": "slime_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0281",
+   "target": "lime_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 10,
+   "oracle_steps": 19
+  },
+  {
+   "id": "TEST0363",
+   "target": "slime_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0299",
+   "target": "lantern",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  },
+  {
+   "id": "TEST0316",
+   "target": "golden_carrot",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  },
+  {
+   "id": "TEST0394",
+   "target": "acacia_slab",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TEST0337",
+   "target": "lime_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0412",
+   "target": "diamond_leggings",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0395",
+   "target": "acacia_slab",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 4
+  },
+  {
+   "id": "TEST0375",
+   "target": "end_stone_brick_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0430",
+   "target": "blue_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0388",
+   "target": "polished_blackstone_brick_wall",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 27
+  },
+  {
+   "id": "TEST0431",
+   "target": "blue_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0397",
+   "target": "activator_rail",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0444",
+   "target": "coal_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0413",
+   "target": "diamond_leggings",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0445",
+   "target": "coal_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0429",
+   "target": "blue_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0547",
+   "target": "crimson_slab",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 4
+  },
+  {
+   "id": "TEST0458",
+   "target": "grindstone",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0446",
+   "target": "coal_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0459",
+   "target": "grindstone",
+   "complexity_split": "hard",
+   "optimal_path_length": 6,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0454",
+   "target": "iron_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0460",
+   "target": "grindstone",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0455",
+   "target": "iron_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0469",
+   "target": "gray_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0456",
+   "target": "iron_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0515",
+   "target": "acacia_trapdoor",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0457",
+   "target": "iron_block",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0520",
+   "target": "crimson_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0553",
+   "target": "jungle_fence_gate",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0468",
+   "target": "gray_terracotta",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0521",
+   "target": "crimson_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0523",
+   "target": "gray_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0508",
+   "target": "leather_chestplate",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0552",
+   "target": "jungle_fence_gate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0509",
+   "target": "leather_chestplate",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0556",
+   "target": "orange_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0522",
+   "target": "gray_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0586",
+   "target": "purple_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0546",
+   "target": "crimson_slab",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TEST0594",
+   "target": "acacia_fence",
+   "complexity_split": "easy",
+   "optimal_path_length": 1,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0588",
+   "target": "purple_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 10,
+   "oracle_steps": 21
+  },
+  {
+   "id": "TEST0587",
+   "target": "purple_stained_glass",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0595",
+   "target": "acacia_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0597",
+   "target": "yellow_stained_glass",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0598",
+   "target": "yellow_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  }
+ ],
+ "test_unseen": [
+  {
+   "id": "TEST0001",
+   "target": "cake",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 14
+  },
+  {
+   "id": "TEST0002",
+   "target": "light_gray_glazed_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 11,
+   "oracle_steps": 21
+  },
+  {
+   "id": "TEST0034",
+   "target": "conduit",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0005",
+   "target": "orange_glazed_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0006",
+   "target": "end_crystal",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0011",
+   "target": "cartography_table",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0110",
+   "target": "birch_sign",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0013",
+   "target": "comparator",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0014",
+   "target": "comparator",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 24
+  },
+  {
+   "id": "TEST0026",
+   "target": "diorite",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0111",
+   "target": "birch_sign",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0028",
+   "target": "diorite",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0037",
+   "target": "cyan_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0038",
+   "target": "cyan_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0039",
+   "target": "magenta_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0171",
+   "target": "map",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0043",
+   "target": "polished_diorite_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0051",
+   "target": "furnace_minecart",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 23
+  },
+  {
+   "id": "TEST0063",
+   "target": "orange_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0208",
+   "target": "skull_banner_pattern",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0064",
+   "target": "orange_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0076",
+   "target": "cyan_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0097",
+   "target": "iron_trapdoor",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0226",
+   "target": "acacia_sign",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0105",
+   "target": "blue_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0122",
+   "target": "polished_diorite_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 23
+  },
+  {
+   "id": "TEST0132",
+   "target": "orange_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 19
+  },
+  {
+   "id": "TEST0140",
+   "target": "glistering_melon_slice",
+   "complexity_split": "hard",
+   "optimal_path_length": 9,
+   "oracle_steps": 18
+  },
+  {
+   "id": "TEST0234",
+   "target": "green_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0142",
+   "target": "cut_red_sandstone_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0144",
+   "target": "target",
+   "complexity_split": "hard",
+   "optimal_path_length": 6,
+   "oracle_steps": 20
+  },
+  {
+   "id": "TEST0147",
+   "target": "andesite_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0260",
+   "target": "smooth_sandstone",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 6
+  },
+  {
+   "id": "TEST0148",
+   "target": "andesite_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0166",
+   "target": "lime_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0172",
+   "target": "map",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 22
+  },
+  {
+   "id": "TEST0268",
+   "target": "flower_banner_pattern",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0180",
+   "target": "pink_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0181",
+   "target": "pink_bed",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0186",
+   "target": "black_stained_glass",
+   "complexity_split": "hard",
+   "optimal_path_length": 10,
+   "oracle_steps": 20
+  },
+  {
+   "id": "TEST0191",
+   "target": "birch_fence_gate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0274",
+   "target": "brown_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0193",
+   "target": "light_gray_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 26
+  },
+  {
+   "id": "TEST0194",
+   "target": "light_gray_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 6,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TEST0205",
+   "target": "gray_dye",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0275",
+   "target": "brown_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0227",
+   "target": "acacia_sign",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0233",
+   "target": "green_banner",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 26
+  },
+  {
+   "id": "TEST0240",
+   "target": "orange_dye",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0276",
+   "target": "iron_hoe",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0252",
+   "target": "quartz_bricks",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 25
+  },
+  {
+   "id": "TEST0278",
+   "target": "iron_bars",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0286",
+   "target": "smooth_sandstone_slab",
+   "complexity_split": "hard",
+   "optimal_path_length": 7,
+   "oracle_steps": 22
+  },
+  {
+   "id": "TEST0295",
+   "target": "spruce_trapdoor",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0312",
+   "target": "wooden_hoe",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0301",
+   "target": "observer",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0302",
+   "target": "observer",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0321",
+   "target": "white_glazed_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0391",
+   "target": "sea_lantern",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0352",
+   "target": "stone_brick_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0353",
+   "target": "stone_brick_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0372",
+   "target": "minecart",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0377",
+   "target": "pink_carpet",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0393",
+   "target": "melon",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0387",
+   "target": "fletching_table",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0400",
+   "target": "yellow_concrete_powder",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0423",
+   "target": "golden_leggings",
+   "complexity_split": "hard",
+   "optimal_path_length": 8,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0398",
+   "target": "yellow_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0426",
+   "target": "nether_brick_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0427",
+   "target": "nether_brick_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0441",
+   "target": "purpur_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0399",
+   "target": "yellow_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0442",
+   "target": "purpur_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 13
+  },
+  {
+   "id": "TEST0451",
+   "target": "blast_furnace",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 22
+  },
+  {
+   "id": "TEST0452",
+   "target": "blast_furnace",
+   "complexity_split": "hard",
+   "optimal_path_length": 5,
+   "oracle_steps": 22
+  },
+  {
+   "id": "TEST0465",
+   "target": "warped_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0422",
+   "target": "golden_leggings",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0466",
+   "target": "warped_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0504",
+   "target": "quartz_stairs",
+   "complexity_split": "hard",
+   "optimal_path_length": 6,
+   "oracle_steps": 16
+  },
+  {
+   "id": "TEST0512",
+   "target": "pink_glazed_terracotta",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0436",
+   "target": "purple_banner",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0519",
+   "target": "warped_fence_gate",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0526",
+   "target": "jukebox",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0531",
+   "target": "jungle_trapdoor",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 11
+  },
+  {
+   "id": "TEST0447",
+   "target": "green_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0549",
+   "target": "lectern",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0550",
+   "target": "lectern",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0562",
+   "target": "orange_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 12
+  },
+  {
+   "id": "TEST0563",
+   "target": "orange_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 3,
+   "oracle_steps": 15
+  },
+  {
+   "id": "TEST0448",
+   "target": "green_concrete_powder",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0564",
+   "target": "orange_stained_glass_pane",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 17
+  },
+  {
+   "id": "TEST0567",
+   "target": "wooden_pickaxe",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0572",
+   "target": "stonecutter",
+   "complexity_split": "hard",
+   "optimal_path_length": 4,
+   "oracle_steps": 8
+  },
+  {
+   "id": "TEST0472",
+   "target": "creeper_banner_pattern",
+   "complexity_split": "medium",
+   "optimal_path_length": 2,
+   "oracle_steps": 7
+  },
+  {
+   "id": "TEST0575",
+   "target": "dark_oak_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0576",
+   "target": "dark_oak_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0577",
+   "target": "dark_oak_fence",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 9
+  },
+  {
+   "id": "TEST0474",
+   "target": "light_blue_stained_glass_pane",
+   "complexity_split": "medium",
+   "optimal_path_length": 1,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0591",
+   "target": "dropper",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 10
+  },
+  {
+   "id": "TEST0592",
+   "target": "dropper",
+   "complexity_split": "hard",
+   "optimal_path_length": 2,
+   "oracle_steps": 10
+  }
+ ]
+}

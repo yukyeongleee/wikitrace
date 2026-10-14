@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+data/
+!src/wikitrace/envs/*/data/
+!src/wikitrace/envs/*/data/**
+src/wikitrace/envs/*/data/**/__pycache__/
+outputs/
+.runtime/
+tools/pi-mono/
+.claude/
+.omc/
+.vscode/

@@ -1,0 +1,14 @@
+<instructions>
+{{ prompt_data.instruction_joined }}
+</instructions>
+
+<policy>
+{{ prompt_data.policy }}
+</policy>
+
+<available_tools>
+Every action goes through the `take_action` tool, which takes `action` and `argument`. `action` is the name of one tool below, and `argument` is that tool's parameters as one JSON object.
+{{ prompt_data.signatures|join("\n") }}
+</available_tools>
+
+{% include "envs/tau3/prompts/solver/_runtime_notes.j2" %}

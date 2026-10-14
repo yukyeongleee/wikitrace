@@ -1,0 +1,19 @@
+{% if env_tool|default("act") == "take_action" %}Runtime notes:
+- Play through the `take_action` tool. One call takes an `action` (move, smelt, search or
+  impossible) and its `argument`, the text after the colon in the formats above, and
+  returns what the game says back, the same as the `> command` and observation pairs in
+  the example. Send one action per turn and read its observation before you send the next.
+- The sandbox is offline and has no pip. You cannot install or download anything.
+- The game ends the episode when the task is done or the budget runs out. You can also
+  end it yourself with the `impossible` action, when you are certain the task cannot be
+  done. After that, `take_action` only answers `Episode over`.
+{% else %}Runtime notes:
+- Play through the `act` tool. One call sends one command in the game's grammar and
+  returns what the game says back, the same as the `> command` and observation pairs
+  in the examples. Send one command per turn and read its observation before you send
+  the next.
+- The sandbox is offline and has no pip. You cannot install or download anything.
+- The game ends the episode when the task is done or the budget runs out. You can also
+  end it yourself by sending `done` through `act`, when you have finished or cannot
+  finish. After that, `act` only answers `Episode over`.
+{% endif -%}

@@ -1,0 +1,51 @@
+diff --git a/packages/ai/src/providers/openai-completions.ts b/packages/ai/src/providers/openai-completions.ts
+index ef4968d..e9c1773 100644
+--- a/packages/ai/src/providers/openai-completions.ts
++++ b/packages/ai/src/providers/openai-completions.ts
+@@ -433,6 +433,14 @@ function buildParams(model: Model<"openai-completions">, context: Context, optio
+ 		(params as any).provider = model.compat.openRouterRouting;
+ 	}
+ 
++	// OpenRouter: report the ACTUAL cost of each generation. Without this the
++	// response carries token counts only, and cost can be no better than a local
++	// price-table estimate (see parseChunkUsage). `stream_options.include_usage`
++	// above is OpenAI's token flag and does NOT imply this one.
++	if (model.baseUrl.includes("openrouter.ai")) {
++		(params as any).usage = { include: true };
++	}
++
+ 	// Vercel AI Gateway provider routing preferences
+ 	if (model.baseUrl.includes("ai-gateway.vercel.sh") && model.compat?.vercelGatewayRouting) {
+ 		const routing = model.compat.vercelGatewayRouting;
+@@ -736,6 +744,9 @@ function parseChunkUsage(
+ 		completion_tokens?: number;
+ 		prompt_tokens_details?: { cached_tokens?: number; cache_write_tokens?: number };
+ 		completion_tokens_details?: { reasoning_tokens?: number };
++		// OpenRouter only, and only when the request asked for it: the ACTUAL cost
++		// charged for this generation, in credits.
++		cost?: number;
+ 	},
+ 	model: Model<"openai-completions">,
+ ): AssistantMessage["usage"] {
+@@ -765,6 +776,21 @@ function parseChunkUsage(
+ 		cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+ 	};
+ 	calculateCost(model, usage);
++	// calculateCost multiplies tokens by a price table bundled at build time, which
++	// is an ESTIMATE that drifts whenever the provider changes prices. OpenRouter
++	// reports what it actually charged when the request asked for it (see
++	// `usage: { include: true }` in buildParams); prefer that. The per-bucket split
++	// stays estimated — only the total is authoritative — so the split is rescaled
++	// to it rather than left contradicting the total.
++	if (typeof rawUsage.cost === "number" && rawUsage.cost >= 0) {
++		const estimated = usage.cost.total;
++		const scale = estimated > 0 ? rawUsage.cost / estimated : 0;
++		usage.cost.input *= scale;
++		usage.cost.output *= scale;
++		usage.cost.cacheRead *= scale;
++		usage.cost.cacheWrite *= scale;
++		usage.cost.total = rawUsage.cost;
++	}
+ 	return usage;
+ }
+ 

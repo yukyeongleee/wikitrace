@@ -1,0 +1,21 @@
+{%- set _kb -%}{% if memory|default(false) %}{% include "memory/prompts/memory_block.j2" %}{% endif %}{%- endset -%}
+{%- set _kb = _kb|trim -%}
+<instructions>
+{{ prompt_data.instruction_joined }}
+</instructions>
+
+<policy>
+{{ prompt_data.policy }}
+</policy>
+
+<available_tools>
+Every action goes through the `take_action` tool, which takes `action` and `argument`. `action` is the name of one tool below, and `argument` is that tool's parameters as one JSON object.
+
+{{ prompt_data.tool_blocks|join("\n\n") }}
+</available_tools>
+{%- if _kb %}
+
+{{ _kb }}
+{%- endif %}
+
+{% include "envs/tau3/prompts/solver/_runtime_notes.j2" %}

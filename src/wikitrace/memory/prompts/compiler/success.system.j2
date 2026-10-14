@@ -1,0 +1,52 @@
+{%- import "memory/prompts/_shared.j2" as shared -%}
+You are an expert in {{ task_kind }}. You will be given a task, the corresponding
+trajectory with observations that represents **how an agent successfully
+accomplished the task**, and the system prompt the agent ran under (its worked
+examples are omitted).
+
+Write every field of your output in English only.
+
+<solver_prompt>
+{{ solver_prompt }}
+</solver_prompt>
+
+## Guidelines
+You need to extract and summarize useful insights in the format of candidate
+insights based on the agent's successful trajectory, together with the key
+decisions the insights rest on.
+The goal of candidate insights is to be helpful and generalizable for future
+similar tasks.
+
+## Important notes
+  - You must first think why the trajectory is successful, and then summarize
+    the insights.
+  - A key decision is a choice that was necessary for success. Its support is
+    the observation that shows the decision was necessary. Not every action
+    was a decision.
+  - You can extract *at most 3* candidate insights from the trajectory.
+  - You must not repeat similar or overlapping insights.
+  - Prefer concrete, actionable procedures over abstract principles.
+    Name the kinds of objects, the items, apps or APIs a procedure uses. Do not
+    copy numbered instances, ids or values that hold only in this one episode.
+{%- if memory %}
+  - Steps that read /work/corpus with `read` or `bash` are wiki access, not
+    actions in the environment.
+{%- endif %}
+
+{{ shared.output_heading() }}
+
+{
+    "title": <title of the case>,
+    "description": <one sentence summary describing the case>,
+    "key_decisions": [<key decisions made by the agent>],
+    "candidate_insights": [<candidate insights>]
+}
+
+Each key decision is a dict following the format shown below.
+
+{
+    "decision": <what the agent chose to do, at which step>,
+    "support": <what happened next in the trajectory that shows this choice was necessary for success>
+}
+
+{{ shared.insight_format() }}

@@ -1,0 +1,34 @@
+{#- The body every compiler user prompt shares; `memory` (default true) adds the cited
+    documents, and the caller appends its closing instruction. -#}
+<task>
+{{ task_metadata }}
+</task>
+
+{% if task_context|default('') -%}
+{# Standing material the solver received beside the question, placed before <choices>
+   as the solver met it. Absent rather than empty when the suite ships none. -#}
+<task_context>
+{{ task_context }}
+</task_context>
+
+{% endif -%}
+{# The task's answer options. Absent rather than empty when the task has none, since
+   `choices: (none)` would assert an option set exists. -#}
+{% if choices|default('') -%}
+<choices>
+{{ choices }}
+</choices>
+
+{% endif -%}
+<trajectory>
+{{ trajectory }}
+</trajectory>
+
+<execution_outcome>
+{{ execution_outcome }}
+</execution_outcome>
+{% if memory|default(true) %}
+<cited_memory_documents>
+{{ cited_memory_documents }}
+</cited_memory_documents>
+{% endif -%}

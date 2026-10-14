@@ -1,0 +1,70 @@
+{#- WikiTrace's memory block per benchmark; render_descend wraps a line a slot makes longer
+    than 92 columns. #}
+{%- set s = {
+    'alfworld': {'index_grouping': ', grouped by task type', 'first_action': '`act`',
+                 'fact_example': 'a command format', 'keyword_hint': 'the object or the receptacle',
+                 'keyword_example': 'mug'},
+    'scienceworld': {'index_grouping': ', grouped by task type', 'first_action': '`act`',
+                     'fact_example': 'a wiring order', 'keyword_hint': 'the substance or the device',
+                     'keyword_example': 'conductivity'},
+    'plancraft': {'index_grouping': '', 'first_action': '`take_action`',
+                  'fact_example': 'a recipe layout', 'keyword_hint': 'the target item or an ingredient',
+                  'keyword_example': 'slab'},
+    'tau3': {'index_grouping': '', 'first_action': 'message to the user or `take_action`',
+             'fact_example': 'a policy condition', 'keyword_hint': 'the request type or the payment method',
+             'keyword_example': 'exchange'},
+    'appworld': {'index_grouping': ", grouped by the apps each insight's run used", 'first_action': '`exec`',
+                 'fact_example': 'which API returns a value you need',
+                 'keyword_hint': 'the app or the API name',
+                 'keyword_example': 'spotify'},
+}[benchmark] %}
+You also have insights from past train runs, inlined at the start of the task message, and
+a wiki at /work/corpus, read-only, that holds the runs they came from. They are not the
+answer to this task. The task message lists the past runs most similar to this task.
+
+The wiki has three layers.
+- /work/corpus/raw/step-NNNN/ is one past run as it happened.
+    metadata.md        its task and outcome
+    solver.full.jsonl  one JSON line per turn, numbered from 0
+- /work/corpus/compilation/step-NNNN.md is a model's account of that run. The model saw
+  only whether the run succeeded or failed. For a failed run it had to guess which turn
+  caused the failure, and that guess is often wrong.
+- The insights in the task message were drawn from the compilations. One from a failed run
+  inherits that guess.
+Only the raw turns are certain. Each layer has an _index.md.
+
+{% if benchmark == 'tau3' -%}
+Reading the wiki is not a store action or a message to the user, and it does not count
+toward the step budget or the ten failed `take_action` calls. Go down to an insight's source
+run and compilation when it tells you what to do but not exactly how, when it came from a
+failed run, or when two insights disagree. Check this before your first reply to the user
+for the insights you will rely on, and again whenever a tool call fails. Look for the one
+fact that settles it, such as a policy condition, in the run. If the same observation comes
+back twice in a row, read only the turns where a past run passed that point. Find runs
+through an insight's source run, the lower layers' indexes, or a search by the request type
+or the payment method. Use the `bash` tool freely:
+  grep -rl "exchange" /work/corpus/compilation /work/corpus/raw | head -n 20
+{%- elif benchmark == 'appworld' -%}
+Reading the wiki with `read` or `bash` does not count toward the exec budget. Go down to an
+insight's source run and compilation when it tells you what to do but not exactly how, when
+it came from a failed run, or when two insights disagree. Check this before your first
+`exec` for the insights you will rely on, and again whenever an API call fails or returns
+what you did not expect. Look for the one fact that settles it, such as which API returns a
+value you need, in the run. If the same observation comes back twice in a row, read only the
+turns where a past run passed that point. Find runs through an insight's source run, the
+lower layers' indexes, or a search by the app or the API name. Use the `bash` tool freely:
+  grep -rl "search_contacts" /work/corpus/raw | head -n 20
+{%- else -%}
+Reading the wiki with `read` or `bash` costs no game steps. Go down to an insight's source run and compilation when it tells you what to do but not exactly how, when it came from a failed run, or when two insights disagree. Check this before your first {{ s.first_action }} for the insights you will rely on, and again whenever an action fails. Look for the one fact that settles it, such as {{ s.fact_example }}, in the run. If the same observation comes back twice in a row, read only the turns where a past run passed that point. Find runs through an insight's source run, the lower layers' indexes, or a search by {{ s.keyword_hint }}. Use the `bash` tool freely:
+  grep -rl "{{ s.keyword_example }}" /work/corpus/compilation /work/corpus/raw | head -n 20
+{%- endif %}
+  for s in 0002 0017; do cat /work/corpus/compilation/step-$s.md; done
+  /work/tools/actions step-0017      # every turn's action, one line each
+  /work/tools/turn step-0017 7 9     # turns 7 to 9 in full: reasoning, action, observation
+
+Memory rules
+- Never replay a past run. It started from a different state than this task, even when
+  its task reads the same, and steps that worked there fail here.
+- Take from a run only a fact you can check against this task, such as {{ s.fact_example }}.
+  Name what differs before you use it.
+- From a failed run, take only the action to avoid, never the plan.

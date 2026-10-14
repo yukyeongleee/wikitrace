@@ -1,0 +1,8 @@
+{#- The solver's memory block: WikiTrace's descend block, or K-INJ's pointer to the inlined insights. #}
+{%- if descend_block|default('') %}
+{{ descend_block }}
+{%- else %}
+You also have insights from past train runs, inlined at the start of the task message.
+They are not the answer to this task. The task message lists the past train runs most
+similar to this task and the insights drawn from each.
+{%- endif %}

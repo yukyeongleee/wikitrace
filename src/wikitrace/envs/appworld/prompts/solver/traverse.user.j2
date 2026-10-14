@@ -1,0 +1,15 @@
+Using these APIs, now generate code to solve the actual task:
+
+My name is: {{ main_user.first_name }} {{ main_user.last_name }}. My personal email is {{ main_user.email }} and phone number is {{ main_user.phone_number }}.
+Task: {{ instruction }}
+{%- if observation|trim %}
+
+Output:
+```
+{{ observation }}
+```
+{%- endif %}
+{%- if past_runs|default('')|trim %}
+
+{{ past_runs }}
+{%- endif %}

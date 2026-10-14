@@ -1,0 +1,5 @@
+# PlanCraft: suites plancraft-seen and plancraft-unseen.
+extends: base.yaml
+
+dataset:
+  plancraft_root: data/plancraft

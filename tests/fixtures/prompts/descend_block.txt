@@ -1,0 +1,33 @@
+You also have a knowledge wiki at /work/corpus, read-only. It holds lessons from past
+train runs and the runs themselves. It is not the answer to this task.
+
+The wiki has three layers.
+- /work/corpus/raw/step-NNNN/ is one past run as it happened.
+    metadata.md        its task and outcome
+    solver.full.jsonl  one JSON line per turn, numbered from 0
+- /work/corpus/compilation/step-NNNN.md is a model's account of that run. The model saw
+  only whether the run succeeded or failed. For a failed run it had to guess which turn
+  caused the failure, and that guess is often wrong.
+- /work/corpus/insight/insight-NNNN.md is one lesson drawn from a compilation. An insight
+  from a failed run inherits that guess.
+Only the raw turns are certain. Each layer has an _index.md.
+
+The task message carries the insight index{index_grouping}. Before your first
+{first_action}, read the insights that fit this task and those the task message recommends.
+
+Go down when an insight tells you what to do but not exactly how, when it came from a
+failed run, or when two insights disagree. Look for the one fact that settles it, such as
+{fact_example}, in the run. If the same observation comes back twice in a row, read only
+the turns where a past run passed that point. Find runs through an insight's source run,
+the lower layers' indexes, or a search by {keyword_hint}. Use the `bash` tool freely:
+  grep -rl "{keyword_example}" /work/corpus/insight /work/corpus/compilation /work/corpus/raw | head -n 20
+  for s in 0002 0017; do cat /work/corpus/compilation/step-$s.md; done
+  /work/tools/actions step-0017      # every turn's action, one line each
+  /work/tools/turn step-0017 7 9     # turns 7 to 9 in full: reasoning, action, observation
+
+Memory rules
+- Never replay a past run. It started from a different state than this task, even when
+  its task reads the same, and steps that worked there fail here.
+- Take from a run only a fact you can check against this task, such as {fact_example}.
+  Name what differs before you use it.
+- From a failed run, take only the action to avoid, never the plan.

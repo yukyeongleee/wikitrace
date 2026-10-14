@@ -1,0 +1,81 @@
+diff --git a/packages/coding-agent/src/core/tools/bash.ts b/packages/coding-agent/src/core/tools/bash.ts
+index 675bf87..f4a9138 100644
+--- a/packages/coding-agent/src/core/tools/bash.ts
++++ b/packages/coding-agent/src/core/tools/bash.ts
+@@ -29,6 +29,43 @@ const bashSchema = Type.Object({
+ 	timeout: Type.Optional(Type.Number({ description: "Timeout in seconds (optional, no default timeout)" })),
+ });
+ 
++/**
++ * agent-wiki patch 0004 — a harness-imposed CEILING on the bash tool's timeout.
++ *
++ * `timeout` is model-supplied and optional, and the models this harness drives never
++ * pass it, so a runaway command runs until something outside Pi kills it. In the
++ * agent-wiki traverse harness that something was a per-command guard that killed the
++ * whole SESSION: measured over one campaign, 176 of 10,353 terminal sessions died
++ * mid-computation and were scored on whatever a no-tool repair call could salvage —
++ * accuracy 0.231 against 0.759 for sessions that finished, i.e. about chance.
++ *
++ * Raising that guard does not help (the commands are unbounded loops, not slow ones).
++ * What is needed is for the COMMAND to die and the SESSION to live, which the tool's
++ * own `timeout` already does: it kills the process tree and rejects, and the agent
++ * loop turns a tool rejection into an ordinary tool result the model reads. This
++ * supplies the missing default so that path is taken.
++ *
++ * Read from the env, not a tool option, so the harness sets it per session (the
++ * container already receives env) without a rebuild or a CLI flag.
++ *
++ * It is a CEILING, not just a default: a model that asks for less is honoured, one
++ * that asks for more (or omits it) gets the limit. Otherwise `timeout: 3600` escapes.
++ */
++const HARNESS_KILL_MARKER = "[harness]";
++
++function resolveHarnessTimeout(requested: number | undefined): { timeout?: number; enforced: boolean } {
++	const raw = Number(process.env.PI_BASH_MAX_TIMEOUT_SEC);
++	const limit = Number.isFinite(raw) && raw > 0 ? raw : undefined;
++	if (limit === undefined) {
++		// Unset: stock behaviour, so every non-harness caller of this tool is unchanged.
++		return { timeout: requested, enforced: false };
++	}
++	if (requested === undefined || !(requested > 0) || requested > limit) {
++		return { timeout: limit, enforced: true };
++	}
++	return { timeout: requested, enforced: false };
++}
++
+ export type BashToolInput = Static<typeof bashSchema>;
+ 
+ export interface BashToolDetails {
+@@ -274,11 +311,14 @@ export function createBashToolDefinition(
+ 		parameters: bashSchema,
+ 		async execute(
+ 			_toolCallId,
+-			{ command, timeout }: { command: string; timeout?: number },
++			{ command, timeout: requestedTimeout }: { command: string; timeout?: number },
+ 			signal?: AbortSignal,
+ 			onUpdate?,
+ 			_ctx?,
+ 		) {
++			// patch 0004: apply the harness ceiling before anything else, so the value
++			// that reaches `ops.exec` is the one that will actually be enforced.
++			const { timeout, enforced } = resolveHarnessTimeout(requestedTimeout);
+ 			const resolvedCommand = commandPrefix ? `${commandPrefix}\n${command}` : command;
+ 			const spawnContext = resolveSpawnContext(resolvedCommand, cwd, spawnHook);
+ 			if (onUpdate) {
+@@ -376,7 +416,15 @@ export function createBashToolDefinition(
+ 						} else if (err.message.startsWith("timeout:")) {
+ 							const timeoutSecs = err.message.split(":")[1];
+ 							if (output) output += "\n\n";
+-							output += `Command timed out after ${timeoutSecs} seconds`;
++							// patch 0004: when the limit was the harness's rather than the
++							// model's, say so. Attribution only — no advice, and no "it will
++							// be killed again": over 65 kills in suite07 not one agent retried
++							// the same command (median similarity 0.28, none >= 0.95) and none
++							// exhausted its budget, so both clauses only spent tokens.
++							output += enforced
++								? `${HARNESS_KILL_MARKER} Command force-killed after ${timeoutSecs}s — a hard ` +
++									`per-command limit, not a sandbox error.`
++								: `Command timed out after ${timeoutSecs} seconds`;
+ 							reject(new Error(output));
+ 						} else {
+ 							reject(err);

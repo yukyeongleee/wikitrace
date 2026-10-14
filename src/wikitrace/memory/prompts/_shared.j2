@@ -1,0 +1,14 @@
+{#- Macros shared by the two compiler prompts: the output heading and the insight format. -#}
+{% macro output_heading() -%}
+## Output Format
+Your output must strictly follow the JSON format shown below. English only.
+{%- endmacro %}
+{% macro insight_format() -%}
+Each candidate insight is a dict following the format shown below.
+
+{
+    "title": <the insight in a few words>,
+    "guideline": <what to do in one or two sentences>,
+    "applicability": <when this applies, and when it does not>
+}
+{%- endmacro %}

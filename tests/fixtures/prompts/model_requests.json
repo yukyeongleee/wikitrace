@@ -1,0 +1,152 @@
+[
+  {
+    "model": "fake/model",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Fixed system.\n"
+      },
+      {
+        "role": "user",
+        "content": "Fixed question.\n"
+      }
+    ],
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "SelectorOutput",
+        "strict": false,
+        "schema": {
+          "additionalProperties": false,
+          "description": "MAC-SQL selector format: a per-table keep_all / drop_all / [columns] map.\n\nCitation is our extension (not MAC-SQL): agent-wiki cites distilled knowledge docs in\n`document_ids`; raw-only cites raw train steps in `step_ids`. A given run populates\nexactly one (the prompt asks for one), the other stays empty.",
+          "properties": {
+            "schema_selection": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "keep_all",
+                      "drop_all"
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              },
+              "title": "Schema Selection",
+              "type": "object"
+            },
+            "decision_summary": {
+              "default": "",
+              "title": "Decision Summary",
+              "type": "string"
+            },
+            "document_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Document Ids",
+              "type": "array"
+            },
+            "step_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Step Ids",
+              "type": "array"
+            }
+          },
+          "title": "SelectorOutput",
+          "type": "object"
+        }
+      }
+    },
+    "reasoning_effort": "high"
+  },
+  {
+    "model": "fake/model",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Fixed system.\n"
+      },
+      {
+        "role": "user",
+        "content": "Fixed question.\n"
+      },
+      {
+        "role": "assistant",
+        "content": "not json"
+      },
+      {
+        "role": "user",
+        "content": "Your previous response did not match the required JSON schema (SelectorOutput). Error: JSONDecodeError: Expecting value: line 1 column 1 (char 0). Return ONLY a single valid JSON object, no markdown."
+      }
+    ],
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "SelectorOutput",
+        "strict": false,
+        "schema": {
+          "additionalProperties": false,
+          "description": "MAC-SQL selector format: a per-table keep_all / drop_all / [columns] map.\n\nCitation is our extension (not MAC-SQL): agent-wiki cites distilled knowledge docs in\n`document_ids`; raw-only cites raw train steps in `step_ids`. A given run populates\nexactly one (the prompt asks for one), the other stays empty.",
+          "properties": {
+            "schema_selection": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "keep_all",
+                      "drop_all"
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                ]
+              },
+              "title": "Schema Selection",
+              "type": "object"
+            },
+            "decision_summary": {
+              "default": "",
+              "title": "Decision Summary",
+              "type": "string"
+            },
+            "document_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Document Ids",
+              "type": "array"
+            },
+            "step_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Step Ids",
+              "type": "array"
+            }
+          },
+          "title": "SelectorOutput",
+          "type": "object"
+        }
+      }
+    },
+    "reasoning_effort": "high"
+  }
+]

@@ -1,0 +1,5 @@
+# ALFWorld: suites valid-seen and valid-unseen.
+extends: base.yaml
+
+dataset:
+  alfworld_root: data/alfworld

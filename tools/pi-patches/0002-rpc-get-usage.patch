@@ -1,0 +1,72 @@
+diff --git a/packages/coding-agent/src/modes/rpc/rpc-mode.ts b/packages/coding-agent/src/modes/rpc/rpc-mode.ts
+index be562e6..abd561c 100644
+--- a/packages/coding-agent/src/modes/rpc/rpc-mode.ts
++++ b/packages/coding-agent/src/modes/rpc/rpc-mode.ts
+@@ -516,6 +516,24 @@ export async function runRpcMode(runtimeHost: AgentSessionRuntime): Promise<neve
+ 				return success(id, "get_session_stats", stats);
+ 			}
+ 
++			// Per provider round-trip accounting WITHOUT the message bodies.
++			// `get_session_stats` collapses a session to one total, and
++			// `get_messages` returns every message in full — including tool
++			// results, which for an agent reading mounted data files can be
++			// megabytes. A caller that only needs to bill the session should not
++			// have to pull the transcript through the pipe to do it.
++			case "get_usage": {
++				const calls = session.messages
++					.filter((m): m is Extract<typeof m, { role: "assistant" }> => m.role === "assistant")
++					.map((m) => ({
++						usage: m.usage,
++						model: m.model,
++						responseId: m.responseId,
++						stopReason: m.stopReason,
++					}));
++				return success(id, "get_usage", { calls });
++			}
++
+ 			case "export_html": {
+ 				const path = await session.exportToHtml(command.outputPath);
+ 				return success(id, "export_html", { path });
+diff --git a/packages/coding-agent/src/modes/rpc/rpc-types.ts b/packages/coding-agent/src/modes/rpc/rpc-types.ts
+index 5612f37..56faf5c 100644
+--- a/packages/coding-agent/src/modes/rpc/rpc-types.ts
++++ b/packages/coding-agent/src/modes/rpc/rpc-types.ts
+@@ -6,7 +6,7 @@
+  */
+ 
+ import type { AgentMessage, ThinkingLevel } from "@mariozechner/pi-agent-core";
+-import type { ImageContent, Model } from "@mariozechner/pi-ai";
++import type { AssistantMessage, ImageContent, Model } from "@mariozechner/pi-ai";
+ import type { SessionStats } from "../../core/agent-session.js";
+ import type { BashResult } from "../../core/bash-executor.js";
+ import type { CompactionResult } from "../../core/compaction/index.js";
+@@ -54,6 +54,7 @@ export type RpcCommand =
+ 
+ 	// Session
+ 	| { id?: string; type: "get_session_stats" }
++	| { id?: string; type: "get_usage" }
+ 	| { id?: string; type: "export_html"; outputPath?: string }
+ 	| { id?: string; type: "switch_session"; sessionPath: string }
+ 	| { id?: string; type: "fork"; entryId: string }
+@@ -169,6 +170,21 @@ export type RpcResponse =
+ 
+ 	// Session
+ 	| { id?: string; type: "response"; command: "get_session_stats"; success: true; data: SessionStats }
++	| {
++			id?: string;
++			type: "response";
++			command: "get_usage";
++			success: true;
++			/** Per provider round-trip, WITHOUT the message bodies — see rpc-mode. */
++			data: {
++				calls: {
++					usage: AssistantMessage["usage"];
++					model: string;
++					responseId?: string;
++					stopReason: string;
++				}[];
++			};
++	  }
+ 	| { id?: string; type: "response"; command: "export_html"; success: true; data: { path: string } }
+ 	| { id?: string; type: "response"; command: "switch_session"; success: true; data: { cancelled: boolean } }
+ 	| { id?: string; type: "response"; command: "fork"; success: true; data: { text: string; cancelled: boolean } }

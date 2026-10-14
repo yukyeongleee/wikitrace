@@ -1,0 +1,5 @@
+# AppWorld: suites test-normal and test-challenge, scored by lenient TGC (see base.yaml).
+extends: base.yaml
+
+dataset:
+  appworld_root: data/appworld

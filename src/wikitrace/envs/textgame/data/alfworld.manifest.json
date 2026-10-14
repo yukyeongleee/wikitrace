@@ -1,0 +1,2074 @@
+{
+ "_meta": {
+  "generator": "scripts/experiments/setup/build_alfworld_manifest.py",
+  "seed": 0,
+  "train_split": "train",
+  "sizes": {
+   "train": 50,
+   "valid_seen": 101,
+   "valid_unseen": 134
+  },
+  "pool_sizes": {
+   "train": 3553,
+   "valid_seen": 140,
+   "valid_unseen": 134
+  },
+  "train_scenes": [
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   30,
+   213,
+   216,
+   224,
+   227,
+   230,
+   301,
+   303,
+   304,
+   311,
+   313,
+   314,
+   318,
+   320,
+   323,
+   324,
+   327,
+   328,
+   329,
+   330,
+   407,
+   410,
+   414,
+   418,
+   423
+  ],
+  "valid_seen_dropped": 39,
+  "valid_seen_scenes_covered": 49,
+  "valid_seen_scenes": 49,
+  "valid_seen_split_scenes": 76,
+  "order": "task types interleaved round-robin; tests in path order within a type"
+ },
+ "train": [
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Kettle-None-Shelf-1/trial_T20190907_011711_519188",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 1,
+   "task_text": "Your task is to: put a kettle in shelf."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Pillow-None-DeskLamp-303/trial_T20190907_034918_885162",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 303,
+   "task_text": "Your task is to: examine the pillow with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-ButterKnife-None-SideTable-21/trial_T20190907_162153_244284",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 21,
+   "task_text": "Your task is to: put a clean butterknife in sidetable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Apple-None-Fridge-30/trial_T20190908_114847_958679",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 30,
+   "task_text": "Your task is to: heat some apple and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Bowl-None-Shelf-5/trial_T20190907_170219_219243",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 5,
+   "task_text": "Your task is to: cool some bowl and put it in shelf."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-SprayBottle-None-GarbageCan-423/trial_T20190909_012941_820281",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 423,
+   "task_text": "Your task is to: put two spraybottle in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-PepperShaker-None-Shelf-20/trial_T20190907_162334_232853",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 20,
+   "task_text": "Your task is to: put a peppershaker in shelf."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Book-None-DeskLamp-304/trial_T20190908_083358_621419",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 304,
+   "task_text": "Your task is to: look at book under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-SoapBar-None-GarbageCan-407/trial_T20190907_222235_383777",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 407,
+   "task_text": "Your task is to: put a clean soapbar in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Egg-None-GarbageCan-12/trial_T20190908_181854_326947",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 12,
+   "task_text": "Your task is to: heat some egg and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Potato-None-GarbageCan-17/trial_T20190908_204111_799665",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 17,
+   "task_text": "Your task is to: put a cool potato in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-CreditCard-None-Desk-313/trial_T20190909_104526_715846",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 313,
+   "task_text": "Your task is to: put two creditcard in desk."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Book-None-SideTable-329/trial_T20190908_050528_227725",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 329,
+   "task_text": "Your task is to: put some book on sidetable."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Mug-None-DeskLamp-323/trial_T20190907_041032_086791",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 323,
+   "task_text": "Your task is to: look at mug under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-Kettle-None-StoveBurner-18/trial_T20190907_153921_393288",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 18,
+   "task_text": "Your task is to: clean some kettle and put it in stoveburner."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Egg-None-Fridge-14/trial_T20190909_091415_283977",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 14,
+   "task_text": "Your task is to: heat some egg and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Apple-None-DiningTable-15/trial_T20190906_192043_926936",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 15,
+   "task_text": "Your task is to: cool some apple and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-Vase-None-CoffeeTable-227/trial_T20190909_034051_446517",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 227,
+   "task_text": "Your task is to: put two vase in coffeetable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Bowl-None-Fridge-6/trial_T20190906_231022_136645",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 6,
+   "task_text": "Your task is to: put some bowl on fridge."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Pillow-None-DeskLamp-301/trial_T20190908_012827_451848",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 301,
+   "task_text": "Your task is to: look at pillow under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-Egg-None-DiningTable-23/trial_T20190908_083830_429005",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 23,
+   "task_text": "Your task is to: clean some egg and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Mug-None-Cabinet-19/trial_T20190907_152738_415962",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 19,
+   "task_text": "Your task is to: heat some mug and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Plate-None-Cabinet-22/trial_T20190908_084019_408981",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 22,
+   "task_text": "Your task is to: put a cool plate in cabinet."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-CellPhone-None-Sofa-224/trial_T20190918_223149_385351",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 224,
+   "task_text": "Your task is to: find two cellphone and put them in sofa."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Watch-None-CoffeeTable-213/trial_T20190909_010823_096862",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 213,
+   "task_text": "Your task is to: put a watch in coffeetable."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Bowl-None-DeskLamp-327/trial_T20190907_094410_444756",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 327,
+   "task_text": "Your task is to: look at bowl under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-Egg-None-DiningTable-11/trial_T20190908_021917_263280",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 11,
+   "task_text": "Your task is to: put a clean egg in diningtable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Mug-None-Shelf-7/trial_T20190907_022430_495851",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 7,
+   "task_text": "Your task is to: heat some mug and put it in shelf."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Lettuce-None-GarbageCan-27/trial_T20190908_135424_349613",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 27,
+   "task_text": "Your task is to: cool some lettuce and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-KeyChain-None-Dresser-318/trial_T20190910_175451_266121",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 318,
+   "task_text": "Your task is to: find two keychain and put them in dresser."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Pen-None-Shelf-330/trial_T20190908_145416_946403",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 330,
+   "task_text": "Your task is to: put some pen on shelf."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-CD-None-DeskLamp-324/trial_T20190907_230854_854662",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 324,
+   "task_text": "Your task is to: examine the cd with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-ButterKnife-None-CounterTop-25/trial_T20190907_211941_014478",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 25,
+   "task_text": "Your task is to: clean some butterknife and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Potato-None-CounterTop-8/trial_T20190906_180641_973990",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 8,
+   "task_text": "Your task is to: heat some potato and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Pot-None-StoveBurner-4/trial_T20190906_190623_623711",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 4,
+   "task_text": "Your task is to: put a cool pot in stoveburner."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-TissueBox-None-DiningTable-230/trial_T20190914_012602_275826",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 230,
+   "task_text": "Your task is to: put two tissuebox in diningtable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Candle-None-Cabinet-418/trial_T20190908_060717_673544",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 418,
+   "task_text": "Your task is to: put some candle on cabinet."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Laptop-None-DeskLamp-216/trial_T20190907_185541_681881",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 216,
+   "task_text": "Your task is to: examine the laptop with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-Ladle-None-Cabinet-16/trial_T20190910_022155_266935",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: put a clean ladle in cabinet."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Tomato-None-GarbageCan-2/trial_T20190908_111609_426536",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 2,
+   "task_text": "Your task is to: put a hot tomato in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-Cup-None-DiningTable-24/trial_T20190909_020329_637461",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 24,
+   "task_text": "Your task is to: cool some cup and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-ToiletPaper-None-Drawer-410/trial_T20190908_111502_284228",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 410,
+   "task_text": "Your task is to: find two toiletpaper and put them in drawer."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-HandTowel-None-Cabinet-414/trial_T20190908_121329_452295",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 414,
+   "task_text": "Your task is to: put some handtowel on cabinet."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-Pencil-None-DeskLamp-328/trial_T20190906_201152_550531",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 328,
+   "task_text": "Your task is to: look at pencil under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/train/pick_clean_then_place_in_recep-Lettuce-None-CounterTop-13/trial_T20190909_035118_268695",
+   "split": "train",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 13,
+   "task_text": "Your task is to: clean some lettuce and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/train/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-26/trial_T20190907_113552_080857",
+   "split": "train",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 26,
+   "task_text": "Your task is to: heat some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/train/pick_cool_then_place_in_recep-WineBottle-None-GarbageCan-16/trial_T20190907_015045_510934",
+   "split": "train",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: cool some winebottle and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/train/pick_two_obj_and_place-CreditCard-None-ArmChair-311/trial_T20190908_071711_986662",
+   "split": "train",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 311,
+   "task_text": "Your task is to: put two creditcard in armchair."
+  },
+  {
+   "game": "json_2.1.1/train/pick_and_place_simple-Book-None-Desk-314/trial_T20190908_111952_629798",
+   "split": "train",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 314,
+   "task_text": "Your task is to: put some book on desk."
+  },
+  {
+   "game": "json_2.1.1/train/look_at_obj_in_light-CellPhone-None-DeskLamp-320/trial_T20190908_093241_795263",
+   "split": "train",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 320,
+   "task_text": "Your task is to: look at cellphone under the desklamp."
+  }
+ ],
+ "valid_seen": [
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Book-None-SideTable-329/trial_T20190908_050633_745514",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 329,
+   "task_text": "Your task is to: put some book on sidetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044715_250790",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 323,
+   "task_text": "Your task is to: look at alarmclock under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-CounterTop-8/trial_T20190909_105559_983897",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 8,
+   "task_text": "Your task is to: put a clean butterknife in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Apple-None-DiningTable-26/trial_T20190907_060234_011675",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 26,
+   "task_text": "Your task is to: heat some apple and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Apple-None-CounterTop-14/trial_T20190909_044933_815840",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 14,
+   "task_text": "Your task is to: cool some apple and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Book-None-Desk-313/trial_T20190908_125930_920681",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 313,
+   "task_text": "Your task is to: put two book in desk."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Box-None-Dresser-224/trial_T20190907_164104_229696",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 224,
+   "task_text": "Your task is to: put some box on dresser."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-301/trial_T20190909_150719_492274",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 301,
+   "task_text": "Your task is to: examine the bowl with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-DiningTable-16/trial_T20190909_114508_617301",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: put a clean butterknife in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Cup-None-Cabinet-22/trial_T20190907_173251_960848",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 22,
+   "task_text": "Your task is to: put a hot cup in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Apple-None-GarbageCan-2/trial_T20190906_195943_081289",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 2,
+   "task_text": "Your task is to: put a cool apple in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Box-None-CoffeeTable-213/trial_T20190906_200927_069627",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 213,
+   "task_text": "Your task is to: put two box in coffeetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Candle-None-Toilet-407/trial_T20190909_055248_059513",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 407,
+   "task_text": "Your task is to: put a candle in toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-CD-None-DeskLamp-314/trial_T20190907_114323_767231",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 314,
+   "task_text": "Your task is to: look at cd under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-Drawer-2/trial_T20190908_121728_511866",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 2,
+   "task_text": "Your task is to: put a clean butterknife in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Egg-None-CounterTop-2/trial_T20190908_122951_021026",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 2,
+   "task_text": "Your task is to: heat some egg and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Apple-None-Microwave-19/trial_T20190906_210937_878489",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 19,
+   "task_text": "Your task is to: cool some apple and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-CD-None-Drawer-304/trial_T20190907_230232_832893",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 304,
+   "task_text": "Your task is to: put two cd in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-CellPhone-None-ArmChair-318/trial_T20190909_120047_968274",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 318,
+   "task_text": "Your task is to: put a cellphone in armchair."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 320,
+   "task_text": "Your task is to: look at cd under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-Drawer-30/trial_T20190908_052007_212776",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 30,
+   "task_text": "Your task is to: put a clean butterknife in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Egg-None-Fridge-14/trial_T20190909_091314_636733",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 14,
+   "task_text": "Your task is to: put a hot egg in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Apple-None-Microwave-5/trial_T20190908_150807_823817",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 5,
+   "task_text": "Your task is to: put a cool apple in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-CreditCard-None-Dresser-311/trial_T20190907_201917_045715",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 311,
+   "task_text": "Your task is to: put two creditcard in dresser."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-CellPhone-None-Bed-324/trial_T20190907_233817_198528",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 324,
+   "task_text": "Your task is to: put some cellphone on bed."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-KeyChain-None-DeskLamp-327/trial_T20190906_202601_548273",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 327,
+   "task_text": "Your task is to: examine the keychain with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-Drawer-8/trial_T20190909_124425_112757",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 8,
+   "task_text": "Your task is to: clean some butterknife and put it in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-26/trial_T20190909_062333_424779",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 26,
+   "task_text": "Your task is to: heat some mug and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Bowl-None-Cabinet-20/trial_T20190909_112912_154874",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 20,
+   "task_text": "Your task is to: put a cool bowl in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 323,
+   "task_text": "Your task is to: put two creditcard in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-CreditCard-None-Drawer-227/trial_T20190909_010644_297017",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 227,
+   "task_text": "Your task is to: put some creditcard on drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-Laptop-None-DeskLamp-328/trial_T20190908_201550_622420",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 328,
+   "task_text": "Your task is to: look at laptop under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Cloth-None-Drawer-423/trial_T20190908_140701_251653",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 423,
+   "task_text": "Your task is to: clean some cloth and put it in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-1/trial_T20190907_222640_487432",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 1,
+   "task_text": "Your task is to: put a hot mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Bread-None-CounterTop-7/trial_T20190909_045605_307949",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 7,
+   "task_text": "Your task is to: cool some bread and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Glassbottle-None-Shelf-1/trial_T20190907_122204_941737",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 1,
+   "task_text": "Your task is to: find two glassbottle and put them in shelf."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Egg-None-Microwave-4/trial_T20190906_234406_356490",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 4,
+   "task_text": "Your task is to: put some egg on microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-323/trial_T20190908_053153_077977",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 323,
+   "task_text": "Your task is to: examine the pillow with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Fork-None-CounterTop-23/trial_T20190908_233922_171295",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 23,
+   "task_text": "Your task is to: put a clean fork in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Mug-None-SideTable-21/trial_T20190909_090729_088825",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 21,
+   "task_text": "Your task is to: put a hot mug in sidetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Cup-None-Microwave-17/trial_T20190906_192817_654400",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 17,
+   "task_text": "Your task is to: put a cool cup in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Knife-None-Drawer-18/trial_T20190907_065232_689984",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 18,
+   "task_text": "Your task is to: find two knife and put them in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Mug-None-Dresser-311/trial_T20190909_152837_739016",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 311,
+   "task_text": "Your task is to: put some mug on dresser."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-Statue-None-DeskLamp-216/trial_T20190909_193045_208933",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 216,
+   "task_text": "Your task is to: examine the statue with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Fork-None-Drawer-8/trial_T20190908_132152_999725",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 8,
+   "task_text": "Your task is to: clean some fork and put it in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Plate-None-Cabinet-1/trial_T20190908_070946_578973",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 1,
+   "task_text": "Your task is to: put a hot plate in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Cup-None-SideTable-21/trial_T20190906_192823_237997",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 21,
+   "task_text": "Your task is to: put a cool cup in sidetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Newspaper-None-Drawer-224/trial_T20190911_101248_326533",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 224,
+   "task_text": "Your task is to: put two newspaper in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Mug-None-SideTable-329/trial_T20190909_032318_169393",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 329,
+   "task_text": "Your task is to: put some mug on sidetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/look_at_obj_in_light-Vase-None-DeskLamp-303/trial_T20190907_150418_457594",
+   "split": "valid_seen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 303,
+   "task_text": "Your task is to: look at vase under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Ladle-None-CounterTop-14/trial_T20190909_113844_191747",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 14,
+   "task_text": "Your task is to: clean some ladle and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Potato-None-Fridge-11/trial_T20190909_011341_436523",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 11,
+   "task_text": "Your task is to: put a hot potato in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Egg-None-Microwave-24/trial_T20190908_234112_645480",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 24,
+   "task_text": "Your task is to: put a cool egg in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Pan-None-CounterTop-14/trial_T20190907_012519_974044",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 14,
+   "task_text": "Your task is to: find two pan and put them in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Mug-None-SideTable-329/trial_T20190909_032340_274147",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 329,
+   "task_text": "Your task is to: put a mug in sidetable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Ladle-None-CounterTop-8/trial_T20190909_121908_219603",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 8,
+   "task_text": "Your task is to: put a clean ladle in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Potato-None-Fridge-12/trial_T20190908_014451_271080",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 12,
+   "task_text": "Your task is to: put a hot potato in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-1/trial_T20190908_042713_075616",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 1,
+   "task_text": "Your task is to: cool some lettuce and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-SoapBar-None-GarbageCan-418/trial_T20190909_055538_380023",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 418,
+   "task_text": "Your task is to: put two soapbar in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Newspaper-None-Sofa-224/trial_T20190909_111324_949106",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 224,
+   "task_text": "Your task is to: put a newspaper in sofa."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-16/trial_T20190909_183724_205399",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: put a clean ladle in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Tomato-None-DiningTable-16/trial_T20190907_201243_698086",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: heat some tomato and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-11/trial_T20190908_222555_651605",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 11,
+   "task_text": "Your task is to: put a cool lettuce in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-SoapBar-None-GarbageCan-418/trial_T20190909_055649_717880",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 418,
+   "task_text": "Your task is to: find two soapbar and put them in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Pencil-None-Dresser-330/trial_T20190909_071128_012892",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 330,
+   "task_text": "Your task is to: put some pencil on dresser."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-27/trial_T20190911_131350_027076",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 27,
+   "task_text": "Your task is to: clean some ladle and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Tomato-None-Fridge-15/trial_T20190909_020200_054379",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 15,
+   "task_text": "Your task is to: heat some tomato and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16/trial_T20190908_184242_348366",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: put a cool mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-Spatula-None-Drawer-13/trial_T20190908_183331_203888",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 13,
+   "task_text": "Your task is to: put two spatula in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-RemoteControl-None-ArmChair-230/trial_T20190909_021000_274398",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 230,
+   "task_text": "Your task is to: put some remotecontrol on armchair."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Ladle-None-DiningTable-4/trial_T20190909_164840_568811",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 4,
+   "task_text": "Your task is to: clean some ladle and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Tomato-None-Fridge-23/trial_T20190909_082320_103350",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 23,
+   "task_text": "Your task is to: heat some tomato and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Pan-None-DiningTable-7/trial_T20190908_232648_241836",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 7,
+   "task_text": "Your task is to: cool some pan and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-SprayBottle-None-Cabinet-407/trial_T20190907_144556_144188",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 407,
+   "task_text": "Your task is to: put two spraybottle in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-SoapBottle-None-Cabinet-414/trial_T20190908_110131_524518",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 414,
+   "task_text": "Your task is to: put some soapbottle on cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Lettuce-None-CounterTop-16/trial_T20190909_051630_092360",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 16,
+   "task_text": "Your task is to: put a clean lettuce in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Tomato-None-Fridge-24/trial_T20190908_033721_967359",
+   "split": "valid_seen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 24,
+   "task_text": "Your task is to: put a hot tomato in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Pan-None-StoveBurner-18/trial_T20190906_181023_216915",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 18,
+   "task_text": "Your task is to: put a cool pan in stoveburner."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_two_obj_and_place-ToiletPaper-None-Drawer-423/trial_T20190907_111251_461099",
+   "split": "valid_seen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 423,
+   "task_text": "Your task is to: put two toiletpaper in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-SprayBottle-None-Toilet-418/trial_T20190906_190942_706186",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 418,
+   "task_text": "Your task is to: put some spraybottle on toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Lettuce-None-Fridge-19/trial_T20190908_100138_446072",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 19,
+   "task_text": "Your task is to: clean some lettuce and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Pan-None-StoveBurner-23/trial_T20190906_215856_374127",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 23,
+   "task_text": "Your task is to: cool some pan and put it in stoveburner."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-Tomato-None-Microwave-13/trial_T20190908_124829_632660",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 13,
+   "task_text": "Your task is to: put some tomato on microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-26/trial_T20190907_233056_022802",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 26,
+   "task_text": "Your task is to: clean some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Plate-None-Cabinet-27/trial_T20190906_173120_350651",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 27,
+   "task_text": "Your task is to: put a cool plate in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_and_place_simple-WineBottle-None-Shelf-7/trial_T20190907_200154_378982",
+   "split": "valid_seen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 7,
+   "task_text": "Your task is to: put some winebottle on shelf."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Plate-None-CounterTop-19/trial_T20190908_212725_836398",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 19,
+   "task_text": "Your task is to: put a clean plate in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Plate-None-Cabinet-7/trial_T20190907_231206_512424",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 7,
+   "task_text": "Your task is to: cool some plate and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Plate-None-Fridge-5/trial_T20190909_112854_740612",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 5,
+   "task_text": "Your task is to: clean some plate and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Plate-None-CounterTop-1/trial_T20190906_205324_559361",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 1,
+   "task_text": "Your task is to: cool some plate and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-SoapBar-None-Drawer-423/trial_T20190906_202340_749336",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 423,
+   "task_text": "Your task is to: put a clean soapbar in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Pot-None-DiningTable-21/trial_T20190909_004531_429065",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 21,
+   "task_text": "Your task is to: put a cool pot in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-SoapBar-None-Toilet-410/trial_T20190906_201106_979461",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 410,
+   "task_text": "Your task is to: put a clean soapbar in toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-CounterTop-12/trial_T20190909_063754_216554",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 12,
+   "task_text": "Your task is to: put a cool tomato in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Spatula-None-DiningTable-4/trial_T20190909_002804_564168",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 4,
+   "task_text": "Your task is to: clean some spatula and put it in diningtable."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-CounterTop-12/trial_T20190909_063844_274181",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 12,
+   "task_text": "Your task is to: put a cool tomato in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Tomato-None-CounterTop-25/trial_T20190909_012550_586494",
+   "split": "valid_seen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 25,
+   "task_text": "Your task is to: clean some tomato and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-GarbageCan-6/trial_T20190909_082934_483899",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 6,
+   "task_text": "Your task is to: cool some tomato and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-Microwave-13/trial_T20190910_173916_331859",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 13,
+   "task_text": "Your task is to: cool some tomato and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-Microwave-18/trial_T20190909_012524_159092",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 18,
+   "task_text": "Your task is to: put a cool tomato in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_seen/pick_cool_then_place_in_recep-WineBottle-None-DiningTable-17/trial_T20190908_024426_412044",
+   "split": "valid_seen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 17,
+   "task_text": "Your task is to: cool some winebottle and put it in diningtable."
+  }
+ ],
+ "valid_unseen": [
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Mug-None-Desk-308/trial_T20190908_125200_737896",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put a mug in desk."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the alarmclock with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Bowl-None-Cabinet-10/trial_T20190909_061130_844814",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some bowl and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182259_116320",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some apple and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091747_866951",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool bread in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_050942_897916",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 308,
+   "task_text": "Your task is to: put two cd in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Mug-None-Desk-308/trial_T20190909_203041_433487",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put some mug on desk."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the alarmclock with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Bowl-None-Cabinet-10/trial_T20190909_061158_110530",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean bowl in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182353_418140",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot apple in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091811_414150",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some bread and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_051013_060265",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 308,
+   "task_text": "Your task is to: find two cd and put them in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Mug-None-Desk-308/trial_T20190909_210238_431966",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put a mug in desk."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at alarmclock under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Bowl-None-Cabinet-10/trial_T20190909_061232_368489",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some bowl and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182435_622538",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some apple and put it in fridge."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091835_825830",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some bread and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_051056_585414",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 308,
+   "task_text": "Your task is to: put two cd in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_121952_610012",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put a pencil in shelf."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the book with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022321_380927",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some cloth and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145050_918567",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some apple and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_123133_763972",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some lettuce and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-KeyChain-None-Safe-219/trial_T20190909_011803_423115",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 219,
+   "task_text": "Your task is to: put two keychain in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122024_052056",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put a pencil in shelf."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the book with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Cloth-None-Cabinet-424/trial_T20190908_022436_073995",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some cloth and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145143_820541",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some apple and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174807_646433",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool lettuce in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-KeyChain-None-Safe-219/trial_T20190909_012027_782483",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 219,
+   "task_text": "Your task is to: put two keychain in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Pencil-None-Shelf-308/trial_T20190908_122154_042763",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 308,
+   "task_text": "Your task is to: put a pencil in shelf."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the book with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_100632_546757",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: put a clean cloth in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-GarbageCan-10/trial_T20190908_145356_918528",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some apple and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_174840_771703",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some lettuce and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190908_010306_215435",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 10,
+   "task_text": "Your task is to: put two peppershaker in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190906_184021_215264",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some peppershaker on drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at bowl under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Cloth-None-CounterTop-424/trial_T20190908_114340_674467",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some cloth and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083346_800823",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot cup in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_121559_082363",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool mug in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190912_221016_460197",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 10,
+   "task_text": "Your task is to: put two peppershaker in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154326_823501",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a peppershaker in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at bowl under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some egg and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083429_887065",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot cup in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_121635_622676",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some mug and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190912_221141_608117",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 10,
+   "task_text": "Your task is to: find two peppershaker and put them in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-PepperShaker-None-Drawer-10/trial_T20190918_154424_844749",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some peppershaker on drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the bowl with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120632_691361",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean egg in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083507_594820",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot cup in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_121710_650938",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some mug and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163240_345855",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 219,
+   "task_text": "Your task is to: find two pillow and put them in sofa."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191429_743650",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some saltshaker on cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at cd under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120712_273910",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean egg in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113432_673307",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some egg and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183715_299073",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163327_486300",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 219,
+   "task_text": "Your task is to: put two pillow in sofa."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191445_723170",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some saltshaker on cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the cd with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110347_624008",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some knife and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113523_123938",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some egg and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183807_477267",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163408_914117",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 219,
+   "task_text": "Your task is to: put two pillow in sofa."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Cabinet-10/trial_T20190906_191501_563086",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some saltshaker on cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_142046_281296",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the cd with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110445_675754",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean knife in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Egg-None-GarbageCan-10/trial_T20190908_113610_425142",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some egg and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_183853_958104",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-SoapBar-None-Cabinet-424/trial_T20190909_081720_491733",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: find two soapbar and put them in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021613_077537",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a saltshaker in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Mug-None-DeskLamp-308/trial_T20190908_161733_213242",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at mug under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Knife-None-CounterTop-10/trial_T20190909_110531_148235",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean knife in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021100_341887",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot mug in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114545_244903",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some pan and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-SoapBar-None-Cabinet-424/trial_T20190909_081746_857594",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: find two soapbar and put them in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021650_880235",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a saltshaker in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Mug-None-DeskLamp-308/trial_T20190908_201421_021646",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the mug with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221208_560499",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021200_669381",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some mug and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114622_738670",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool pan in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064053_839817",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: put two soapbar in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SaltShaker-None-Drawer-10/trial_T20190909_021728_339782",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 10,
+   "task_text": "Your task is to: put some saltshaker on drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Mug-None-DeskLamp-308/trial_T20190908_201444_037645",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the mug with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221300_362511",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-Cabinet-10/trial_T20190909_021247_306737",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot mug in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_114656_768805",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some pan and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064221_368939",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: put two soapbar in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004321_405868",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 424,
+   "task_text": "Your task is to: put some soapbottle on toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Pencil-None-DeskLamp-308/trial_T20190908_220545_153480",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: look at pencil under the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_221355_558505",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171806_406231",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033157_424297",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some potato and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064309_357168",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: put two soapbar in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004351_281384",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 424,
+   "task_text": "Your task is to: put a soapbottle in toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Pencil-None-DeskLamp-308/trial_T20190908_220604_010430",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the pencil with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032434_013084",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some pan and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171850_960211",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some mug and put it in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033228_194678",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some potato and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_two_obj_and_place-ToiletPaper-None-Cabinet-424/trial_T20190906_202926_527010",
+   "split": "valid_unseen",
+   "task_type": "pick_two_obj_and_place",
+   "scene_id": 424,
+   "task_text": "Your task is to: find two toiletpaper and put them in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-SoapBottle-None-Toilet-424/trial_T20190907_004404_604165",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 424,
+   "task_text": "Your task is to: put a soapbottle in toilet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/look_at_obj_in_light-Pencil-None-DeskLamp-308/trial_T20190908_220656_510400",
+   "split": "valid_unseen",
+   "task_type": "look_at_obj_in_light",
+   "scene_id": 308,
+   "task_text": "Your task is to: examine the pencil with the desklamp."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032518_891433",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some pan and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Mug-None-CoffeeMachine-10/trial_T20190907_171933_349922",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot mug in coffeemachine."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Potato-None-Microwave-10/trial_T20190907_033306_962974",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: cool some potato and put it in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205204_244321",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put a vase in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Pan-None-CounterTop-10/trial_T20190908_032543_712058",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean pan in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161745_664033",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some potato and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102608_318800",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool tomato in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205221_748352",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put some vase on safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213356_017769",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean plate in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Potato-None-GarbageCan-10/trial_T20190907_161853_945788",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot potato in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102644_926781",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool tomato in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Vase-None-Safe-219/trial_T20190908_205246_776817",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put a vase in safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213420_728917",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean plate in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225046_020282",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot tomato in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Tomato-None-Microwave-10/trial_T20190909_102710_795182",
+   "split": "valid_unseen",
+   "task_type": "pick_cool_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a cool tomato in microwave."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074524_006355",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put some watch on safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213533_897289",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some plate and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225359_617900",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: heat some tomato and put it in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074556_124850",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put some watch on safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some soapbar and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Tomato-None-GarbageCan-10/trial_T20190908_225453_272533",
+   "split": "valid_unseen",
+   "task_type": "pick_heat_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a hot tomato in garbagecan."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_and_place_simple-Watch-None-Safe-219/trial_T20190907_074643_810052",
+   "split": "valid_unseen",
+   "task_type": "pick_and_place_simple",
+   "scene_id": 219,
+   "task_text": "Your task is to: put some watch on safe."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214946_567644",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some soapbar and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_215019_162873",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some soapbar and put it in cabinet."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074045_109439",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: put a clean soapbar in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074106_050405",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: put a clean soapbar in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-CounterTop-424/trial_T20190907_074124_966890",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 424,
+   "task_text": "Your task is to: clean some soapbar and put it in countertop."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080730_211959",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: put a clean spatula in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080800_275989",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some spatula and put it in drawer."
+  },
+  {
+   "game": "json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Spatula-None-Drawer-10/trial_T20190907_080825_222432",
+   "split": "valid_unseen",
+   "task_type": "pick_clean_then_place_in_recep",
+   "scene_id": 10,
+   "task_text": "Your task is to: clean some spatula and put it in drawer."
+  }
+ ]
+}
