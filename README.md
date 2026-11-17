@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License: Apache-2.0">
   <img src="https://img.shields.io/badge/Python-3.11%2B-3776AB" alt="Python 3.11+">
   <br>
-  <a href="https://huggingface.co/papers/2611.14320"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20%233%20Paper%20of%20the%20day-FFD21E?style=for-the-badge" alt="Hugging Face Daily Papers: #3 Paper of the day"></a>
+  <a href="https://huggingface.co/papers/2611.14320"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20%232%20Paper%20of%20the%20day-FFD21E?style=for-the-badge" alt="Hugging Face Daily Papers: #2 Paper of the day"></a>
 </p>
 
 <p align="center"><img src="assets/teaser.gif" width="50%" alt="Memory can make agents fail: without memory the agent succeeds, with memory it fails. WikiTrace keeps the path back: the agent doubts an insight that seems wrong, checks its compilation and source run, revises it and solves the task."></p>
